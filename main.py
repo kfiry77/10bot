@@ -3,11 +3,11 @@ import sys
 
 
 def main(argv):
-    tenbis = Tenbis(argv[0])
-    budget_available = tenbis.is_budget_available()
+    ten_bis = Tenbis(argv[0])
+    budget_available = ten_bis.is_budget_available()
     print('budget available=', budget_available)
     if budget_available:
-        tenbis.buy_coupon(40)
+        ten_bis.buy_coupon(40)
 
 
 if __name__ == '__main__':
