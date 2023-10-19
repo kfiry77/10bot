@@ -4,13 +4,12 @@ import json
 import os
 import pickle
 from datetime import datetime
-from typing import Dict
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 TENBIS_FQDN = "https://www.10bis.co.il"
 CWD = os.getcwd()
 DEBUG = True
-DRYRUN = False
+DRYRUN = True
 
 
 def print_hebrew(heb_txt):
@@ -56,16 +55,25 @@ class Tenbis:
                 print("Error getting session...")
                 return
 
-    def get_transaction_report(self) -> Dict:
-        endpoint = TENBIS_FQDN + "/NextApi/UserTransactionsReport"
-        payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": 0}
-        headers = {"content-type": "application/json", "user-token": self.user_token}
-        response = self.session.post(endpoint, data=json.dumps(payload), headers=headers, verify=False)
+    def post_next_api(self, endpoint, payload):
+        session = self.session
+        endpoint = TENBIS_FQDN + "/NextApi/" + endpoint
+        headers = {
+            "content-type": "application/json",
+            'user-token': self.user_token
+        }
+        response = session.post(endpoint, data=json.dumps(payload), headers=headers)
+        resp_json = json.loads(response.text)
+        error_msg = resp_json['Errors']
+        success_code = resp_json['Success']
         if DEBUG:
-            print(endpoint + "\r\n" + str(response.status_code) + "\r\n" + response.text)
-        if response.status_code == 200:
-            return json.loads(response.text)
-        return {}
+            print("Request:" + endpoint + "\n" + json.dumps(payload))
+            print("Response: " + str(response.status_code))
+            print(resp_json)
+        if not success_code:
+            raise Exception('NextApi call failure:' + (error_msg[0]['ErrorDesc'][::-1]))
+
+        return resp_json
 
     def auth(self):
         # Phase one -> Email
@@ -146,7 +154,9 @@ class Tenbis:
                     print(f'{today} is {h_name}')
                 return False
 
-        report = self.get_transaction_report()
+        payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": 0}
+        report = self.post_next_api('UserTransactionsReport', payload)
+
         # option1 - check the last order, and check
         last_order_is_today = (report['Data']['orderList'][-1]['orderDateStr'] == datetime.today().strftime("%d.%m.%y"))
         if last_order_is_today:
@@ -166,118 +176,35 @@ class Tenbis:
     def buy_coupon(self, coupon):
         session = self.session
 
-        endpoint = TENBIS_FQDN + f"/NextApi/GetUser"
-        headers = {
-            "content-type": "application/json",
-            'user-token': self.user_token
-        }
         payload = {"culture": "he-IL", "uiCulture": "he"}
-        response = session.post(endpoint, data=json.dumps(payload), headers=headers)
-        resp_json = json.loads(response.text)
-        error_msg = resp_json['Errors']
-        success_code = resp_json['Success']
-        if not success_code:
-            print_hebrew((error_msg[0]['ErrorDesc']))
-            return
-        if DEBUG:
-            print("Request:\r\n" + endpoint + "\r\n" + json.dumps(payload) + "\r\n########")
-            print("Response: " + str(response.status_code) + "\r\n")
-            print(resp_json)
-            print("wait log GetUser")
+        resp_json = self.post_next_api('GetUser', payload)
         self.cart_guid = resp_json['ShoppingCartGuid']
         self.user_id = resp_json['Data']['userId']
 
-        endpoint = TENBIS_FQDN + f"/NextApi/GetUserAddresses"
-        response = session.post(endpoint, data=json.dumps(payload), headers=headers)
-        resp_json = json.loads(response.text)
-        error_msg = resp_json['Errors']
-        success_code = resp_json['Success']
-        if not success_code:
-            print_hebrew((error_msg[0]['ErrorDesc']))
-            return
-        if DEBUG:
-            print("Request:\r\n" + endpoint + "\r\n" + json.dumps(payload) + "\r\n########")
-            print("Response: " + str(response.status_code) + "\r\n")
-            print(resp_json)
-            print("wait log GetUserAddresses")
+        payload = {"culture": "he-IL", "uiCulture": "he"}
+        resp_json = self.post_next_api('GetUserAddresses', payload)
         address = resp_json['Data'][0]
 
-        endpoint = TENBIS_FQDN + f"/NextApi/SetAddressInOrder"
-        headers = {"content-type": "application/json"}
-        headers.update({'user-token': self.user_token})
         payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he"}
         payload.update(address.copy())
-        response = session.post(endpoint, data=json.dumps(payload), headers=headers, verify=False)
-        resp_json = json.loads(response.text)
-        error_msg = resp_json['Errors']
-        success_code = resp_json['Success']
-        if not success_code:
-            print_hebrew((error_msg[0]['ErrorDesc']))
-            return
-        if DEBUG:
-            print("Request:\r\n" + endpoint + "\r\n" + json.dumps(payload) + "\r\n########")
-            print("Response: " + str(response.status_code) + "\r\n")
-            print(resp_json)
-            print("wait log SetAddressInOrder")
+        self.post_next_api('SetAddressInOrder', payload)
 
         # SetDeliveryMethodInOrder
-        endpoint = TENBIS_FQDN + f"/NextApi/SetDeliveryMethodInOrder"
-        headers = {"content-type": "application/json"}
-        headers.update({'user-token': self.user_token})
         payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he",
                    "deliveryMethod": "delivery"}
-        response = session.post(endpoint, data=json.dumps(payload), headers=headers, verify=False)
-        resp_json = json.loads(response.text)
-        error_msg = resp_json['Errors']
-        success_code = resp_json['Success']
-        if not success_code:
-            print_hebrew((error_msg[0]['ErrorDesc']))
-            return
-        if DEBUG:
-            print("Request:\r\n" + endpoint + "\r\n" + json.dumps(payload) + "\r\n########")
-            print("Response: " + str(response.status_code) + "\r\n")
-            print(resp_json)
-            print("wait log SetDeliveryMethodInOrder")
+        self.post_next_api('SetDeliveryMethodInOrder', payload)
 
         # SetRestaurantInOrder
-        endpoint = TENBIS_FQDN + f"/NextApi/SetRestaurantInOrder"
-        headers = {"content-type": "application/json"}
-        headers.update({'user-token': self.user_token})
         payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he", "isMobileDevice": True,
                    "restaurantId": "26698"}
-        response = session.post(endpoint, data=json.dumps(payload), headers=headers, verify=False)
-        resp_json = json.loads(response.text)
-        error_msg = resp_json['Errors']
-        success_code = resp_json['Success']
-        if not success_code:
-            print_hebrew((error_msg[0]['ErrorDesc']))
-            return
-        if DEBUG:
-            print("Request:\r\n" + endpoint + "\r\n" + json.dumps(payload) + "\r\n########")
-            print("Response: " + str(response.status_code) + "\r\n")
-            print(resp_json)
-            print("wait log SetRestaurantInOrder")
+        self.post_next_api('SetRestaurantInOrder', payload)
 
         # SetDishListInShoppingCart
-        endpoint = TENBIS_FQDN + f"/NextApi/SetDishListInShoppingCart"
-        headers = {"content-type": "application/json"}
-        headers.update({'user-token': self.user_token})
         payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he",
                    "dishList": [{"dishId": COUPONS_IDS[int(coupon)], "shoppingCartDishId": 1, "quantity": 1,
                                  "assignedUserId": self.user_id, "choices": [], "dishNotes": None,
                                  "categoryId": 278344}]}
-        response = session.post(endpoint, data=json.dumps(payload), headers=headers, verify=False)
-        resp_json = json.loads(response.text)
-        error_msg = resp_json['Errors']
-        success_code = resp_json['Success']
-        if not success_code:
-            print_hebrew((error_msg[0]['ErrorDesc']))
-            return
-        if DEBUG:
-            print("Request:\r\n" + endpoint + "\r\n" + json.dumps(payload) + "\r\n########")
-            print("Response: " + str(response.status_code) + "\r\n")
-            print(resp_json)
-            print("wait log SetDishListInShoppingCart")
+        self.post_next_api('SetDishListInShoppingCart', payload)
 
         # GetPayments
         endpoint = TENBIS_FQDN + f"/NextApi/GetPayments?shoppingCartGuid={self.cart_guid}&culture=he-IL&uiCulture=he"
@@ -292,55 +219,27 @@ class Tenbis:
             print_hebrew((error_msg[0]['ErrorDesc']))
             return
         if DEBUG:
-            print("Request:\r\n" + endpoint + "\r\n########")
-            print("Response: " + str(response.status_code) + "\r\n")
+            print("Request:" + endpoint)
+            print("Response: " + str(response.status_code))
             print(resp_json)
-            print("wait log GetPayments")
         main_user = current = [x for x in resp_json['Data'] if x['userId'] == self.user_id]
 
         # SetPaymentsInOrder
-        endpoint = TENBIS_FQDN + f"/NextApi/SetPaymentsInOrder"
-        headers = {"content-type": "application/json"}
-        headers.update({'user-token': self.user_token})
         payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he", "payments": [
             {"paymentMethod": "Moneycard", "creditCardType": "none", "cardId": main_user[0]['cardId'], "cardToken": "",
              "userId": self.user_id, "userName": main_user[0]['userName'],
              "cardLastDigits": main_user[0]['cardLastDigits'], "sum": coupon, "assigned": True, "remarks": None,
              "expirationDate": None, "isDisabled": False, "editMode": False}]}
-        response = session.post(endpoint, data=json.dumps(payload), headers=headers, verify=False)
-        resp_json = json.loads(response.text)
-        error_msg = resp_json['Errors']
-        success_code = resp_json['Success']
-        if not success_code:
-            print_hebrew((error_msg[0]['ErrorDesc']))
-            return
-        if DEBUG:
-            print("Request:\r\n" + endpoint + "\r\n" + json.dumps(payload) + "\r\n########")
-            print("Response: " + str(response.status_code) + "\r\n")
-            print(resp_json)
-            print("wait log SetPaymentsInOrder")
+        self.post_next_api('SetPaymentsInOrder', payload)
 
         if DRYRUN:
             return
 
         # SubmitOrder
-        endpoint = TENBIS_FQDN + f"/NextApi/SubmitOrder"
-        headers = {"content-type": "application/json"}
-        headers.update({'user-token': self.user_token})
         payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he", "isMobileDevice": True,
                    "dontWantCutlery": False, "orderRemarks": None}
-        response = session.post(endpoint, data=json.dumps(payload), headers=headers, verify=False)
-        resp_json = json.loads(response.text)
-        error_msg = resp_json['Errors']
-        success_code = resp_json['Success']
-        if not success_code:
-            print_hebrew((error_msg[0]['ErrorDesc']))
-            return
-        if DEBUG:
-            print("Request:\r\n" + endpoint + "\r\n" + json.dumps(payload) + "\r\n########")
-            print("Response: " + str(response.status_code) + "\r\n")
-            print(resp_json)
-            print("wait log SubmitOrder")
+        resp_json = self.post_next_api('SubmitOrder', payload)
+
         session.cart_guid = resp_json['ShoppingCartGuid']
-        # since there is a new guid.
+        # save the last session state to the pickle file for next auth.
         create_pickle(session, self.SESSION_PATH)
