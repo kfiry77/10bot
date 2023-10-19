@@ -47,22 +47,17 @@ class Tenbis:
         if os.path.exists(self.SESSION_PATH) and os.path.exists(self.TOKEN_PATH):
             self.session = load_pickle(self.SESSION_PATH)
             self.user_token = load_pickle(self.TOKEN_PATH)
-        else:
-            if not self.auth():
-                print("Error authenticating...")
-                return
-            if not self.session:
-                print("Error getting session...")
-                return
+            return
+        if not self.auth():
+            raise Exception('Error Authenticating')
 
     def post_next_api(self, endpoint, payload):
-        session = self.session
         endpoint = TENBIS_FQDN + "/NextApi/" + endpoint
         headers = {
             "content-type": "application/json",
             'user-token': self.user_token
         }
-        response = session.post(endpoint, data=json.dumps(payload), headers=headers)
+        response = self.session.post(endpoint, data=json.dumps(payload), headers=headers)
         resp_json = json.loads(response.text)
         error_msg = resp_json['Errors']
         success_code = resp_json['Success']
@@ -129,6 +124,7 @@ class Tenbis:
             print(session)
         create_pickle(session, self.SESSION_PATH)
         self.session = session
+        return True
 
     def is_budget_available(self):
         # check if it is a working day, if not return
