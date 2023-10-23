@@ -17,13 +17,13 @@ pip3 install -r requirements.txt
 Execute the script ``main``` script initially, to acquire authentication tokens, you will get SMS with OTP, type it on the command line.
 
 ```sh
-python3 main.py <<tenbis accountname>>
+python3 main.py
 ```
 
 Add the script to the system crontab, by typing ```crontab -e ``` and adding the following line to it.   
 ```
 crontab -e
-0 23 * * *  usr/bin/python3 /path/to/your/script/main.py <<accountname>> >> /path/to/your/log//10bot.log 2>&1 &
+0 23 * * *  usr/bin/python3 /path/to/your/script/main.py  >> /path/to/your/log//10bot.log 2>&1 &
 ```
 
 ## references:
@@ -33,6 +33,7 @@ The code is bases from these repositories by [Dvir Perets](https://github.com/Dv
 - [Dvirus89/tenbis-buy-coupons](https://github.com/Dvirus89/tenbis-buy-coupons)
 
 ## TODO:  
+- [ ] Bug Fix: user-token header is not needed due to 10bis change of API, need to find other way to preserve authentication on the machine. 
 - [ ] Fix the holidays, to block only non-working day. 
 - [ ] Add the deployment in Microsoft Azure using Azure function.  
 - [ ] Add Report generation.
