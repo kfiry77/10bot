@@ -3,7 +3,7 @@ import sys
 
 
 def main(argv):
-    ten_bis = Tenbis(argv[0])
+    ten_bis = Tenbis()
     budget_available = ten_bis.is_budget_available()
     print('budget available=', budget_available)
     if budget_available:

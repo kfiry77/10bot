@@ -40,10 +40,10 @@ class Tenbis:
     SESSION_PATH = f"{CWD}/sessions.pickle"
     TOKEN_PATH = f"{CWD}/usertoken.pickle"
 
-    def __init__(self, email):
+    def __init__(self):
         self.cart_guid = None
         self.user_id = None
-        self.email = email
+        self.email = None
         if os.path.exists(self.SESSION_PATH) and os.path.exists(self.TOKEN_PATH):
             self.session = load_pickle(self.SESSION_PATH)
             self.user_token = load_pickle(self.TOKEN_PATH)
@@ -51,18 +51,18 @@ class Tenbis:
         if not self.auth():
             raise Exception('Error Authenticating')
 
-    def post_next_api(self, endpoint, payload):
+    def post_next_api(self, endpoint, payload, include_user_token_on_header=True):
         endpoint = TENBIS_FQDN + "/NextApi/" + endpoint
-        headers = {
-            "content-type": "application/json",
-            'user-token': self.user_token
-        }
+        headers = {"content-type": "application/json"}
+        if include_user_token_on_header:
+            headers['user-token'] = self.user_token
         response = self.session.post(endpoint, data=json.dumps(payload), headers=headers)
         resp_json = json.loads(response.text)
         error_msg = resp_json['Errors']
         success_code = resp_json['Success']
         if DEBUG:
-            print("Request:" + endpoint + "\n" + json.dumps(payload))
+            print("Request:" + endpoint + "\nHeaders:" + json.dumps(headers) + "\n" +
+                  "Request Payload:" + json.dumps(payload))
             print("Response: " + str(response.status_code))
             print(resp_json)
         if not success_code:
@@ -72,29 +72,14 @@ class Tenbis:
 
     def auth(self):
         # Phase one -> Email
-        endpoint = TENBIS_FQDN + "/NextApi/GetUserAuthenticationDataAndSendAuthenticationCodeToUser"
+        self.email = input("Enter Email: ")
         payload = {"culture": "he-IL", "uiCulture": "he", "email": self.email}
-        headers = {"content-type": "application/json"}
-        session = requests.session()
-
-        response = session.post(endpoint, data=json.dumps(payload), headers=headers, verify=False)
-        if DEBUG:
-            print(endpoint + "\r\n" + str(response.status_code) + "\r\n" + response.text)
-        resp_json = json.loads(response.text)
-        error_msg = resp_json['Errors']
-
-        if 200 <= response.status_code <= 210 and (len(error_msg) == 0):
-            print("User exist, next step is...")
-        else:
-            print("login failed")
-            print_hebrew((error_msg[0]['ErrorDesc']))
-            return False
+        self.session = requests.session()
+        resp_json = self.post_next_api('GetUserAuthenticationDataAndSendAuthenticationCodeToUser', payload, False)
 
         # Phase two -> OTP
-        endpoint = TENBIS_FQDN + "/NextApi/GetUserV2"
         auth_token = resp_json['Data']['codeAuthenticationData']['authenticationToken']
         shop_cart_guid = resp_json['ShoppingCartGuid']
-
         otp = input("Enter OTP: ")
         payload = {"shoppingCartGuid": shop_cart_guid,
                    "culture": "he-IL",
@@ -103,27 +88,15 @@ class Tenbis:
                    "authenticationToken": auth_token,
                    "authenticationCode": otp}
 
-        response = session.post(endpoint, data=json.dumps(payload), headers=headers, verify=False)
-        resp_json = json.loads(response.text)
-        error_msg = resp_json['Errors']
+        resp_json = self.post_next_api('GetUserV2', payload, False)
         user_token = resp_json['Data']['userToken']
-        if 200 <= response.status_code <= 210 and (len(error_msg) == 0):
-            print("login successful...")
-        else:
-            print("login failed")
-            print_hebrew((error_msg[0]['ErrorDesc']))
-            return False
 
         create_pickle(user_token, self.TOKEN_PATH)
         self.user_token = user_token
-        session.cart_guid = resp_json['ShoppingCartGuid']
-        session.user_id = resp_json['Data']['userId']
+        self.session.cart_guid = resp_json['ShoppingCartGuid']
+        self.session.user_id = resp_json['Data']['userId']
 
-        if DEBUG:
-            print(endpoint + "\r\n" + str(response.status_code) + "\r\n" + response.text)
-            print(session)
-        create_pickle(session, self.SESSION_PATH)
-        self.session = session
+        create_pickle(self.session, self.SESSION_PATH)
         return True
 
     def is_budget_available(self):
