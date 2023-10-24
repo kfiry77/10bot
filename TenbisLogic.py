@@ -8,8 +8,8 @@ from datetime import datetime
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 TENBIS_FQDN = "https://www.10bis.co.il"
 CWD = os.getcwd()
-DEBUG = True
-DRYRUN = True
+DEBUG = False
+DRYRUN = False
 
 
 def print_hebrew(heb_txt):
@@ -212,3 +212,39 @@ class Tenbis:
         session.cart_guid = resp_json['ShoppingCartGuid']
         # save the last session state to the pickle file for next auth.
         create_pickle(session, self.SESSION_PATH)
+
+    def get_unused_coupons(self):
+        payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": 0}
+        report = self.post_next_api('UserTransactionsReport', payload)
+        all_orders = report['Data']['orderList']
+        barcode_orders = [x for x in all_orders if x['isBarCodeOrder']]
+        restaurants = {}
+
+        for b in barcode_orders:
+            order_id = b['orderId']
+            res_id = b['restaurantId']
+            endpoint = (TENBIS_FQDN +
+                        f"/NextApi/GetOrderBarcode?culture=he-IL&uiCulture=he&orderId={order_id}&resId={res_id}")
+            headers = {"content-type": "application/json"}
+            response = self.session.get(endpoint, headers=headers)
+            if DEBUG:
+                print(endpoint + "\r\n" + str(response.status_code) + "\r\n" + response.text)
+            r = json.loads(response.text)
+            error_msg = r['Error']
+            success_code = r['Success']
+            if not success_code:
+                print_hebrew((error_msg['ErrorDesc']))
+                print_hebrew("Error, trying moving to the next barcode")
+                return restaurants
+            voucher = r['Data']['Vouchers'][0]
+            if not voucher['Used']:
+                barcode_num = voucher['BarCodeNumber']
+                if res_id not in restaurants:
+                    restaurants[res_id] = {'restaurantName': b['restaurantName'], 'orders': []}
+                restaurants[res_id]['orders'].append({'Date': b['orderDateStr'],
+                                                      'barcode': '-'.join(
+                                                          barcode_num[i:i + 4] for i in range(0, len(barcode_num), 4)),
+                                                      'barcode_url': voucher['BarCodeImgUrl'],
+                                                      'amount': voucher['Amount']})
+        return restaurants
+

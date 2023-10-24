@@ -6,7 +6,7 @@ if there is a credit.
 
 ## Installation and usage
 
-download the repository an install requirements.
+download the repository and install requirements.
 
 ```sh
 git clone https://github.com/kfiry77/10bot
@@ -36,5 +36,6 @@ The code is bases from these repositories by [Dvir Perets](https://github.com/Dv
 - [ ] Bug Fix: user-token header is not needed due to 10bis change of API, need to find other way to preserve authentication on the machine. 
 - [ ] Fix the holidays, to block only non-working day. 
 - [ ] Add the deployment in Microsoft Azure using Azure function.  
-- [ ] Add Report generation.
-- [ ] Find a way to send it: website or message. 
+- [x] Add Report generation.
+  - [ ] Make the report formatter generic, for various kinds of files. 
+- [ ] Send the generated, report into Google or other share.    
