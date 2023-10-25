@@ -9,7 +9,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 TENBIS_FQDN = "https://www.10bis.co.il"
 CWD = os.getcwd()
 DEBUG = False
-DRYRUN = False
+DRYRUN = True
 
 
 def print_hebrew(heb_txt):
@@ -38,25 +38,22 @@ def create_pickle(obj, path):
 
 class Tenbis:
     SESSION_PATH = f"{CWD}/sessions.pickle"
-    TOKEN_PATH = f"{CWD}/usertoken.pickle"
 
     def __init__(self):
+        self.session = None
         self.cart_guid = None
         self.user_id = None
         self.email = None
-        if os.path.exists(self.SESSION_PATH) and os.path.exists(self.TOKEN_PATH):
-            self.session = load_pickle(self.SESSION_PATH)
-            self.user_token = load_pickle(self.TOKEN_PATH)
-            return
         if not self.auth():
             raise Exception('Error Authenticating')
 
-    def post_next_api(self, endpoint, payload, include_user_token_on_header=True):
+    def post_next_api(self, endpoint, payload):
         endpoint = TENBIS_FQDN + "/NextApi/" + endpoint
         headers = {"content-type": "application/json"}
-        if include_user_token_on_header:
-            headers['user-token'] = self.user_token
         response = self.session.post(endpoint, data=json.dumps(payload), headers=headers)
+        if response.status_code >= 400:
+            raise RuntimeError(f'NextApi http failure:{response.status_code} message:{response.text}')
+
         resp_json = json.loads(response.text)
         error_msg = resp_json['Errors']
         success_code = resp_json['Success']
@@ -66,16 +63,37 @@ class Tenbis:
             print("Response: " + str(response.status_code))
             print(resp_json)
         if not success_code:
-            raise Exception('NextApi call failure:' + (error_msg[0]['ErrorDesc'][::-1]))
+            raise RuntimeError('NextApi call failure:' + (error_msg[0]['ErrorDesc'][::-1]))
 
         return resp_json
 
     def auth(self):
+
+        if os.path.exists(self.SESSION_PATH):
+            self.session = load_pickle(self.SESSION_PATH)
+            payload = {"culture": "he-IL", "uiCulture": "he"}
+            try:
+                # should fail if token is expired.
+                response = self.post_next_api('GetUser', payload)
+                print('User Logged In' + response['Data']['email'])
+                return True
+            except RuntimeError:
+                headers = {'X-App-Type': 'web', 'Language': 'he', 'Origin': 'https://www.10bis.co.il'}
+                response = self.session.post('https://api.10bis.co.il/api/v1/Authentication/RefreshToken',
+                                             headers=headers)
+                if response.status_code != 200:
+                    print(f'Error on RefreshToken call status:{response.status_code} message:{response.text}')
+                    return False
+                create_pickle(self.session, self.SESSION_PATH)
+                response = self.post_next_api('GetUser', payload)
+                print('User Logged In' + response['Data']['email'])
+                return True
+
         # Phase one -> Email
         self.email = input("Enter Email: ")
         payload = {"culture": "he-IL", "uiCulture": "he", "email": self.email}
         self.session = requests.session()
-        resp_json = self.post_next_api('GetUserAuthenticationDataAndSendAuthenticationCodeToUser', payload, False)
+        resp_json = self.post_next_api('GetUserAuthenticationDataAndSendAuthenticationCodeToUser', payload)
 
         # Phase two -> OTP
         auth_token = resp_json['Data']['codeAuthenticationData']['authenticationToken']
@@ -88,11 +106,8 @@ class Tenbis:
                    "authenticationToken": auth_token,
                    "authenticationCode": otp}
 
-        resp_json = self.post_next_api('GetUserV2', payload, False)
-        user_token = resp_json['Data']['userToken']
+        resp_json = self.post_next_api('GetUserV2', payload)
 
-        create_pickle(user_token, self.TOKEN_PATH)
-        self.user_token = user_token
         self.session.cart_guid = resp_json['ShoppingCartGuid']
         self.session.user_id = resp_json['Data']['userId']
 
@@ -178,9 +193,9 @@ class Tenbis:
         # GetPayments
         endpoint = TENBIS_FQDN + f"/NextApi/GetPayments?shoppingCartGuid={self.cart_guid}&culture=he-IL&uiCulture=he"
         headers = {"content-type": "application/json"}
-        headers.update({'user-token': self.user_token})
         response = session.get(endpoint, headers=headers, verify=False)
         resp_json = json.loads(response.text)
+
         # TO_DO (original) - make sure to use only 10BIS cards
         error_msg = resp_json['Errors']
         success_code = resp_json['Success']
@@ -191,7 +206,7 @@ class Tenbis:
             print("Request:" + endpoint)
             print("Response: " + str(response.status_code))
             print(resp_json)
-        main_user = current = [x for x in resp_json['Data'] if x['userId'] == self.user_id]
+        main_user = [x for x in resp_json['Data'] if x['userId'] == self.user_id]
 
         # SetPaymentsInOrder
         payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he", "payments": [
@@ -247,4 +262,3 @@ class Tenbis:
                                                       'barcode_url': voucher['BarCodeImgUrl'],
                                                       'amount': voucher['Amount']})
         return restaurants
-

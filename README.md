@@ -1,8 +1,8 @@
 # 10bot
 
 A bot to buy 10Bis coupons
-This projects aims to run every day and to buy a [10bis](www.10bis.co.il) coupon, 
-if there is a credit.  
+This projects aims to run every day, and to buy [10bis](www.10bis.co.il) coupon  
+if there is a credit. It's also create an HTML report with all Coupons barcodes. 
 
 ## Installation and usage
 
@@ -33,9 +33,9 @@ The code is bases from these repositories by [Dvir Perets](https://github.com/Dv
 - [Dvirus89/tenbis-buy-coupons](https://github.com/Dvirus89/tenbis-buy-coupons)
 
 ## TODO:  
-- [ ] Bug Fix: user-token header is not needed due to 10bis change of API, need to find other way to preserve authentication on the machine. 
+- [x] Bug Fix: user-token header is not needed due to 10bis change of API, RefreshToken API should be used instead.  
 - [ ] Fix the holidays, to block only non-working day. 
 - [ ] Add the deployment in Microsoft Azure using Azure function.  
 - [x] Add Report generation.
   - [ ] Make the report formatter generic, for various kinds of files. 
-- [ ] Send the generated, report into Google or other share.    
+- [ ] Send the generated, report into Google or other share. 
