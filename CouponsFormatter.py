@@ -66,6 +66,6 @@ class CouponFormatter:
 
     def write_to_files(self):
         for r in self.coupons.values():
-            filename = f"output/{date.today().strftime('%y-%m-%d')}_{r['restaurantName']}.html"
+            filename = f"output/{date.today().strftime('%y-%m-%d')}_{r['vendorName']}.html"
             with open(filename, 'w', encoding='utf-8') as file:
                 file.write(self.format_orders(r['orders'], r['restaurantName']))

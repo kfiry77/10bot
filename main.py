@@ -14,6 +14,5 @@ def main(argv):
     formatter.write_to_files()
 
 
-
 if __name__ == '__main__':
     main(sys.argv[1:])

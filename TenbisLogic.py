@@ -68,7 +68,6 @@ class Tenbis:
         return resp_json
 
     def auth(self):
-
         if os.path.exists(self.SESSION_PATH):
             self.session = load_pickle(self.SESSION_PATH)
             payload = {"culture": "he-IL", "uiCulture": "he"}
@@ -229,12 +228,19 @@ class Tenbis:
         create_pickle(session, self.SESSION_PATH)
 
     def get_unused_coupons(self):
-        payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": 0}
-        report = self.post_next_api('UserTransactionsReport', payload)
-        all_orders = report['Data']['orderList']
-        barcode_orders = [x for x in all_orders if x['isBarCodeOrder']]
-        restaurants = {}
+        month_empty_count = 3
+        date_bias = 0
+        barcode_orders = []
+        while month_empty_count != 0:
+            payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": date_bias}
+            report = self.post_next_api('UserTransactionsReport', payload)
+            all_orders = report['Data']['orderList']
+            if len(all_orders) == 0:
+                month_empty_count -= 1
+            barcode_orders += [x for x in all_orders if x['isBarCodeOrder']]
+            date_bias -= 1
 
+        restaurants = {}
         for b in barcode_orders:
             order_id = b['orderId']
             res_id = b['restaurantId']
@@ -255,7 +261,7 @@ class Tenbis:
             if not voucher['Used']:
                 barcode_num = voucher['BarCodeNumber']
                 if res_id not in restaurants:
-                    restaurants[res_id] = {'restaurantName': b['restaurantName'], 'orders': []}
+                    restaurants[res_id] = {'restaurantName': b['restaurantName'], 'vendorName': voucher['Vendor'], 'orders': []}
                 restaurants[res_id]['orders'].append({'Date': b['orderDateStr'],
                                                       'barcode': '-'.join(
                                                           barcode_num[i:i + 4] for i in range(0, len(barcode_num), 4)),
