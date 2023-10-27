@@ -20,12 +20,6 @@ class ReportWriterHtml(ReportWriter):
 
 class ReportWriterPdf(ReportWriter):
 
-    def __init__(self):
-        try:
-            from weasyprint import HTML
-        except ImportError:
-            raise ImportError('Failed to import weasyprint')
-        super.__init__()
-
     def write(self, buffer, base_name):
+        from weasyprint import HTML
         HTML(string=buffer).write_pdf(f"output/{date.today().strftime('%y-%m-%d')}_{base_name}.pdf")
