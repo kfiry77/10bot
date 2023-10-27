@@ -3,7 +3,8 @@ import urllib3
 import json
 import os
 import pickle
-from datetime import datetime
+from datetime import datetime, date
+from dateutil.relativedelta import relativedelta
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 TENBIS_FQDN = "https://www.10bis.co.il"
@@ -38,6 +39,7 @@ def create_pickle(obj, path):
 
 class Tenbis:
     SESSION_PATH = f"{CWD}/sessions.pickle"
+    LAST_STATE_PATH = f"{CWD}/last_state.pickle"
 
     def __init__(self):
         self.session = None
@@ -74,7 +76,7 @@ class Tenbis:
             try:
                 # should fail if token is expired.
                 response = self.post_next_api('GetUser', payload)
-                print('User Logged In' + response['Data']['email'])
+                print('User ' + response['Data']['email'] + ' Logged In')
                 return True
             except RuntimeError:
                 headers = {'X-App-Type': 'web', 'Language': 'he', 'Origin': 'https://www.10bis.co.il'}
@@ -85,7 +87,7 @@ class Tenbis:
                     return False
                 create_pickle(self.session, self.SESSION_PATH)
                 response = self.post_next_api('GetUser', payload)
-                print('User Logged In' + response['Data']['email'])
+                print('User ' + response['Data']['email'] + ' Logged In')
                 return True
 
         # Phase one -> Email
@@ -229,42 +231,52 @@ class Tenbis:
 
     def get_unused_coupons(self):
         month_empty_count = 3
-        date_bias = 0
-        barcode_orders = []
-        while month_empty_count != 0:
-            payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": date_bias}
+        month_bias = 0
+        min_month_with_coupons = date(2010, 1, 1)
+        scanned_month = date(date.today().year, date.today().month, 1)
+        if os.path.exists(self.LAST_STATE_PATH):
+            min_month_with_coupons = load_pickle(self.LAST_STATE_PATH)
+        actual_min_month_with_coupons = scanned_month
+        restaurants = {}
+        while month_empty_count != 0 and scanned_month >= min_month_with_coupons:
+            print(f'scanning Month:{scanned_month}')
+            payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": month_bias}
             report = self.post_next_api('UserTransactionsReport', payload)
             all_orders = report['Data']['orderList']
             if len(all_orders) == 0:
                 month_empty_count -= 1
-            barcode_orders += [x for x in all_orders if x['isBarCodeOrder']]
-            date_bias -= 1
-
-        restaurants = {}
-        for b in barcode_orders:
-            order_id = b['orderId']
-            res_id = b['restaurantId']
-            endpoint = (TENBIS_FQDN +
-                        f"/NextApi/GetOrderBarcode?culture=he-IL&uiCulture=he&orderId={order_id}&resId={res_id}")
-            headers = {"content-type": "application/json"}
-            response = self.session.get(endpoint, headers=headers)
-            if DEBUG:
-                print(endpoint + "\r\n" + str(response.status_code) + "\r\n" + response.text)
-            r = json.loads(response.text)
-            error_msg = r['Error']
-            success_code = r['Success']
-            if not success_code:
-                print_hebrew((error_msg['ErrorDesc']))
-                print_hebrew("Error, trying moving to the next barcode")
-                return restaurants
-            voucher = r['Data']['Vouchers'][0]
-            if not voucher['Used']:
-                barcode_num = voucher['BarCodeNumber']
-                if res_id not in restaurants:
-                    restaurants[res_id] = {'restaurantName': b['restaurantName'], 'vendorName': voucher['Vendor'], 'orders': []}
-                restaurants[res_id]['orders'].append({'Date': b['orderDateStr'],
-                                                      'barcode': '-'.join(
-                                                          barcode_num[i:i + 4] for i in range(0, len(barcode_num), 4)),
-                                                      'barcode_url': voucher['BarCodeImgUrl'],
-                                                      'amount': voucher['Amount']})
+            barcode_orders = [x for x in all_orders if x['isBarCodeOrder']]
+            for b in barcode_orders:
+                order_id = b['orderId']
+                res_id = b['restaurantId']
+                endpoint = (TENBIS_FQDN +
+                            f"/NextApi/GetOrderBarcode?culture=he-IL&uiCulture=he&orderId={order_id}&resId={res_id}")
+                headers = {"content-type": "application/json"}
+                response = self.session.get(endpoint, headers=headers)
+                if DEBUG:
+                    print(endpoint + "\n" + str(response.status_code) + "\n" + response.text)
+                r = json.loads(response.text)
+                error_msg = r['Error']
+                success_code = r['Success']
+                if not success_code:
+                    print_hebrew((error_msg['ErrorDesc']))
+                    print_hebrew("Error, trying moving to the next barcode")
+                    return restaurants
+                voucher = r['Data']['Vouchers'][0]
+                if not voucher['Used']:
+                    actual_min_month_with_coupons = scanned_month
+                    barcode_num = voucher['BarCodeNumber']
+                    if res_id not in restaurants:
+                        restaurants[res_id] = {'restaurantName': b['restaurantName'], 'vendorName': voucher['Vendor'],
+                                               'orders': []}
+                    restaurants[res_id]['orders'].append({'Date': b['orderDateStr'],
+                                                          'barcode': '-'.join(
+                                                              barcode_num[i:i + 4] for i in
+                                                              range(0, len(barcode_num), 4)),
+                                                          'barcode_url': voucher['BarCodeImgUrl'],
+                                                          'amount': voucher['Amount']})
+            month_bias -= 1
+            scanned_month = scanned_month + relativedelta(months=-1)
+        create_pickle(actual_min_month_with_coupons, self.LAST_STATE_PATH)
+        print(f'Created report until {actual_min_month_with_coupons} ')
         return restaurants

@@ -14,7 +14,7 @@ cd 10bot
 pip3 install -r requirements.txt
 ```
 
-Execute the script ``main``` script initially, to acquire authentication tokens, you will get SMS with OTP, type it on the command line.
+Execute script ``main``` initially, to acquire authentication tokens, you will get SMS with OTP, type it on the command line.
 
 ```sh
 python3 main.py
@@ -37,5 +37,6 @@ The code is bases from these repositories by [Dvir Perets](https://github.com/Dv
 - [ ] Fix the holidays, to block only non-working day. 
 - [ ] Add the deployment in Microsoft Azure using Azure function.  
 - [x] Add Report generation.
-  - [ ] Make the report formatter generic, for various kinds of files. 
-- [ ] Send the generated, report into Google or other share. 
+  - [ ] Make the report formatter generic, for various kinds of files.
+  - [ ] Make PDF report formatter. 
+- [ ] Add report publisher, and make it generic to various kind for example: Google Drive share.  
