@@ -37,6 +37,6 @@ The code is bases from these repositories by [Dvir Perets](https://github.com/Dv
 - [ ] Fix the holidays, to block only non-working day. 
 - [ ] Add the deployment in Microsoft Azure using Azure function.  
 - [x] Add Report generation.
-  - [ ] Make the report formatter generic, for various kinds of files.
-  - [ ] Make PDF report formatter. 
+  - [x] Make the report formatter generic, for various kinds of files.
+  - [x] Make PDF report formatter. 
 - [ ] Add report publisher, and make it generic to various kind for example: Google Drive share.  

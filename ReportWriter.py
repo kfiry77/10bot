@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from datetime import date
 
+
 class ReportWriter(ABC):
     def __init__(self):
         super().__init__()
