@@ -1,10 +1,12 @@
+import base64
 from datetime import date
+import requests
 
 HTML_ROW_TEMPLATE = """
     <tr>
       <td>{order_date}</td>
-      <td>{barcode_number}</td>      
-      <td><img src='{barcode_img_url}'></td>
+      <td>{barcode_number}</td>
+      <td><img src="data:image/png;base64,{image_data}"></td>
       <td>{amount}</td>
     </tr>
     """
@@ -58,9 +60,21 @@ class CouponFormatter:
     def format_orders(self, orders, restaurant_name):
         output_table = ""
         for coupon in orders:
+            # URL of the image you want to embed
+            image_url = coupon['barcode_url']
+
+            # Fetch the image from the URL
+            response = requests.get(image_url)
+
+            if response.status_code == 200:
+                # Get the image content and encode it in base64
+                image_data = base64.b64encode(response.content).decode("utf-8")
+            else:
+                print(f'fail to get image:{image_url}')
+
             output_table += HTML_ROW_TEMPLATE.format(order_date=coupon['Date'],
                                                      barcode_number=coupon['barcode'],
-                                                     barcode_img_url=coupon['barcode_url'],
+                                                     image_data=image_data,
                                                      amount=coupon['amount'])
         return HTML_PAGE_TEMPLATE.format(output_table=output_table, restaurantName=restaurant_name)
 
