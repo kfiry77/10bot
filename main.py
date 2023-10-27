@@ -15,14 +15,16 @@ def main(argv):
     coupons = ten_bis.get_unused_coupons()
 
     formatter = CouponFormatter(coupons)
-    if platform == "win32":
-        writer = ReportWriterHtml()
-    else:
-        writer = ReportWriterPdf()
+    pdf_writer = None
+    if platform != "win32":
+        pdf_writer = ReportWriterPdf()
+    html_writer = ReportWriterHtml()
 
     for r in coupons.values():
         formatted_string = formatter.format_orders(r['orders'], r['restaurantName'])
-        writer.write(formatted_string, r['vendorName'])
+        html_writer.write(formatted_string, r['vendorName'])
+        if pdf_writer is not None:
+            html_writer.write(formatted_string, r['vendorName'])
 
 
 if __name__ == '__main__':
