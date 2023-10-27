@@ -5,9 +5,9 @@ import requests
 HTML_ROW_TEMPLATE = """
     <tr>
       <td>{order_date}</td>
-      <td>{barcode_number}</td>
-      <td><img src="data:image/png;base64,{image_data}"></td>
       <td>{amount}</td>
+      <td>{barcode_number}</td>
+      <td><img src="data:image/png;base64,{image_data}"></td>      
     </tr>
     """
 HTML_PAGE_TEMPLATE = """
@@ -18,7 +18,6 @@ HTML_PAGE_TEMPLATE = """
         #barcodes {{
         font-family: Arial, Helvetica, sans-serif;
         border-collapse: collapse;
-        width: 100%;
         }}
         img {{
         opacity: 1
@@ -45,7 +44,12 @@ HTML_PAGE_TEMPLATE = """
         <body>
             <h1> {restaurantName} </h1>
             <table id="barcodes">
-            <tr>  <th>Order date</th>   <th>Barcode number</th>   <th>Barcode image</th>  <th>Amount</th>   </tr>
+            <tr> 
+  				<th width="70px">Order date</th>
+				<th width="30px">Amount</th>
+				<th width="50px">Barcode number</th> 
+				<th width="300px">Barcode image</th>
+             </tr>
             {output_table}
             </table>
         </body>
@@ -83,3 +87,4 @@ class CouponFormatter:
             filename = f"output/{date.today().strftime('%y-%m-%d')}_{r['vendorName']}.html"
             with open(filename, 'w', encoding='utf-8') as file:
                 file.write(self.format_orders(r['orders'], r['restaurantName']))
+            HTML(string=open(filename, 'rb').read()).write_pdf(filename + ".pdf")
