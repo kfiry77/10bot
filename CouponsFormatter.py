@@ -15,6 +15,7 @@ HTML_PAGE_TEMPLATE = """
         <html>
         <head>
         <style>
+	@page {{ margin:0 }}	
         #barcodes {{
         font-family: Arial, Helvetica, sans-serif;
         border-collapse: collapse;
@@ -45,10 +46,10 @@ HTML_PAGE_TEMPLATE = """
             <h1> {restaurantName} </h1>
             <table id="barcodes">
             <tr> 
-  				<th width="70px">Order date</th>
-				<th width="30px">Amount</th>
-				<th width="50px">Barcode number</th> 
-				<th width="300px">Barcode image</th>
+  				<th width="10%">Order date</th>
+				<th width="10%">$$$</th>
+				<th width="10%">Barcode</th> 
+				<th width="70%">Barcode image</th>
              </tr>
             {output_table}
             </table>
@@ -77,7 +78,7 @@ class CouponFormatter:
                 print(f'fail to get image:{image_url}')
 
             output_table += HTML_ROW_TEMPLATE.format(order_date=coupon['Date'],
-                                                     barcode_number=coupon['barcode'],
+                                                     barcode_number=coupon['barcode'].replace("-", "-<br>" ),
                                                      image_data=image_data,
                                                      amount=coupon['amount'])
         return HTML_PAGE_TEMPLATE.format(output_table=output_table, restaurantName=restaurant_name)

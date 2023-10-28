@@ -24,7 +24,7 @@ def main(argv):
         formatted_string = formatter.format_orders(r['orders'], r['restaurantName'])
         html_writer.write(formatted_string, r['vendorName'])
         if pdf_writer is not None:
-            html_writer.write(formatted_string, r['vendorName'])
+            pdf_writer.write(formatted_string, r['vendorName'])
 
 
 if __name__ == '__main__':
