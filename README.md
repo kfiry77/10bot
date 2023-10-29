@@ -14,6 +14,17 @@ cd 10bot
 pip3 install -r requirements.txt
 ```
 
+Install prerequisites for weasyprint (for PDF report generation), as describe  [here](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html)
+- macOS
+```sh
+brew install weasyprint
+```
+- linux / Ubuntu 
+```sh
+apt install weasyprint
+```
+- Windows : make sure to install GTK+, and add it to the PATH environment variable.
+
 Execute script ``main``` initially, to acquire authentication tokens, you will get SMS with OTP, type it on the command line.
 
 ```sh
@@ -35,8 +46,12 @@ The code is bases from these repositories by [Dvir Perets](https://github.com/Dv
 ## TODO:  
 - [x] Bug Fix: user-token header is not needed due to 10bis change of API, RefreshToken API should be used instead.  
 - [ ] Fix the holidays, to block only non-working day. 
-- [ ] Add the deployment in Microsoft Azure using Azure function.  
+- [ ] Add scrips the deployment to cloud providers:
+  - [ ] Azure 
+  - [ ] GCP
 - [x] Add Report generation.
   - [x] Make the report formatter generic, for various kinds of files.
   - [x] Make PDF report formatter. 
-- [ ] Add report publisher, and make it generic to various kind for example: Google Drive share.  
+- [ ] Add report publisher, and make it generic to various kind for example: Google Drive share.
+- [ ] Bug Fix : Pdf is cannot be generated on windows due to weasyprint dependency.
+
