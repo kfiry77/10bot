@@ -9,8 +9,6 @@ from dateutil.relativedelta import relativedelta
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 TENBIS_FQDN = "https://www.10bis.co.il"
 CWD = os.getcwd()
-DEBUG = False
-DRYRUN = True
 
 
 def print_hebrew(heb_txt):
@@ -41,7 +39,8 @@ class Tenbis:
     SESSION_PATH = f"{CWD}/sessions.pickle"
     LAST_STATE_PATH = f"{CWD}/last_state.pickle"
 
-    def __init__(self):
+    def __init__(self, args):
+        self.args = args
         self.session = None
         self.cart_guid = None
         self.user_id = None
@@ -59,7 +58,7 @@ class Tenbis:
         resp_json = json.loads(response.text)
         error_msg = resp_json['Errors']
         success_code = resp_json['Success']
-        if DEBUG:
+        if self.args.verbose:
             print("Request:" + endpoint + "\nHeaders:" + json.dumps(headers) + "\n" +
                   "Request Payload:" + json.dumps(payload))
             print("Response: " + str(response.status_code))
@@ -119,7 +118,7 @@ class Tenbis:
         # check if it is a working day, if not return
         today = datetime.today()
         if today.weekday() == 5 or today.weekday() == 4:
-            if DEBUG:
+            if self.args.verbose:
                 print(f'{today} Is Non working day')
             return False
 
@@ -135,7 +134,7 @@ class Tenbis:
             h_ends = datetime.strptime(h['HolidayEnds'], date_format)
             h_name = h['Name']
             if h_start <= today <= h_ends:
-                if DEBUG:
+                if self.args.verbose:
                     print(f'{today} is {h_name}')
                 return False
 
@@ -145,14 +144,14 @@ class Tenbis:
         # option1 - check the last order, and check
         last_order_is_today = (report['Data']['orderList'][-1]['orderDateStr'] == datetime.today().strftime("%d.%m.%y"))
         if last_order_is_today:
-            if DEBUG:
+            if self.args.verbose:
                 print(f'last_order_check:{last_order_is_today}')
             return False
 
         # check if usage for today > 0
         daily_usage = report['Data']['moneycards'][0]['usage']['daily']
         if daily_usage > 0:
-            if DEBUG:
+            if self.args.verbose:
                 print(f'Today usage is:{daily_usage}')
             return False
 
@@ -160,7 +159,6 @@ class Tenbis:
 
     def buy_coupon(self, coupon):
         session = self.session
-
         payload = {"culture": "he-IL", "uiCulture": "he"}
         resp_json = self.post_next_api('GetUser', payload)
         self.cart_guid = resp_json['ShoppingCartGuid']
@@ -203,7 +201,7 @@ class Tenbis:
         if not success_code:
             print_hebrew((error_msg[0]['ErrorDesc']))
             return
-        if DEBUG:
+        if self.args.verbose:
             print("Request:" + endpoint)
             print("Response: " + str(response.status_code))
             print(resp_json)
@@ -217,13 +215,15 @@ class Tenbis:
              "expirationDate": None, "isDisabled": False, "editMode": False}]}
         self.post_next_api('SetPaymentsInOrder', payload)
 
-        if DRYRUN:
+        if self.args.dryrun:
+            print("Dry Run success, purchase will be skipped.")
             return
 
         # SubmitOrder
         payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he", "isMobileDevice": True,
                    "dontWantCutlery": False, "orderRemarks": None}
         resp_json = self.post_next_api('SubmitOrder', payload)
+        print("Order submitted successfully")
 
         session.cart_guid = resp_json['ShoppingCartGuid']
         # save the last session state to the pickle file for next auth.
@@ -253,7 +253,7 @@ class Tenbis:
                             f"/NextApi/GetOrderBarcode?culture=he-IL&uiCulture=he&orderId={order_id}&resId={res_id}")
                 headers = {"content-type": "application/json"}
                 response = self.session.get(endpoint, headers=headers)
-                if DEBUG:
+                if self.args.verbose:
                     print(endpoint + "\n" + str(response.status_code) + "\n" + response.text)
                 r = json.loads(response.text)
                 error_msg = r['Error']

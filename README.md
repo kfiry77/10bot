@@ -29,16 +29,17 @@ apt install weasyprint
 PATH=%PATH%;C:\Program Files\GTK3-Runtime Win64\bin
 ```
 
-Execute script ``main``` initially, to acquire authentication tokens, you will get SMS with OTP, type it on the command line.
+Execute script ```main```  to acquire authentication tokens, you will get SMS with OTP, type it on the command line.
 
+note:purchase won't be submitted if -d is specified. 
 ```sh
-python3 main.py
+python3 main.py -d 
 ```
 
 Add the script to the system crontab, by typing ```crontab -e ``` and adding the following line to it.   
 ```
 crontab -e
-0 23 * * *  usr/bin/python3 /path/to/your/script/main.py  >> /path/to/your/log/10bot.log 2>&1 &
+0 23 * * *  usr/bin/python3 /path/to/your/script/main.py [-v] [-d]  >> /path/to/your/log/10bot.log 2>&1 &
 ```
 
 ## references:

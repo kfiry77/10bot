@@ -1,13 +1,17 @@
 from TenbisLogic import *
 from CouponsFormatter import *
 from ReportWriter import *
-from sys import platform
 import sys
+import argparse
 
 
 def main(argv):
-    ten_bis = Tenbis()
+    parser = argparse.ArgumentParser(prog='10Bot')
+    parser.add_argument('-v', '--verbose', help='enable detailed logging', action='store_true')
+    parser.add_argument('-d', '--dryrun', help='Dry run to test all HTTP calls to NextAPI', action='store_true')
+    args = parser.parse_args()
 
+    ten_bis = Tenbis(args)
     budget_available = ten_bis.is_budget_available()
     print('budget available=', budget_available)
     if budget_available:
@@ -15,7 +19,6 @@ def main(argv):
     coupons = ten_bis.get_unused_coupons()
 
     formatter = CouponFormatter(coupons)
-    pdf_writer = None
     pdf_writer = ReportWriterPdf()
     html_writer = ReportWriterHtml()
 
