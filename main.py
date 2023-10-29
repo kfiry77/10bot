@@ -16,8 +16,7 @@ def main(argv):
 
     formatter = CouponFormatter(coupons)
     pdf_writer = None
-    if platform != "win32":
-        pdf_writer = ReportWriterPdf()
+    pdf_writer = ReportWriterPdf()
     html_writer = ReportWriterHtml()
 
     for r in coupons.values():
