@@ -142,8 +142,8 @@ class Tenbis:
         report = self.post_next_api('UserTransactionsReport', payload)
 
         # option1 - check the last order, and check
-        last_order_is_today = False if len(report['Data']['orderList']) == 0 else report['Data']['orderList'](
-            report['Data']['orderList'][-1]['orderDateStr'] == datetime.today().strftime("%d.%m.%y"))
+        last_order_is_today = False if len(report['Data']['orderList']) == 0 else (
+                report['Data']['orderList'][-1]['orderDateStr'] == datetime.today().strftime("%d.%m.%y"))
         if last_order_is_today:
             if self.args.verbose:
                 print(f'last_order_check:{last_order_is_today}')
