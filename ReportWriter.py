@@ -20,6 +20,6 @@ class ReportWriterPdf(ReportProcessor):
         super().__init__(processor)
         self.base_name = base_name
 
-    def process_impl(self, buffer, base_name):
+    def process_impl(self, buffer):
         from weasyprint import HTML
         HTML(string=buffer).write_pdf(f"output/{date.today().strftime('%y-%m-%d')}_{self.base_name}.pdf")
