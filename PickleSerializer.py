@@ -3,17 +3,20 @@ import os
 
 
 class PickleSerializer:
-    @classmethod
-    def format_path(cls, name):
-        return f"{os.getcwd()}/{name}.pickle"
 
-    @classmethod
-    def load(cls, name):
-        with open(cls.format_path(name), 'rb') as session_file:
+    def __init__(self, name):
+        self.path = f"{os.getcwd()}/{name}.pickle"
+
+    def exists(self):
+        return os.path.exists(self.path)
+
+    def load(self):
+        if not self.exists():
+            return None
+        with open(self.path, 'rb') as session_file:
             obj = pickle.load(session_file)
             return obj
 
-    @classmethod
-    def create(cls, obj, name):
-        with open(cls.format_path(name), 'wb') as session_file:
+    def create(self, obj):
+        with open(self.path, 'wb') as session_file:
             pickle.dump(obj, session_file)

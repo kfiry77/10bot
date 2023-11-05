@@ -1,26 +1,25 @@
-from abc import ABC, abstractmethod
 from datetime import date
+from ReportProcessor import *
 
 
-class ReportWriter(ABC):
-    def __init__(self):
-        super().__init__()
+class ReportWriterHtml(ReportProcessor):
 
-    @abstractmethod
-    def write(self, buffer, base_name):
-        pass
+    def __init__(self, processor, base_name):
+        super().__init__(processor)
+        self.base_name = base_name
 
-
-class ReportWriterHtml(ReportWriter):
-
-    def write(self, buffer, base_name):
-        filename = f"output/{date.today().strftime('%y-%m-%d')}_{base_name}.html"
+    def process_impl(self, buffer):
+        filename = f"output/{date.today().strftime('%y-%m-%d')}_{self.base_name}.html"
         with open(filename, 'w', encoding='utf-8') as file:
             file.write(buffer)
 
 
-class ReportWriterPdf(ReportWriter):
+class ReportWriterPdf(ReportProcessor):
 
-    def write(self, buffer, base_name):
+    def __init__(self, processor, base_name):
+        super().__init__(processor)
+        self.base_name = base_name
+
+    def process_impl(self, buffer, base_name):
         from weasyprint import HTML
-        HTML(string=buffer).write_pdf(f"output/{date.today().strftime('%y-%m-%d')}_{base_name}.pdf")
+        HTML(string=buffer).write_pdf(f"output/{date.today().strftime('%y-%m-%d')}_{self.base_name}.pdf")

@@ -1,7 +1,6 @@
 import requests
 import urllib3
 import json
-import os
 from PickleSerializer import PickleSerializer
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
@@ -24,8 +23,6 @@ COUPONS_IDS = {
 
 
 class Tenbis:
-    SESSION_PATH = "sessions"
-    LAST_STATE_PATH = "last_state"
 
     def __init__(self, args):
         self.args = args
@@ -33,6 +30,7 @@ class Tenbis:
         self.cart_guid = None
         self.user_id = None
         self.email = None
+        self.session_pickle = PickleSerializer("sessions")
         if not self.auth():
             raise Exception('Error Authenticating')
 
@@ -57,8 +55,8 @@ class Tenbis:
         return resp_json
 
     def auth(self):
-        if os.path.exists(self.SESSION_PATH):
-            self.session = PickleSerializer.load(self.SESSION_PATH)
+        if self.session_pickle.exists():
+            self.session = self.session_pickle.load()
             payload = {"culture": "he-IL", "uiCulture": "he"}
             try:
                 # should fail if token is expired.
@@ -72,7 +70,7 @@ class Tenbis:
                 if response.status_code != 200:
                     print(f'Error on RefreshToken call status:{response.status_code} message:{response.text}')
                     return False
-                PickleSerializer.create(self.session, self.SESSION_PATH)
+                self.session_pickle.create(self.session)
                 response = self.post_next_api('GetUser', payload)
                 print('User ' + response['Data']['email'] + ' Logged In')
                 return True
@@ -99,7 +97,7 @@ class Tenbis:
         self.session.cart_guid = resp_json['ShoppingCartGuid']
         self.session.user_id = resp_json['Data']['userId']
 
-        PickleSerializer.create(self.session, self.SESSION_PATH)
+        self.session_pickle.create(self.session)
         return True
 
     def is_budget_available(self):
@@ -216,15 +214,16 @@ class Tenbis:
 
         session.cart_guid = resp_json['ShoppingCartGuid']
         # save the last session state to the pickle file for next auth.
-        PickleSerializer.create(session, self.SESSION_PATH)
+        self.session_pickle.create(session)
 
     def get_unused_coupons(self):
         month_empty_count = 3
         month_bias = 0
         min_month_with_coupons = date(2010, 1, 1)
         scanned_month = date(date.today().year, date.today().month, 1)
-        if os.path.exists(self.LAST_STATE_PATH):
-            min_month_with_coupons = PickleSerializer.load(self.LAST_STATE_PATH)
+        state_pickle = PickleSerializer('last_state')
+        if state_pickle.exists():
+            min_month_with_coupons = state_pickle.load()
         actual_min_month_with_coupons = scanned_month
         restaurants = {}
         while month_empty_count != 0 and scanned_month >= min_month_with_coupons:
@@ -266,6 +265,6 @@ class Tenbis:
                                                           'amount': voucher['Amount']})
             month_bias -= 1
             scanned_month = scanned_month + relativedelta(months=-1)
-        PickleSerializer.create(actual_min_month_with_coupons, self.LAST_STATE_PATH)
+        state_pickle.create(actual_min_month_with_coupons)
         print(f'Created report until {actual_min_month_with_coupons} ')
         return restaurants
