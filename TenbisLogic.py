@@ -8,7 +8,6 @@ from dateutil.relativedelta import relativedelta
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 TENBIS_FQDN = "https://www.10bis.co.il"
-CWD = os.getcwd()
 
 
 def print_hebrew(heb_txt):
@@ -24,20 +23,26 @@ COUPONS_IDS = {
 }
 
 
-def load_pickle(path):
-    with open(path, 'rb') as session_file:
-        obj = pickle.load(session_file)
-        return obj
+class PickleSerializer:
+    @classmethod
+    def format_path(cls, name):
+        return f"{os.getcwd()}/{name}.pickle"
 
+    @classmethod
+    def load(cls, name):
+        with open(cls.format_path(name), 'rb') as session_file:
+            obj = pickle.load(session_file)
+            return obj
 
-def create_pickle(obj, path):
-    with open(path, 'wb') as session_file:
-        pickle.dump(obj, session_file)
+    @classmethod
+    def create(cls, obj, name):
+        with open(cls.format_path(name), 'wb') as session_file:
+            pickle.dump(obj, session_file)
 
 
 class Tenbis:
-    SESSION_PATH = f"{CWD}/sessions.pickle"
-    LAST_STATE_PATH = f"{CWD}/last_state.pickle"
+    SESSION_PATH = "sessions"
+    LAST_STATE_PATH = "last_state"
 
     def __init__(self, args):
         self.args = args
@@ -70,7 +75,7 @@ class Tenbis:
 
     def auth(self):
         if os.path.exists(self.SESSION_PATH):
-            self.session = load_pickle(self.SESSION_PATH)
+            self.session = PickleSerializer.load(self.SESSION_PATH)
             payload = {"culture": "he-IL", "uiCulture": "he"}
             try:
                 # should fail if token is expired.
@@ -84,7 +89,7 @@ class Tenbis:
                 if response.status_code != 200:
                     print(f'Error on RefreshToken call status:{response.status_code} message:{response.text}')
                     return False
-                create_pickle(self.session, self.SESSION_PATH)
+                PickleSerializer.create(self.session, self.SESSION_PATH)
                 response = self.post_next_api('GetUser', payload)
                 print('User ' + response['Data']['email'] + ' Logged In')
                 return True
@@ -111,7 +116,7 @@ class Tenbis:
         self.session.cart_guid = resp_json['ShoppingCartGuid']
         self.session.user_id = resp_json['Data']['userId']
 
-        create_pickle(self.session, self.SESSION_PATH)
+        PickleSerializer.create(self.session, self.SESSION_PATH)
         return True
 
     def is_budget_available(self):
@@ -228,7 +233,7 @@ class Tenbis:
 
         session.cart_guid = resp_json['ShoppingCartGuid']
         # save the last session state to the pickle file for next auth.
-        create_pickle(session, self.SESSION_PATH)
+        PickleSerializer.create(session, self.SESSION_PATH)
 
     def get_unused_coupons(self):
         month_empty_count = 3
@@ -236,7 +241,7 @@ class Tenbis:
         min_month_with_coupons = date(2010, 1, 1)
         scanned_month = date(date.today().year, date.today().month, 1)
         if os.path.exists(self.LAST_STATE_PATH):
-            min_month_with_coupons = load_pickle(self.LAST_STATE_PATH)
+            min_month_with_coupons = PickleSerializer.load(self.LAST_STATE_PATH)
         actual_min_month_with_coupons = scanned_month
         restaurants = {}
         while month_empty_count != 0 and scanned_month >= min_month_with_coupons:
@@ -278,6 +283,6 @@ class Tenbis:
                                                           'amount': voucher['Amount']})
             month_bias -= 1
             scanned_month = scanned_month + relativedelta(months=-1)
-        create_pickle(actual_min_month_with_coupons, self.LAST_STATE_PATH)
+        PickleSerializer.create(actual_min_month_with_coupons, self.LAST_STATE_PATH)
         print(f'Created report until {actual_min_month_with_coupons} ')
         return restaurants
