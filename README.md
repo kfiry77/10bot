@@ -64,5 +64,7 @@ The code is bases from these repositories by [Dvir Perets](https://github.com/Dv
 - and make it generic to various kind for example: Google Drive share.
 - [x] Bug Fix : Pdf is cannot be generated on windows due to weasyprint dependency.
 - [ ] describe software design with some plantuml class diagrams.
-- [ ] Coupon images crop, for a nicer report formatting. 
+- [ ] Coupon images crop, for a nicer report formatting.
+- [ ] Green API - send data to GroupChat, and delete previous report (if possible). 
+
 
