@@ -4,22 +4,23 @@ from ReportProcessor import *
 
 class ReportWriterHtml(ReportProcessor):
 
-    def __init__(self, processor, base_name):
+    def __init__(self, processor):
         super().__init__(processor)
-        self.base_name = base_name
 
-    def process_impl(self, buffer):
-        filename = f"output/{date.today().strftime('%y-%m-%d')}_{self.base_name}.html"
+    def process_impl(self, data):
+        filename = f"output/{date.today().strftime('%y-%m-%d')}_{data['vendorName']}.html"
         with open(filename, 'w', encoding='utf-8') as file:
-            file.write(buffer)
+            file.write(data['buffer'])
+        return filename
 
 
 class ReportWriterPdf(ReportProcessor):
 
-    def __init__(self, processor, base_name):
+    def __init__(self, processor):
         super().__init__(processor)
-        self.base_name = base_name
 
-    def process_impl(self, buffer):
+    def process_impl(self, data):
         from weasyprint import HTML
-        HTML(string=buffer).write_pdf(f"output/{date.today().strftime('%y-%m-%d')}_{self.base_name}.pdf")
+        filename = f"output/{date.today().strftime('%y-%m-%d')}_{data['vendorName']}.pdf"
+        HTML(string=data['buffer']).write_pdf(filename)
+        return filename

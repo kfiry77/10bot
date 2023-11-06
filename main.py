@@ -1,5 +1,7 @@
 from ProcessLogic import *
 from PublisherWhatappGreenAPI import *
+from ReportWriter import *
+from CouponsFormatter import CouponFormatter
 import sys
 import argparse
 
@@ -10,16 +12,13 @@ def main(argv):
     parser.add_argument('-d', '--dryrun', help='Dry run to test all HTTP calls to NextAPI', action='store_true')
     args = parser.parse_args()
 
-    publisher =
-    process_logic = ProcessLogic()
-    process_logic.publisher = PublisherWhatsappGreenApi()
+    formatter = CouponFormatter()
+    publishers = [
+                   ReportWriterHtml(formatter),
+                   PublisherWhatsappGreenApi(ReportWriterPdf(formatter))
+                 ]
+    process_logic = ProcessLogic(args, publishers)
     process_logic.process()
-
-
-    publisher.publish()
-
-
-
 
 
 if __name__ == '__main__':

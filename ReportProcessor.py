@@ -2,14 +2,16 @@ from abc import ABC, abstractmethod
 
 
 class ReportProcessor(ABC):
-    def __init__(self, next_processor=None):
+    def __init__(self, prev_processor=None):
         super().__init__()
-        self.next_processor = next_processor
+        self.prev_processor = prev_processor
 
     @abstractmethod
-    def process_impl(self, report):
+    def process_impl(self, data):
         pass
 
-    def process(self, report):
-        if self.next_processor is not None:
-            return self.next_processor.process(report)
+    def process(self, data):
+        new_data = data
+        if self.prev_processor is not None:
+            new_data = self.prev_processor.process(data)
+        return self.process_impl(new_data)

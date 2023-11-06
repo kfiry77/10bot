@@ -1,6 +1,8 @@
 import base64
 import requests
 
+from ReportProcessor import ReportProcessor
+
 HTML_ROW_TEMPLATE = """
     <tr>
       <td>{order_date}</td>
@@ -53,11 +55,13 @@ HTML_PAGE_TEMPLATE = """
 """
 
 
-class CouponFormatter:
-    def __init__(self, coupons):
-        self.coupons = coupons
+class CouponFormatter(ReportProcessor):
+    def __init__(self):
+        super().__init__()
 
-    def format_orders(self, orders, restaurant_name):
+    def process_impl(self, data):
+        orders = data['orders']
+        restaurant_name = data['restaurantName']
         output_table = ""
         for coupon in orders:
             # URL of the image you want to embed
@@ -77,4 +81,5 @@ class CouponFormatter:
                                                      barcode_number=coupon['barcode'].replace("-", "-<br>"),
                                                      image_data=image_data,
                                                      amount=coupon['amount'])
-        return HTML_PAGE_TEMPLATE.format(output_table=output_table, restaurantName=restaurant_name)
+        return {'vendorName': data['vendorName'],
+                'buffer': HTML_PAGE_TEMPLATE.format(output_table=output_table, restaurantName=restaurant_name)}
