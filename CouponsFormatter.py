@@ -1,7 +1,7 @@
 import base64
 import requests
 
-from ReportProcessor import ReportProcessor
+from Processor import Processor
 
 HTML_ROW_TEMPLATE = """
     <tr>
@@ -55,7 +55,7 @@ HTML_PAGE_TEMPLATE = """
 """
 
 
-class CouponFormatter(ReportProcessor):
+class CouponFormatter(Processor):
     def __init__(self):
         super().__init__()
 

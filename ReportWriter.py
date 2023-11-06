@@ -1,8 +1,8 @@
 from datetime import date
-from ReportProcessor import *
+from Processor import *
 
 
-class ReportWriterHtml(ReportProcessor):
+class WriterHtml(Processor):
 
     def __init__(self, processor):
         super().__init__(processor)
@@ -14,7 +14,7 @@ class ReportWriterHtml(ReportProcessor):
         return filename
 
 
-class ReportWriterPdf(ReportProcessor):
+class WriterPdf(Processor):
 
     def __init__(self, processor):
         super().__init__(processor)

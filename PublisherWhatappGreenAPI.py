@@ -1,11 +1,10 @@
 import json
-
 from PickleSerializer import PickleSerializer
 import requests
-from ReportProcessor import *
+from Processor import *
 
 
-class PublisherWhatsappGreenApi(ReportProcessor):
+class PublisherWhatsappGreenApi(Processor):
     def __init__(self, processor):
         super().__init__(processor)
         self.chatId = None
@@ -24,9 +23,11 @@ class PublisherWhatsappGreenApi(ReportProcessor):
             self.idInstance = auth_data['idInstance']
             self.chatId = auth_data['chatId']
         else:
-            self.idInstance = input("Enter api.green-api.com InstanceId: ")
-            self.apiTokenInstance = input("Enter api.green-api.com Api Token")
-            self.chatId = input("Enter chatId")
+            print("*** Green API Auth ***")
+            self.idInstance = input("Enter Instance Id: ")
+            self.apiTokenInstance = input("Enter Api Token Instance: ")
+            self.chatId = input("Enter ChatId/GroupId (Empty to create Group)")
+
             auth_pickle.create({
                 'idInstance': self.idInstance,
                 'apiTokenInstance': self.apiTokenInstance,
