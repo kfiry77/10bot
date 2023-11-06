@@ -1,3 +1,5 @@
+import json
+
 from PickleSerializer import PickleSerializer
 import requests
 from ReportProcessor import *
@@ -31,8 +33,9 @@ class PublisherWhatsappGreenApi(ReportProcessor):
                 'chatId': self.chatId
             })
 
-        # todo : check the validate of the auth, buy using some dummy api.
-        return True
+        url = f'https://{self.host}/waInstance{self.idInstance}/getStateInstance/{self.apiTokenInstance}'
+        response = requests.get(url)
+        return response.status_code == 200 and json.loads(response.text)['stateInstance'] == 'authorized'
 
     def process_impl(self, filename):
         if not self.authenticated:
