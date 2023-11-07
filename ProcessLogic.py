@@ -1,13 +1,14 @@
 from TenbisLogic import Tenbis
+from Processor import *
 
 
-class ProcessLogic:
+class ProcessLogic(Processor):
     def __init__(self, args, publishers=[]):
-        super().__init__()
+        super().__init__(None)
         self.ten_bis = Tenbis(args)
         self.publishers = publishers
 
-    def process(self):
+    def process_impl(self, data):
         budget_available = self.ten_bis.is_budget_available()
         print('budget available=', budget_available)
         if budget_available:
