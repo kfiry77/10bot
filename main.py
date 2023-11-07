@@ -15,7 +15,7 @@ def main(argv):
     formatter = CouponFormatter()
     publishers = [
                    WriterHtml(formatter),
-                   PublisherWhatsappGreenApi(WriterPdf(formatter))
+                   PublisherWhatsappGreenApi(args, WriterPdf(formatter))
                  ]
     process_logic = ProcessLogic(args, publishers)
     process_logic.process()

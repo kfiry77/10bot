@@ -5,12 +5,13 @@ from Processor import *
 
 
 class PublisherWhatsappGreenApi(Processor):
-    def __init__(self, processor):
+    def __init__(self, args, processor):
         super().__init__(processor)
         self.chatId = None
         self.apiTokenInstance = None
         self.idInstance = None
         self.host = 'api.green-api.com'
+        self.args = args
         self.authenticated = self.auth()
         if not self.authenticated:
             print('Error Authenticating to Green api, publisher will be skipped')
@@ -41,10 +42,14 @@ class PublisherWhatsappGreenApi(Processor):
     def process_impl(self, filename):
         if not self.authenticated:
             return False
+        if self.args.dryrun:
+            print("Dry Run success, publish will be skipped.")
+            return
         url = f'https://{self.host}/waInstance{self.idInstance}/sendFileByUpload/{self.apiTokenInstance}'
         payload = {'chatId': self.chatId, 'caption': '10Bot Coupon'}
         files = {'file': open(filename, 'rb')}
         response = requests.post(url, data=payload, files=files)
-        print(response.status_code)
-        print(response.text)
+        if self.args.verbose:
+            print(response.status_code)
+            print(response.text)
 
