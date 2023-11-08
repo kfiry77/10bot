@@ -255,9 +255,11 @@ class Tenbis:
                     actual_min_month_with_coupons = scanned_month
                     barcode_num = voucher['BarCodeNumber']
                     if res_id not in restaurants:
-                        restaurants[res_id] = {'restaurantName': b['restaurantName'], 'vendorName': voucher['Vendor'],
+                        restaurants[res_id] = {'restaurantName': b['restaurantName'],
+                                               'vendorName': voucher['Vendor'],
                                                'orders': []}
                     restaurants[res_id]['orders'].append({'Date': b['orderDateStr'],
+                                                          'unixTime': b['orderDate'],
                                                           'barcode': '-'.join(
                                                               barcode_num[i:i + 4] for i in
                                                               range(0, len(barcode_num), 4)),
@@ -265,6 +267,10 @@ class Tenbis:
                                                           'amount': voucher['Amount']})
             month_bias -= 1
             scanned_month = scanned_month + relativedelta(months=-1)
+
+        for k, v in restaurants.items():
+            v['orders'].sort(key=lambda x: x['unixTime'])
+
         state_pickle.create(actual_min_month_with_coupons)
         print(f'Created report until {actual_min_month_with_coupons} ')
         return restaurants
