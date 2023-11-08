@@ -42,8 +42,8 @@ class PublisherWhatsappGreenApi(Processor):
     def process_impl(self, filename):
         if not self.authenticated:
             return False
-        if self.args.dryrun:
-            print("Dry Run success, publish will be skipped.")
+        if self.args.disablegreenapi:
+            print("Green API is disabled, publish will be skipped.")
             return
         url = f'https://{self.host}/waInstance{self.idInstance}/sendFileByUpload/{self.apiTokenInstance}'
         payload = {'chatId': self.chatId, 'caption': '10Bot Coupon'}
