@@ -1,5 +1,7 @@
 import base64
 import requests
+from PIL import Image
+import io
 
 from Processor import Processor
 
@@ -59,23 +61,39 @@ class CouponFormatter(Processor):
     def __init__(self):
         super().__init__()
 
+    @staticmethod
+    def download_crop_encode(url):
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+
+            # Read the image into memory
+            image = Image.open(io.BytesIO(response.content))
+
+            # Crop the image (0.25 from top and bottom)
+            width, height = image.size
+            top_crop = int(0.20 * height)
+            bottom_crop = height - top_crop
+            cropped_image = image.crop((0, top_crop, width, bottom_crop))
+
+            # Convert the cropped image to bytes
+            image_bytes = io.BytesIO()
+            cropped_image.save(image_bytes, format='PNG')
+            image_bytes.seek(0)
+
+            # Print the base64 encoded image
+            return base64.b64encode(image_bytes.read()).decode('utf-8')
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error downloading image: {e}")
+            return ''
+
     def process_impl(self, data):
         orders = data['orders']
         restaurant_name = data['restaurantName']
         output_table = ""
         for coupon in orders:
-            # URL of the image you want to embed
-            image_url = coupon['barcode_url']
-
-            # Fetch the image from the URL
-            response = requests.get(image_url)
-
-            image_data = ''
-            if response.status_code == 200:
-                # Get the image content and encode it in base64
-                image_data = base64.b64encode(response.content).decode("utf-8")
-            else:
-                print(f'fail to get image:{image_url}')
+            image_data = self.download_crop_encode(coupon['barcode_url'])
 
             output_table += HTML_ROW_TEMPLATE.format(order_date=coupon['Date'],
                                                      barcode_number=coupon['barcode'].replace("-", "-<br>"),
