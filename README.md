@@ -2,9 +2,17 @@
 
 A bot to buy 10Bis coupons
 This projects aims to run every day, and to buy [10bis](www.10bis.co.il) coupon  
-if there is a credit. It's also create an HTML report with all Coupons barcodes. 
+if there is a credit. It's also create an HTML report with all Coupons barcodes, and send it to whatApp group.
 
 ## Installation and usage
+
+## prerequisite:
+
+### WhatApp messages:
+Register for a developer account in [GREEN API](https://green-api.com/).
+Go through the ["Before you Start"](https://green-api.com/en/docs/before-start/) instructions.
+Create instance, and authorized it.  
+write down  ```idInstance```,  ```apiTokenInstance``` values, to be later use when installing.
 
 download the repository and install requirements.
 
@@ -29,11 +37,47 @@ apt install weasyprint
 PATH=%PATH%;C:\Program Files\GTK3-Runtime Win64\bin
 ```
 
-Execute script ```main```  to acquire authentication tokens, you will get SMS with OTP, type it on the command line.
+Execute script ```main``` 
 
 note:purchase won't be submitted if -d is specified. 
 ```sh
 python3 main.py -d 
+```
+
+When prompt, enter email id used for 10Bis Account. you should be getting an SMS with OTP. type it
+when prompt ```Enter OTP:```
+
+```sh
+ user@machine:~/10bot python3 main.py -d 
+ Enter Email: yourmail@domain.com
+ Enter OTP: 12345
+```
+
+Enter the Green API data, you have noted initially. 
+
+```sh
+*** Green API ***
+Enter IntanceId : 1234567899 
+Enter Api Token Instance : apiTokenInstance........
+Enter ChatId/GroupId (Empty to create Group):
+```
+
+Hit enter to create a new chatgroup, enter the chatId(s) one by one (xxxxx@c.us), press enter when done.  
+```sh
+Enter ChatId/GroupId (Empty to create Group):
+Enter ChatId(Empty When Done): 972501234567
+Enter ChatId(Empty When Done): 972501234568
+Enter ChatId(Empty When Done):
+```
+
+Validate, that it finishes correctly, you will receive a pdf file on what-app with all coupons.   
+```
+User yourmail@domain.com Logged In
+budget available= True
+Dry Run success, purchase will be skipped.
+scanning Month:2023-11-01
+scanning Month:2023-10-01
+Created report until 2023-10-01
 ```
 
 Add the script to the system crontab, by typing ```crontab -e ``` and adding the following line to it.   
@@ -64,7 +108,8 @@ The code is bases from these repositories by [Dvir Perets](https://github.com/Dv
 - and make it generic to various kind for example: Google Drive share.
 - [x] Bug Fix : Pdf is cannot be generated on windows due to weasyprint dependency.
 - [ ] describe software design with some plantuml class diagrams.
-- [ ] Coupon images crop, for a nicer report formatting.
-- [ ] Green API - send data to GroupChat, and delete previous report (if possible). 
+- [x] Coupon images crop, for a nicer report formatting.
+- [x] Green API - send data to GroupChat 
+- [ ] Before purchasing, read from whatapps group if there is a "DayOff" message, if so - purchase will be skipped.    
 
 
