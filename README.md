@@ -5,6 +5,7 @@ The project is a Python script that automates the purchase of Shufersal Coupons 
 To ensure consistent operation, the script can be scheduled to execute daily, using CRON or cloud Bot, such as Azure Function. 
 
 ```plantuml
+@startuml
 start
 if (Workingday) then (yes)
 if (10bis Credit > 0) then (yes)
@@ -20,6 +21,7 @@ endif
 : Save report as PDF and HTML ;
 : Publish PDF to WhatsApp group;
 stop
+@enduml
 ```
 
 ## Installation and usage
