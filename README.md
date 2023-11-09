@@ -1,8 +1,9 @@
 # 10bot
 
 A bot to buy 10Bis coupons.
-This projects aims to run every day, and to buy [10bis](www.10bis.co.il) coupon, if there is a credit.
-Eventually, it creates  HTML/PDF report with all Coupons barcodes, and send it to whatApp group.
+This projects is a python script, that to execute purchase of Shufersal Coupon in [10bis](www.10bis.co.il) account, if there is a credit.
+The script also generates a report with list of coupons and their Barcodes and saves it to PDF and HTML files. Once created, the PDF file is published to a WhatApp group.
+The script aims to be executed every day. 
 
 ## Installation and usage
 ### register to WhatApp API Provider
