@@ -64,12 +64,12 @@ Enter ChatId/GroupId (Empty to create Group):
 Hit enter to create a new chatgroup, enter the chatId(s) one by one (xxxxx@c.us), press enter when done.  
 ```sh
 Enter ChatId/GroupId (Empty to create Group):
-Enter ChatId(Empty When Done): 972501234567
-Enter ChatId(Empty When Done): 972501234568
+Enter ChatId(Empty When Done): 972501234567@c.us
+Enter ChatId(Empty When Done): 972501234568@c.us
 Enter ChatId(Empty When Done):
 ```
 
-Validate, that it finishes correctly, you will receive a pdf file on what-app with all coupons.   
+Wait for the script execution
 ```
 User yourmail@domain.com Logged In
 budget available= True
@@ -78,6 +78,7 @@ scanning Month:2023-11-01
 scanning Month:2023-10-01
 Created report until 2023-10-01
 ```
+Validate, that it finishes correctly, you should able to see in your mobile whatapp application that you were added to a Group, and a PDF with all the file will be uploaded there. 
 
 Add the script to the system crontab, by typing ```crontab -e ``` and adding the following line to it.   
 ```
@@ -109,6 +110,6 @@ The code is bases from these repositories by [Dvir Perets](https://github.com/Dv
 - [ ] describe software design with some plantuml class diagrams.
 - [x] Coupon images crop, for a nicer report formatting.
 - [x] Green API - send data to GroupChat 
-- [ ] Before purchasing, read from whatapps group if there is a "DayOff" message, if so - purchase will be skipped.    
+- [ ] Before purchasing, read from whatapps group if there is a "DayOff" message, if so, purchase will be skipped.
 
 
