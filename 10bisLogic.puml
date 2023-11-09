@@ -2,7 +2,7 @@
 start
 if (Workingday) then (yes)
 if (10bis Credit > 0) then (yes)
-  :Purchase Shufersal\n Coupon;
+  :Purchase Shufersal\nCoupon;
 else (no)
 endif
 else (no)
