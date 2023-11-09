@@ -1,19 +1,17 @@
 # 10bot
 
-A bot to buy 10Bis coupons
-This projects aims to run every day, and to buy [10bis](www.10bis.co.il) coupon  
-if there is a credit. It's also create an HTML report with all Coupons barcodes, and send it to whatApp group.
+A bot to buy 10Bis coupons.
+This projects aims to run every day, and to buy [10bis](www.10bis.co.il) coupon, if there is a credit.
+Eventually, it creates  HTML/PDF report with all Coupons barcodes, and send it to whatApp group.
 
 ## Installation and usage
-
-## prerequisite:
-
-### WhatApp messages:
+### register to WhatApp API Provider
 Register for a developer account in [GREEN API](https://green-api.com/).
 Go through the ["Before you Start"](https://green-api.com/en/docs/before-start/) instructions.
 Create instance, and authorized it.  
 write down  ```idInstance```,  ```apiTokenInstance``` values, to be later use when installing.
 
+## repo download
 download the repository and install requirements.
 
 ```sh
@@ -21,7 +19,7 @@ git clone https://github.com/kfiry77/10bot
 cd 10bot
 pip3 install -r requirements.txt
 ```
-
+## addtional machine installtions 
 Install prerequisites for weasyprint (for PDF report generation), as describe  [here](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html)
 ### macOS
 ```sh
