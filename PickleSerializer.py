@@ -5,7 +5,7 @@ import os
 class PickleSerializer:
 
     def __init__(self, name):
-        self.path = f"{os.getcwd()}/{name}.pickle"
+        self.path = f"{os.getcwd()}/state/{name}.pickle"
 
     def exists(self):
         return os.path.exists(self.path)
