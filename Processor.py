@@ -15,7 +15,3 @@ class Processor(ABC):
         if self.prev_processor is not None:
             new_data = self.prev_processor.process(data)
         return self.process_impl(new_data)
-
-
-
-

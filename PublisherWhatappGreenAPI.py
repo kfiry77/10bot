@@ -22,8 +22,8 @@ class PublisherWhatsappGreenApi(Processor):
 
     def create_group(self, chat_ids):
         url = f'https://{self.host}/waInstance{self.idInstance}/createGroup/{self.apiTokenInstance}'
-        payload = { 'groupName': "10Bot", 'chatIds': chat_ids}
-        headers = { 'Content-Type': 'application/json' }
+        payload = {'groupName': "10Bot", 'chatIds': chat_ids}
+        headers = {'Content-Type': 'application/json'}
         response = requests.post(url, headers=headers, data=json.dumps(payload, sort_keys=False))
         if response.status_code != 200:
             raise RuntimeError(f'Green API Error:{response.status_code} message:{response.text}')

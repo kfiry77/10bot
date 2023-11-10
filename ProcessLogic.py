@@ -4,10 +4,10 @@ from Processor import *
 
 
 class ProcessLogic(Processor):
-    def __init__(self, args, publishers=[]):
+    def __init__(self, args, publishers=None):
         super().__init__(None)
         self.ten_bis = Tenbis(args)
-        self.publishers = publishers
+        self.publishers = publishers if publishers is not None else []
 
     @staticmethod
     def compare_coupons_files(c1, c2):
