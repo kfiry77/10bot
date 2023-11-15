@@ -7,7 +7,7 @@ from Processor import *
 
 class PublisherWhatsappGreenApi(Processor):
     group_pattern = re.compile(r'^\d{18}@g\.us$')
-    chatid_pattern = re.compile(r'^\d{13}@c\.us$')
+    chatid_pattern = re.compile(r'^\d{12}@c\.us$')
 
     def __init__(self, args, processor=None):
         super().__init__(processor)
@@ -58,8 +58,8 @@ class PublisherWhatsappGreenApi(Processor):
                     else:
                         print(f'{msisdn} is an Invalid chat_id')
                 self.chatId = self.create_group(chat_ids)
-            elif not self.group_pattern.match(self.chatId) and not self.chatid_pattern.match(self.chatId):
-                raise RuntimeError(f'{self.chatId} is invalid, use .us or .gs')
+            elif not self.group_pattern.match(self.chatId) and not self.chatid_pattern.match(self):
+                raise RuntimeError(f'{self.chatId} is invalid, use dddd@c.us or dddd@g.us')
 
             auth_pickle.create({
                 'idInstance': self.idInstance,
