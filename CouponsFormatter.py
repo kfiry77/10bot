@@ -58,8 +58,8 @@ HTML_PAGE_TEMPLATE = """
 
 
 class CouponFormatter(Processor):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, next_processor):
+        super().__init__(next_processor)
 
     @staticmethod
     def download_crop_encode(url):
@@ -88,16 +88,20 @@ class CouponFormatter(Processor):
             print(f"Error downloading image: {e}")
             return ''
 
-    def process_impl(self, data):
-        orders = data['orders']
-        restaurant_name = data['restaurantName']
-        output_table = ""
-        for coupon in orders:
-            image_data = self.download_crop_encode(coupon['barcode_url'])
+    def process_impl(self, vendor_coupons):
+        ret_val = []
+        for data in vendor_coupons:
+            orders = data['orders']
+            restaurant_name = data['restaurantName']
+            output_table = ""
+            for coupon in orders:
+                image_data = self.download_crop_encode(coupon['barcode_url'])
 
-            output_table += HTML_ROW_TEMPLATE.format(order_date=coupon['Date'],
-                                                     barcode_number=coupon['barcode'].replace("-", "-<br>"),
-                                                     image_data=image_data,
-                                                     amount=coupon['amount'])
-        return {'vendorName': data['vendorName'],
-                'buffer': HTML_PAGE_TEMPLATE.format(output_table=output_table, restaurantName=restaurant_name)}
+                output_table += HTML_ROW_TEMPLATE.format(order_date=coupon['Date'],
+                                                         barcode_number=coupon['barcode'].replace("-", "-<br>"),
+                                                         image_data=image_data,
+                                                         amount=coupon['amount'])
+            ret_val.append({
+                'vendorName': data['vendorName'],
+                'buffer': HTML_PAGE_TEMPLATE.format(output_table=output_table, restaurantName=restaurant_name)})
+        return ret_val

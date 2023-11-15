@@ -4,10 +4,9 @@ from Processor import *
 
 
 class ProcessLogic(Processor):
-    def __init__(self, args, publishers=None):
-        super().__init__(None)
+    def __init__(self, args, next_processors=None):
+        super().__init__(next_processors)
         self.ten_bis = Tenbis(args)
-        self.publishers = publishers if publishers is not None else []
 
     @staticmethod
     def compare_coupons_files(c1, c2):
@@ -45,7 +44,5 @@ class ProcessLogic(Processor):
         coupons_pickle.create(coupons)
         if not send_report:
             print('No report changes, publish will be skipped')
-            return
-        for vendor_coupon in coupons.values():
-            for p in self.publishers:
-                p.process(vendor_coupon)
+            return {}
+        return coupons.values()

@@ -9,7 +9,7 @@ class PublisherWhatsappGreenApi(Processor):
     group_pattern = re.compile(r'^\d{18}@g\.us$')
     chatid_pattern = re.compile(r'^\d{13}@c\.us$')
 
-    def __init__(self, args, processor):
+    def __init__(self, args, processor=None):
         super().__init__(processor)
         self.chatId = None
         self.apiTokenInstance = None

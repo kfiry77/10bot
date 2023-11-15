@@ -13,12 +13,13 @@ def main():
                         action='store_true')
     args = parser.parse_args()
 
-    formatter = CouponFormatter()
-    publishers = [
-                   WriterHtml(formatter),
-                   PublisherWhatsappGreenApi(args, WriterPdf(formatter))
-                 ]
-    process_logic = ProcessLogic(args, publishers)
+    process_logic = ProcessLogic(args,
+                                 CouponFormatter(
+                                     [
+                                         WriterHtml(),
+                                         WriterPdf(
+                                             PublisherWhatsappGreenApi(args))
+                                     ]))
     process_logic.process()
 
 
