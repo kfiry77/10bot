@@ -5,7 +5,7 @@ import re
 from Processor import *
 
 
-class PublisherWhatsappGreenApi(Processor):
+class PublisherWhatsappGreenApi(CollectionProcessor):
     group_pattern = re.compile(r'^\d{18}@g\.us$')
     chatid_pattern = re.compile(r'^\d{12}@c\.us$')
 
