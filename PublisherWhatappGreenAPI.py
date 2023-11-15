@@ -68,7 +68,12 @@ class PublisherWhatsappGreenApi(Processor):
             })
 
         url = f'https://{self.host}/waInstance{self.idInstance}/getStateInstance/{self.apiTokenInstance}'
-        response = requests.get(url)
+
+        try:
+            response = requests.get(url)
+        except requests.exceptions.RequestException as e:
+            print('Error Authenticating to Green api, publisher will be skipped')
+            return False
         return response.status_code == 200 and json.loads(response.text)['stateInstance'] == 'authorized'
 
     def process_impl(self, filename):
