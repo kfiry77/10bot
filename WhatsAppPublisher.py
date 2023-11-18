@@ -1,10 +1,10 @@
 from Processor import CollectionProcessor
-import PublisherWhatappGreenAPI
+import WhatsappGreenApi
 
 
 class WhatsAppPublisher(CollectionProcessor):
 
-    def __init__(self, args, whatsapp_api: PublisherWhatappGreenAPI, processor=None):
+    def __init__(self, args, whatsapp_api: WhatsappGreenApi, processor=None):
         super().__init__(processor)
         self.args = args
         self.whatsAppApi = whatsapp_api

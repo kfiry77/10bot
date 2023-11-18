@@ -1,5 +1,6 @@
 from Processor import *
-from PublisherWhatappGreenAPI import *
+from WhatsappGreenApi import *
+from datetime import datetime
 
 
 class ParsedCommands:
@@ -16,16 +17,16 @@ class ChatCommandsReader(Processor):
         messages = self.whatsAppApi.get_chat_history()
         print(f'fetch total of {len(messages)}')
         # Set the time to 5:00 AM
-        now = datetime.datetime.now()
-        min_date_time = datetime.datetime(now.year, now.month, now.day, 5, 0, 0)
+        now = datetime.now()
+        min_date_time = datetime(now.year, now.month, now.day, 5, 0, 0)
         max_unix_time = int(min_date_time.timestamp())
         print(f'max_unix_time={max_unix_time}')
         filter_messages = sorted([m for m in messages if m['type'] == 'outgoing' and
-                           m['typeMessage'] in ['textMessage', 'extendedTextMessage'] and
-                           not m['sendByApi'] and
-                           m['timestamp'] >= max_unix_time and
-                           m['textMessage'].startswith("/")
-                           ], key=lambda m: m['timestamp'])
+                                  m['typeMessage'] in ['textMessage', 'extendedTextMessage'] and
+                                  not m['sendByApi'] and
+                                  m['timestamp'] >= max_unix_time and
+                                  m['textMessage'].startswith("/")
+                                  ], key=lambda m: m['timestamp'])
         print(f'relevant messages count={len(filter_messages)}')
         print(json.dumps(filter_messages, indent=4))
 

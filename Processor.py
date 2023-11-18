@@ -12,7 +12,6 @@ class Processor(ABC):
         else:
             self.next_processors = [next_processor]
 
-
     @abstractmethod
     def process_impl(self, data):
         pass

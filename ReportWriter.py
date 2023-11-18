@@ -8,7 +8,6 @@ class WriterHtml(CollectionProcessor):
         super().__init__(processor)
 
     def process_impl(self, data):
-        ret_val = []
         filename = f"output/{date.today().strftime('%y-%m-%d')}_{data['vendorName']}.html"
         with open(filename, 'w', encoding='utf-8') as file:
             file.write(data['buffer'])

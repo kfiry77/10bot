@@ -1,5 +1,4 @@
 import json
-import datetime
 from PickleSerializer import PickleSerializer
 import requests
 import re
@@ -103,4 +102,3 @@ class WhatsappGreenApi:
         response = requests.post(url, headers=headers, data=json.dumps(payload, sort_keys=False))
         print(response.status_code)
         print(response.text)
-
