@@ -29,11 +29,14 @@ class ProcessLogic(Processor):
 
     def process_impl(self, data):
         send_report = False
-        budget_available = self.ten_bis.is_budget_available()
-        print('Budget available=', budget_available)
-        if budget_available:
+        if data.disable_purchase:
+            print('Purchase is disabled today.')
+        elif self.ten_bis.is_budget_available():
+            print('Budget available, purchasing.')
             self.ten_bis.buy_coupon(40)
             send_report = True
+        else:
+            print('No Budget, Purchase will be skipped ')
         coupons = self.ten_bis.get_unused_coupons()
         coupons_pickle = PickleSerializer('coupons')
         if coupons_pickle.exists():

@@ -81,13 +81,21 @@ scanning Month:2023-11-01
 scanning Month:2023-10-01
 Created report until 2023-10-01
 ```
-Validate, that it finishes correctly, you should able to see in your mobile whatapp application that you were added to a Group, and a PDF with all the file will be uploaded there. 
+Validate, that it finishes correctly. Once finishes, a New group named "10Bot" will be added on WhatAppApplication 
+a  PDF with all the coupons will be shared in this group.
 
 Add the script to the system crontab, by typing ```crontab -e ``` and adding the following line to it.   
 ```
 crontab -e
 0 23 * * *  usr/bin/python3 /path/to/your/script/main.py [-v] [-d]  >> /path/to/your/log/10bot.log 2>&1 &
 ```
+
+## Whatsapp Group Commands:
+The application now wakes up every day at 23:00, To disable specific day purchase (due to vacation), send ```/disable``` commands 
+to the group. ```/enable``` command will enable it again.
+note that, only the command from last day is relevant, and of there is a conflict between command, the last one will 
+be considered only. 
+ 
 
 ## references:
 
@@ -113,6 +121,6 @@ The code is bases from these repositories by [Dvir Perets](https://github.com/Dv
 - [ ] describe software design with some plantuml class diagrams.
 - [x] Coupon images crop, for a nicer report formatting.
 - [x] Green API - send data to GroupChat 
-- [ ] Before purchasing, read from whatapps group if there is a "DayOff" message, if so, purchase will be skipped.
+- [x] Before purchasing, read from whatapps group message, if a message /disable exists, then purchase will be skipped 
 
 

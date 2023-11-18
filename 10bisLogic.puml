@@ -1,8 +1,12 @@
 @startuml
 start
-if (Workingday & credit > 0) then (yes)
-  :Purchase Shufersal\n Coupon;
-else (no)
+: Read commands from WhatsApp;
+if (/disable command exists) then (yes)
+else
+    if (Workingday & credit > 0) then (yes)
+      :Purchase Shufersal\n Coupon;
+    else (no)
+    endif
 endif
 
 : Generate report with coupons\n barcodes;

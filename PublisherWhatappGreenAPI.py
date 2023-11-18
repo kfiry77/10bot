@@ -1,16 +1,15 @@
 import json
+import datetime
 from PickleSerializer import PickleSerializer
 import requests
 import re
-from Processor import *
 
 
-class PublisherWhatsappGreenApi(CollectionProcessor):
+class WhatsappGreenApi:
     group_pattern = re.compile(r'^\d{18}@g\.us$')
     chatid_pattern = re.compile(r'^\d{12}@c\.us$')
 
-    def __init__(self, args, processor=None):
-        super().__init__(processor)
+    def __init__(self, args):
         self.chatId = None
         self.apiTokenInstance = None
         self.idInstance = None
@@ -72,16 +71,22 @@ class PublisherWhatsappGreenApi(CollectionProcessor):
         try:
             response = requests.get(url)
         except requests.exceptions.RequestException as e:
-            print('Error Authenticating to Green api, publisher will be skipped')
+            print(f'Error {e}Authenticating to Green api, publisher will be skipped')
             return False
         return response.status_code == 200 and json.loads(response.text)['stateInstance'] == 'authorized'
 
-    def process_impl(self, filename):
-        if not self.authenticated:
-            return False
-        if self.args.disablegreenapi:
-            print("Green API is disabled, publish will be skipped.")
-            return
+    def get_chat_history(self, count=100):
+        url = f'https://{self.host}/waInstance{self.idInstance}/getChatHistory/{self.apiTokenInstance}'
+        payload = {'chatId': self.chatId, 'count': count}
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(url, headers=headers, data=json.dumps(payload, sort_keys=False))
+        if response.status_code != 200:
+            print(response.status_code)
+            print(response.text)
+            return []
+        return json.loads(response.text.encode('utf8'))
+
+    def send_file_by_upload(self, filename):
         url = f'https://{self.host}/waInstance{self.idInstance}/sendFileByUpload/{self.apiTokenInstance}'
         payload = {'chatId': self.chatId, 'caption': '10Bot Coupon'}
         files = {'file': open(filename, 'rb')}
@@ -89,3 +94,13 @@ class PublisherWhatsappGreenApi(CollectionProcessor):
         if self.args.verbose:
             print(response.status_code)
             print(response.text)
+        return response.status_code
+
+    def send_message(self, message):
+        url = f'https://{self.host}/waInstance{self.idInstance}/sendMessage/{self.apiTokenInstance}'
+        payload = {'chatId': self.chatId, 'message': message}
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(url, headers=headers, data=json.dumps(payload, sort_keys=False))
+        print(response.status_code)
+        print(response.text)
+

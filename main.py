@@ -1,7 +1,8 @@
 from ProcessLogic import *
-from PublisherWhatappGreenAPI import *
 from ReportWriter import *
 from CouponsFormatter import CouponFormatter
+from WhatsAppPublisher import *
+from ChatCommandsReader import *
 import argparse
 
 
@@ -13,14 +14,16 @@ def main():
                         action='store_true')
     args = parser.parse_args()
 
-    process_logic = ProcessLogic(args,
-                                 CouponFormatter(
-                                     [
-                                         WriterHtml(),
-                                         WriterPdf(
-                                             PublisherWhatsappGreenApi(args))
-                                     ]))
-    process_logic.process()
+    whatsapp_api = WhatsappGreenApi(args)
+    process_chain = ChatCommandsReader(whatsapp_api,
+                                       ProcessLogic(args,
+                                                    CouponFormatter(
+                                                        [
+                                                            WriterHtml(),
+                                                            WriterPdf(
+                                                                WhatsAppPublisher(args, whatsapp_api))
+                                                        ])))
+    process_chain.process()
 
 
 if __name__ == '__main__':
