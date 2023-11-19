@@ -32,10 +32,9 @@ class ChatCommandsReader(Processor):
 
         parsed_command = ParsedCommands()
         for m in filter_messages:
-            match m['textMessage']:
-                case '/disable':
-                    parsed_command.disable_purchase = True
-                case '/enable':
-                    parsed_command.disable_purchase = False
-
+            t = m['textMessage']
+            if t == '/disable':
+                parsed_command.disable_purchase = True
+            elif t == '/enable':
+                parsed_command.disable_purchase = False
         return parsed_command
