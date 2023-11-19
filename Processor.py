@@ -31,7 +31,6 @@ class Processor(ABC):
         Abstract method to be implemented by subclasses.
         It should process the given data and return the processed data.
         """
-        pass
 
     def process(self, data=None):
         """
@@ -51,12 +50,6 @@ class CollectionProcessor(Processor, ABC):
     The CollectionProcessor class extends the Processor class.
     It provides a template for processing collections of data.
     """
-
-    def __init__(self, next_processor=None):
-        """
-        Initialize the CollectionProcessor class with the next processor.
-        """
-        super().__init__(next_processor)
 
     def process(self, data=None):
         """

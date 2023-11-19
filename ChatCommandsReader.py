@@ -5,10 +5,12 @@ It uses the WhatsappGreenApi to fetch the chat history and processes the message
 
 import json
 from datetime import datetime
+from dataclasses import dataclass
 from Processor import Processor
 from WhatsappGreenApi import WhatsappGreenApi
 
 
+@dataclass
 class ParsedCommands:
     """
     A class used to represent the parsed commands.
@@ -19,8 +21,7 @@ class ParsedCommands:
         a flag indicating whether the purchase is disabled or not
     """
 
-    def __init__(self):
-        self.disable_purchase = False
+    disable_purchase: bool = False
 
 
 class ChatCommandsReader(Processor):

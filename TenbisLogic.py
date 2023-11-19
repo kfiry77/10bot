@@ -65,7 +65,7 @@ class Tenbis:
         self.email = None
         self.session_pickle = PickleSerializer("sessions")
         if not self.auth():
-            raise Exception('Error Authenticating')
+            raise RuntimeError('Error Authenticating')
 
     def post_next_api(self, endpoint, payload):
         """ Makes a POST request to the specified endpoint with the given payload.

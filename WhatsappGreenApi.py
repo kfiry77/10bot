@@ -102,8 +102,9 @@ class WhatsappGreenApi:
         """ Send file to the chatId"""
         url = f'https://{self.host}/waInstance{self.idInstance}/sendFileByUpload/{self.apiTokenInstance}'
         payload = {'chatId': self.chatId, 'caption': '10Bot Coupon'}
-        files = {'file': open(filename, 'rb')}
-        response = requests.post(url, timeout=self.request_timeout, data=payload, files=files)
+        with open(filename, 'rb') as upload_file:
+            files = {'file': upload_file}
+            response = requests.post(url, timeout=self.request_timeout, data=payload, files=files)
         if self.args.verbose:
             print(response.status_code)
             print(response.text)
