@@ -167,7 +167,7 @@ class Tenbis:
         today = datetime.today()
         date_format = '%Y-%m-%dT%H:%M:%S'
         url = 'https://data.gov.il/api/3/action/datastore_search?resource_id=67492cda-b36e-45f4-9ed1-0471af297e8b'
-        r = requests.get(url)
+        r = requests.get(url, timeout=60)
         holidays = json.loads(r.text)
         # maybe there is no need for iteration since the result is sorted.
         for h in holidays['result']['records']:

@@ -14,6 +14,7 @@ class WhatsappGreenApi:
     # Regular expressions for validating group and chat IDs
     group_pattern = re.compile(r'^\d{18}@g\.us$')
     chatid_pattern = re.compile(r'^\d{12}@c\.us$')
+    request_timeout = 60
 
     def __init__(self, args):
         self.chatId = None
@@ -30,7 +31,8 @@ class WhatsappGreenApi:
         url = f'https://{self.host}/waInstance{self.idInstance}/createGroup/{self.apiTokenInstance}'
         payload = {'groupName': "10Bot", 'chatIds': chat_ids}
         headers = {'Content-Type': 'application/json'}
-        response = requests.post(url, headers=headers, data=json.dumps(payload, sort_keys=False))
+        response = requests.post(url, timeout=self.request_timeout, headers=headers,
+                                 data=json.dumps(payload, sort_keys=False))
         if response.status_code != 200:
             raise RuntimeError(f'Green API Error:{response.status_code} message:{response.text}')
 
@@ -77,7 +79,7 @@ class WhatsappGreenApi:
         url = f'https://{self.host}/waInstance{self.idInstance}/getStateInstance/{self.apiTokenInstance}'
 
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=self.request_timeout)
         except requests.exceptions.RequestException as e:
             print(f'Error {e}Authenticating to Green api, publisher will be skipped')
             return False
@@ -88,7 +90,8 @@ class WhatsappGreenApi:
         url = f'https://{self.host}/waInstance{self.idInstance}/getChatHistory/{self.apiTokenInstance}'
         payload = {'chatId': self.chatId, 'count': count}
         headers = {'Content-Type': 'application/json'}
-        response = requests.post(url, headers=headers, data=json.dumps(payload, sort_keys=False))
+        response = requests.post(url, timeout=self.request_timeout, headers=headers,
+                                 data=json.dumps(payload, sort_keys=False))
         if response.status_code != 200:
             print(response.status_code)
             print(response.text)
@@ -100,7 +103,7 @@ class WhatsappGreenApi:
         url = f'https://{self.host}/waInstance{self.idInstance}/sendFileByUpload/{self.apiTokenInstance}'
         payload = {'chatId': self.chatId, 'caption': '10Bot Coupon'}
         files = {'file': open(filename, 'rb')}
-        response = requests.post(url, data=payload, files=files)
+        response = requests.post(url, timeout=self.request_timeout, data=payload, files=files)
         if self.args.verbose:
             print(response.status_code)
             print(response.text)
@@ -111,7 +114,8 @@ class WhatsappGreenApi:
         url = f'https://{self.host}/waInstance{self.idInstance}/sendMessage/{self.apiTokenInstance}'
         payload = {'chatId': self.chatId, 'message': message}
         headers = {'Content-Type': 'application/json'}
-        response = requests.post(url, headers=headers, data=json.dumps(payload, sort_keys=False))
+        response = requests.post(url, timeout=self.request_timeout,
+                                 headers=headers, data=json.dumps(payload, sort_keys=False))
         print(response.status_code)
         print(response.text)
         return response.status_code == 200

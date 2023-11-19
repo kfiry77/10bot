@@ -98,7 +98,7 @@ class CouponFormatter(CollectionProcessor):
             The base64 encoded image.
         """
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
             response.raise_for_status()
 
             # Read the image into memory
