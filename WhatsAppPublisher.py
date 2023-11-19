@@ -11,6 +11,7 @@ class WhatsAppPublisher(CollectionProcessor):
 
     def process_impl(self, filename):
         if not self.whatsAppApi.authenticated:
+            print('Green API is not authenticated, publish will be skipped')
             return False
 
         if self.args.disablegreenapi:
