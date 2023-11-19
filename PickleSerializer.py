@@ -1,6 +1,9 @@
+"""
+This module contains the PickleSerializer class which provides methods for
+serializing and deserializing Python objects using the pickle module.
+"""
 import pickle
 import os
-
 
 class PickleSerializer:
 

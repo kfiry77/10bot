@@ -1,7 +1,8 @@
+""" This module is responsible for formatting the coupons into a HTML page. """
 import base64
+import io
 import requests
 from PIL import Image
-import io
 
 from Processor import CollectionProcessor
 

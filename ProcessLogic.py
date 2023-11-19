@@ -1,15 +1,31 @@
+"""
+This module contains the ProcessLogic class which extends the Processor class.
+It provides methods for comparing coupon files, processing data, and managing purchases and reports.
+"""
+
 from PickleSerializer import PickleSerializer
 from TenbisLogic import Tenbis
 from Processor import *
 
 
 class ProcessLogic(Processor):
+    """
+    The ProcessLogic class extends the Processor class.
+    It manages the logic for processing data and managing purchases and reports.
+    """
+
     def __init__(self, args, next_processors=None):
+        """
+        Initialize the ProcessLogic class with the given arguments and next processors.
+        """
         super().__init__(next_processors)
         self.ten_bis = Tenbis(args)
 
     @staticmethod
     def compare_coupons_files(c1, c2):
+        """
+        Compare two coupon files. Return False if they are not identical, True otherwise.
+        """
         if len(c1) != len(c2) or c1.keys() != c2.keys():
             return False
 
@@ -28,6 +44,10 @@ class ProcessLogic(Processor):
         return True
 
     def process_impl(self, data):
+        """
+        Process the given data. Manage purchases and reports based on the data and the current budget.
+        Return the values of the coupons if a report should be sent, an empty dictionary otherwise.
+        """
         send_report = False
         if data.disable_purchase:
             print('Purchase is disabled today.')

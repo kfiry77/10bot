@@ -1,9 +1,11 @@
-from ProcessLogic import *
-from ReportWriter import *
-from CouponsFormatter import CouponFormatter
-from WhatsAppPublisher import *
-from ChatCommandsReader import *
+""" Main module to run the 10Bot application. """
 import argparse
+from ProcessLogic import ProcessLogic
+from ReportWriter import WriterPdf, WriterHtml
+from CouponsFormatter import CouponFormatter
+from WhatsAppPublisher import WhatsAppPublisher
+from ChatCommandsReader import ChatCommandsReader
+from WhatsappGreenApi import WhatsappGreenApi
 
 
 def main():

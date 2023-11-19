@@ -1,9 +1,9 @@
-import requests
-import urllib3
 import json
-from PickleSerializer import PickleSerializer
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
+import requests
+import urllib3
+from PickleSerializer import PickleSerializer
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 TENBIS_FQDN = "https://www.10bis.co.il"

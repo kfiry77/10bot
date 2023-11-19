@@ -1,6 +1,8 @@
-from Processor import *
-from WhatsappGreenApi import *
+""" This module is responsible for reading the chat commands and return a ParsedCommands object"""
+import json
 from datetime import datetime
+from Processor import Processor
+from WhatsappGreenApi import WhatsappGreenApi
 
 
 class ParsedCommands:
