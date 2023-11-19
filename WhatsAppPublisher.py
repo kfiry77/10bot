@@ -17,7 +17,7 @@ class WhatsAppPublisher(CollectionProcessor):
         self.args = args
         self.whatsAppApi = whatsapp_api
 
-    def process_impl(self, filename):
+    def process_impl(self, data):
         """
         Publish the given filename to WhatsApp.
         If the WhatsappGreenApi is not authenticated or if it is disabled, a message is printed and the method returns.
@@ -29,6 +29,6 @@ class WhatsAppPublisher(CollectionProcessor):
 
         if self.args.disablegreenapi:
             print("Green API is disabled, publish will be skipped.")
-            return
-
+            return False
+        filename = data
         return self.whatsAppApi.send_file_by_upload(filename)

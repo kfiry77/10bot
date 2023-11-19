@@ -5,7 +5,7 @@ It provides methods for comparing coupon files, processing data, and managing pu
 
 from PickleSerializer import PickleSerializer
 from TenbisLogic import Tenbis
-from Processor import *
+from Processor import Processor
 
 
 class ProcessLogic(Processor):

@@ -58,15 +58,15 @@ class CollectionProcessor(Processor, ABC):
         """
         super().__init__(next_processor)
 
-    def process(self, data_array=None):
+    def process(self, data=None):
         """
         Process each item in the given data array using the process_impl method.
         Then, the processed data is passed to the next processors (if any) and their results are collected.
         If there is only one result, it is returned directly. Otherwise, a list of results is returned.
         """
         processed_data = []
-        for data in data_array:
-            processed_data.append(self.process_impl(data))
+        for d in data:
+            processed_data.append(self.process_impl(d))
         result_data = []
         for p in self.next_processors:
             result_data.append(p.process(processed_data))

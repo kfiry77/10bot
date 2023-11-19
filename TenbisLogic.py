@@ -339,7 +339,7 @@ class Tenbis:
             month_bias -= 1
             scanned_month = scanned_month + relativedelta(months=-1)
 
-        for k, v in restaurants.items():
+        for _, v in restaurants.items():
             v['orders'].sort(key=lambda x: x['unixTime'])
 
         state_pickle.create(actual_min_month_with_coupons)

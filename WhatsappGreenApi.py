@@ -104,7 +104,7 @@ class WhatsappGreenApi:
         if self.args.verbose:
             print(response.status_code)
             print(response.text)
-        return response.status_code
+        return response.status_code == 200
 
     def send_message(self, message):
         """ Send message to the chatId"""
@@ -114,3 +114,4 @@ class WhatsappGreenApi:
         response = requests.post(url, headers=headers, data=json.dumps(payload, sort_keys=False))
         print(response.status_code)
         print(response.text)
+        return response.status_code == 200

@@ -1,6 +1,6 @@
 """ ReportWriter module with classes for writing HTML and PDF files. """
 from datetime import date
-from Processor import *
+from Processor import CollectionProcessor
 
 
 class WriterHtml(CollectionProcessor):
