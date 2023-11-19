@@ -1,3 +1,5 @@
+""" This module contains the WhatsappGreenApi class for interacting with the Green API. """
+
 import re
 import json
 import requests
@@ -5,6 +7,11 @@ from PickleSerializer import PickleSerializer
 
 
 class WhatsappGreenApi:
+    """
+    The WhatsappGreenApi class provides methods for interacting with the Green API.
+    It includes methods for authentication, creating groups, getting chat history, and sending messages.
+    """
+    # Regular expressions for validating group and chat IDs
     group_pattern = re.compile(r'^\d{18}@g\.us$')
     chatid_pattern = re.compile(r'^\d{12}@c\.us$')
 
@@ -19,6 +26,7 @@ class WhatsappGreenApi:
             print('Error Authenticating to Green api, publisher will be skipped')
 
     def create_group(self, chat_ids):
+        """ Create a group with the given chat_ids and return the group ID"""
         url = f'https://{self.host}/waInstance{self.idInstance}/createGroup/{self.apiTokenInstance}'
         payload = {'groupName': "10Bot", 'chatIds': chat_ids}
         headers = {'Content-Type': 'application/json'}
@@ -33,6 +41,7 @@ class WhatsappGreenApi:
         return resp_json['chatId']
 
     def auth(self):
+        """ Authenticate to the Green API"""
         auth_pickle = PickleSerializer('PublisherWhatsappGreenApi')
         if auth_pickle.exists():
             auth_data = auth_pickle.load()
@@ -75,6 +84,7 @@ class WhatsappGreenApi:
         return response.status_code == 200 and json.loads(response.text)['stateInstance'] == 'authorized'
 
     def get_chat_history(self, count=100):
+        """ Get chat history from the chatId"""
         url = f'https://{self.host}/waInstance{self.idInstance}/getChatHistory/{self.apiTokenInstance}'
         payload = {'chatId': self.chatId, 'count': count}
         headers = {'Content-Type': 'application/json'}
@@ -86,6 +96,7 @@ class WhatsappGreenApi:
         return json.loads(response.text.encode('utf8'))
 
     def send_file_by_upload(self, filename):
+        """ Send file to the chatId"""
         url = f'https://{self.host}/waInstance{self.idInstance}/sendFileByUpload/{self.apiTokenInstance}'
         payload = {'chatId': self.chatId, 'caption': '10Bot Coupon'}
         files = {'file': open(filename, 'rb')}
@@ -96,6 +107,7 @@ class WhatsappGreenApi:
         return response.status_code
 
     def send_message(self, message):
+        """ Send message to the chatId"""
         url = f'https://{self.host}/waInstance{self.idInstance}/sendMessage/{self.apiTokenInstance}'
         payload = {'chatId': self.chatId, 'message': message}
         headers = {'Content-Type': 'application/json'}

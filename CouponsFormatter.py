@@ -1,4 +1,12 @@
-""" This module is responsible for formatting the coupons into a HTML page. """
+"""
+This module is responsible for formatting the coupons into an HTML page.
+
+It fetches the image from the provided URL, crops it, and then encodes it into base64 format.
+The formatted coupons are then inserted into an HTML page template.
+
+The module uses the requests library to fetch the image, PIL to process the image, and base64 to encode the image.
+"""
+
 import base64
 import io
 import requests
@@ -6,19 +14,20 @@ from PIL import Image
 
 from Processor import CollectionProcessor
 
+# HTML templates for the row and the page
 HTML_ROW_TEMPLATE = """
     <tr>
       <td>{order_date}</td>
       <td>{amount}</td>
       <td>{barcode_number}</td>
-      <td><img src="data:image/png;base64,{image_data}"></td>      
+      <td><img src="data:image/png;base64,{image_data}"></td>
     </tr>
     """
 HTML_PAGE_TEMPLATE = """
         <!DOCTYPE html>
-        <html> 
+        <html>
         <head> <style>
-            @page {{ margin:0 }}	
+            @page {{ margin:0 }}
             #barcodes {{
             font-family: Arial, Helvetica, sans-serif;
             border-collapse: collapse;
@@ -45,10 +54,10 @@ HTML_PAGE_TEMPLATE = """
         <body>
             <h1> {restaurantName} </h1>
             <table id="barcodes">
-            <tr> 
+            <tr>
                 <th width="10%">Order date</th>
                 <th width="10%">$$$</th>
-                <th width="10%">Barcode</th> 
+                <th width="10%">Barcode</th>
                 <th width="70%">Barcode image</th>
             </tr>
             {output_table}
@@ -59,11 +68,35 @@ HTML_PAGE_TEMPLATE = """
 
 
 class CouponFormatter(CollectionProcessor):
+    """
+    A class used to format the coupons into an HTML page.
+
+    Methods
+    -------
+    download_crop_encode(url)
+        Downloads the image from the provided URL, crops it, and encodes it into base64 format.
+    process_impl(data)
+        Formats the coupons into an HTML page.
+    """
+
     def __init__(self, next_processor):
         super().__init__(next_processor)
 
     @staticmethod
     def download_crop_encode(url):
+        """
+        Downloads the image from the provided URL, crops it, and encodes it into base64 format.
+
+        Parameters
+        ----------
+        url : str
+            The URL of the image.
+
+        Returns
+        -------
+        str
+            The base64 encoded image.
+        """
         try:
             response = requests.get(url)
             response.raise_for_status()
@@ -90,6 +123,19 @@ class CouponFormatter(CollectionProcessor):
             return ''
 
     def process_impl(self, data):
+        """
+        Formats the coupons into an HTML page.
+
+        Parameters
+        ----------
+        data : dict
+            The data containing the orders and the restaurant name.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the vendor name and the formatted HTML page.
+        """
         orders = data['orders']
         restaurant_name = data['restaurantName']
         output_table = ""

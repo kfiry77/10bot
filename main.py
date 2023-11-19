@@ -9,6 +9,10 @@ from WhatsappGreenApi import WhatsappGreenApi
 
 
 def main():
+    """
+    The main function of the 10Bot application. It sets up the command line arguments, initializes the necessary
+    classes, and starts the processing chain.
+    """
     parser = argparse.ArgumentParser(prog='10Bot')
     parser.add_argument('-v', '--verbose', help='enable detailed logging', action='store_true')
     parser.add_argument('-d', '--dryrun', help='Dry run to test all HTTP calls to NextAPI', action='store_true')

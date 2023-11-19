@@ -1,4 +1,4 @@
-""" """
+""" WhatsAppPublisher module """
 from Processor import CollectionProcessor
 import WhatsappGreenApi
 

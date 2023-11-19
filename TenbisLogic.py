@@ -1,3 +1,4 @@
+""" 10 Bis logic processor module """
 import json
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
@@ -10,6 +11,7 @@ TENBIS_FQDN = "https://www.10bis.co.il"
 
 
 def print_hebrew(heb_txt):
+    """" Print Hebrew text in reverse order"""
     print(heb_txt[::-1])
 
 
@@ -23,7 +25,38 @@ COUPONS_IDS = {
 
 
 class Tenbis:
+    """
+    A class used to interact with the 10bis website.
+    ...
 
+    Attributes
+    ----------
+    args : dict
+        The arguments passed to the class.
+    session : requests.Session
+        The session used for making requests.
+    cart_guid : str
+        The shopping cart GUID.
+    user_id : str
+        The user ID.
+    email : str
+        The user's email.
+    session_pickle : PickleSerializer
+        The PickleSerializer used for storing the session.
+
+    Methods
+    -------
+    post_next_api(endpoint, payload):
+        Makes a POST request to the specified endpoint with the given payload.
+    auth():
+        Authenticates the user.
+    is_budget_available():
+        Checks if budget is available.
+    buy_coupon(coupon):
+        Buys a coupon.
+    get_unused_coupons():
+        Gets unused coupons.
+    """
     def __init__(self, args):
         self.args = args
         self.session = None
@@ -35,6 +68,12 @@ class Tenbis:
             raise Exception('Error Authenticating')
 
     def post_next_api(self, endpoint, payload):
+        """ Makes a POST request to the specified endpoint with the given payload.
+
+        :param endpoint:
+        :param payload:
+        :return:
+        """
         endpoint = TENBIS_FQDN + "/NextApi/" + endpoint
         headers = {"content-type": "application/json"}
         response = self.session.post(endpoint, data=json.dumps(payload), headers=headers)
@@ -55,6 +94,14 @@ class Tenbis:
         return resp_json
 
     def auth(self):
+        """
+        Authenticates the user.
+
+        Returns
+        -------
+        bool
+            True if the user is authenticated, False otherwise.
+        """
         if self.session_pickle.exists():
             self.session = self.session_pickle.load()
             payload = {"culture": "he-IL", "uiCulture": "he"}
@@ -101,6 +148,14 @@ class Tenbis:
         return True
 
     def is_budget_available(self):
+        """
+        Checks if budget is available.
+
+        Returns
+        -------
+        bool
+            True if budget is available, False otherwise.
+        """
         # check if it is a working day, if not return
         today = datetime.today()
         if today.weekday() == 5 or today.weekday() == 4:
@@ -145,6 +200,14 @@ class Tenbis:
         return True
 
     def buy_coupon(self, coupon):
+        """
+        Buys a coupon.
+
+        Parameters
+        ----------
+        coupon : str
+            The coupon to buy.
+        """
         session = self.session
         payload = {"culture": "he-IL", "uiCulture": "he"}
         resp_json = self.post_next_api('GetUser', payload)
@@ -217,6 +280,14 @@ class Tenbis:
         self.session_pickle.create(session)
 
     def get_unused_coupons(self):
+        """
+        Gets unused coupons.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the unused coupons.
+        """
         month_empty_count = 3
         month_bias = 0
         min_month_with_coupons = date(2010, 1, 1)

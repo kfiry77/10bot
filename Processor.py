@@ -1,3 +1,5 @@
+""" This module contains the Processor and CollectionProcessor base classes to be used later
+ to used as a baseline of the chain of responsibility. """
 from abc import ABC, abstractmethod
 
 
