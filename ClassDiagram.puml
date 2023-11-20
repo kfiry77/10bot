@@ -1,0 +1,56 @@
+@startuml
+
+class Processor {
+next_processors:Processor
+Processor(next_processors)
+{abstract} process_impl(data)
+process(data)
+}
+
+note right of Processor::process
+{
+   process_impl(data)
+   foreach p in next_processors
+       p.process(data)
+}
+end note
+
+class CollectionProcessor {
+process(data)
+}
+
+CollectionProcessor -|> Processor
+
+WriterHtml -|> CollectionProcessor
+WriterPdf --|> CollectionProcessor
+WhatsAppPublisher --|> CollectionProcessor
+ProcessLogic --|> Processor
+Tenbis -- ProcessLogic
+WhatsappGreenApi -- WhatsAppPublisher
+ChatCommandsReader -|> Processor
+ChatCommandsReader -l- WhatsappGreenApi
+
+class Tenbis {
+usermail : str
+authtoken : str
+session : str
+auth() : bool
+post_next_api(url,payload) : json
+is_budget_available() : bool
+buy_coupon(amount)
+get_unused_coupons()
+}
+
+class WhatsappGreenApi {
+instance : int
+token : str
+chat_id : str
+auth()
+create_group()
+get_chat_history()
+send_file_by_upload()
+send_message()
+}
+
+
+@enduml
