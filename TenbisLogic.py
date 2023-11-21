@@ -57,6 +57,7 @@ class Tenbis:
     get_unused_coupons():
         Gets unused coupons.
     """
+
     def __init__(self, args):
         self.args = args
         self.session = None
@@ -306,36 +307,9 @@ class Tenbis:
                 month_empty_count -= 1
             barcode_orders = [x for x in all_orders if x['isBarCodeOrder']]
             for b in barcode_orders:
-                order_id = b['orderId']
-                res_id = b['restaurantId']
-                endpoint = (TENBIS_FQDN +
-                            f"/NextApi/GetOrderBarcode?culture=he-IL&uiCulture=he&orderId={order_id}&resId={res_id}")
-                headers = {"content-type": "application/json"}
-                response = self.session.get(endpoint, headers=headers)
-                if self.args.verbose:
-                    print(endpoint + "\n" + str(response.status_code) + "\n" + response.text)
-                r = json.loads(response.text)
-                error_msg = r['Error']
-                success_code = r['Success']
-                if not success_code:
-                    print_hebrew((error_msg['ErrorDesc']))
-                    print_hebrew("Error, trying moving to the next barcode")
-                    return restaurants
-                voucher = r['Data']['Vouchers'][0]
-                if not voucher['Used']:
+                restaurants, found_unused_coupons = self.__process_barcode_orders(b, restaurants)
+                if found_unused_coupons:
                     actual_min_month_with_coupons = scanned_month
-                    barcode_num = voucher['BarCodeNumber']
-                    if res_id not in restaurants:
-                        restaurants[res_id] = {'restaurantName': b['restaurantName'],
-                                               'vendorName': voucher['Vendor'],
-                                               'orders': []}
-                    restaurants[res_id]['orders'].append({'Date': b['orderDateStr'],
-                                                          'unixTime': b['orderDate'],
-                                                          'barcode': '-'.join(
-                                                              barcode_num[i:i + 4] for i in
-                                                              range(0, len(barcode_num), 4)),
-                                                          'barcode_url': voucher['BarCodeImgUrl'],
-                                                          'amount': voucher['Amount']})
             month_bias -= 1
             scanned_month = scanned_month + relativedelta(months=-1)
 
@@ -345,3 +319,52 @@ class Tenbis:
         state_pickle.create(actual_min_month_with_coupons)
         print(f'Created report until {actual_min_month_with_coupons} ')
         return restaurants
+
+    def __process_barcode_orders(self, b, restaurants):
+        """
+        Process each barcode order.
+
+        Parameters
+        ----------
+        b : dict
+            The barcode order to process.
+        restaurants : dict
+            The current restaurants' dictionary.
+
+        Returns
+        -------
+        dict
+            The updated restaurants' dictionary.
+        """
+        order_id = b['orderId']
+        res_id = b['restaurantId']
+        endpoint = (TENBIS_FQDN +
+                    f"/NextApi/GetOrderBarcode?culture=he-IL&uiCulture=he&orderId={order_id}&resId={res_id}")
+        headers = {"content-type": "application/json"}
+        response = self.session.get(endpoint, headers=headers)
+        found_unused_coupons = False
+        if self.args.verbose:
+            print(endpoint + "\n" + str(response.status_code) + "\n" + response.text)
+        r = json.loads(response.text)
+        error_msg = r['Error']
+        success_code = r['Success']
+        if not success_code:
+            print_hebrew((error_msg['ErrorDesc']))
+            print_hebrew("Error, trying moving to the next barcode")
+            return restaurants
+        voucher = r['Data']['Vouchers'][0]
+        if not voucher['Used']:
+            found_unused_coupons = True
+            barcode_num = voucher['BarCodeNumber']
+            if res_id not in restaurants:
+                restaurants[res_id] = {'restaurantName': b['restaurantName'],
+                                       'vendorName': voucher['Vendor'],
+                                       'orders': []}
+            restaurants[res_id]['orders'].append({'Date': b['orderDateStr'],
+                                                  'unixTime': b['orderDate'],
+                                                  'barcode': '-'.join(
+                                                      barcode_num[i:i + 4] for i in
+                                                      range(0, len(barcode_num), 4)),
+                                                  'barcode_url': voucher['BarCodeImgUrl'],
+                                                  'amount': voucher['Amount']})
+        return restaurants, found_unused_coupons
