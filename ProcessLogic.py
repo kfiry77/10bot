@@ -2,6 +2,7 @@
 This module contains the ProcessLogic class which extends the Processor class.
 It provides methods for comparing coupon files, processing data, and managing purchases and reports.
 """
+import logging
 
 from PickleSerializer import PickleSerializer
 from TenbisLogic import Tenbis
@@ -49,14 +50,15 @@ class ProcessLogic(Processor):
         Return the values of the coupons if a report should be sent, an empty dictionary otherwise.
         """
         send_report = False
+        logger = logging.getLogger('AppLogger')
         if data.disable_purchase:
-            print('Purchase is disabled today.')
+            logger.info('Purchase is disabled today.')
         elif self.ten_bis.is_budget_available():
-            print('Budget available, purchasing.')
+            logger.info('Budget available, purchasing.')
             self.ten_bis.buy_coupon(40)
             send_report = True
         else:
-            print('No Budget, Purchase will be skipped ')
+            logger.info('No Budget, Purchase will be skipped ')
         coupons = self.ten_bis.get_unused_coupons()
         coupons_pickle = PickleSerializer('coupons')
         if coupons_pickle.exists():
@@ -66,6 +68,6 @@ class ProcessLogic(Processor):
             send_report = True
         coupons_pickle.create(coupons)
         if not send_report:
-            print('No report changes, publish will be skipped')
+            logger.info('No report changes, publish will be skipped')
             return {}
         return coupons.values()
