@@ -1,5 +1,6 @@
 """ 10 Bis logic processor module """
 import json
+import logging
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 import requests
@@ -8,12 +9,6 @@ from PickleSerializer import PickleSerializer
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 TENBIS_FQDN = "https://www.10bis.co.il"
-
-
-def print_hebrew(heb_txt):
-    """" Print Hebrew text in reverse order"""
-    print(heb_txt[::-1])
-
 
 COUPONS_IDS = {
     15: 6552646,
@@ -64,6 +59,7 @@ class Tenbis:
         self.cart_guid = None
         self.user_id = None
         self.email = None
+        self.logger = logging.getLogger('AppLogger')
         self.session_pickle = PickleSerializer("sessions")
         if not self.auth():
             raise RuntimeError('Error Authenticating')
@@ -84,11 +80,10 @@ class Tenbis:
         resp_json = json.loads(response.text)
         error_msg = resp_json['Errors']
         success_code = resp_json['Success']
-        if self.args.verbose:
-            print("Request:" + endpoint + "\nHeaders:" + json.dumps(headers) + "\n" +
-                  "Request Payload:" + json.dumps(payload))
-            print("Response: " + str(response.status_code))
-            print(resp_json)
+        self.logger.debug("Request: %s \nHeaders: %s \n Request Payload: %s", endpoint,
+                          json.dumps(headers), json.dumps(payload))
+        self.logger.debug("Response: %s", str(response.status_code))
+        self.logger.debug(resp_json)
         if not success_code:
             raise RuntimeError('NextApi call failure:' + (error_msg[0]['ErrorDesc'][::-1]))
 
@@ -109,18 +104,20 @@ class Tenbis:
             try:
                 # should fail if token is expired.
                 response = self.post_next_api('GetUser', payload)
-                print('User ' + response['Data']['email'] + ' Logged In')
+                self.logger.info("User %s Logged In", response['Data']['email'])
                 return True
             except RuntimeError:
                 headers = {'X-App-Type': 'web', 'Language': 'he', 'Origin': 'https://www.10bis.co.il'}
                 response = self.session.post('https://api.10bis.co.il/api/v1/Authentication/RefreshToken',
                                              headers=headers)
                 if response.status_code != 200:
-                    print(f'Error on RefreshToken call status:{response.status_code} message:{response.text}')
+                    self.logger.info(
+                        'Error on RefreshToken call status:%s message:%s',
+                        response.status_code, response.text)
                     return False
                 self.session_pickle.create(self.session)
                 response = self.post_next_api('GetUser', payload)
-                print('User ' + response['Data']['email'] + ' Logged In')
+                self.logger.info('User %s Logged In', response['Data']['email'])
                 return True
 
         # Phase one -> Email
@@ -160,8 +157,7 @@ class Tenbis:
         # check if it is a working day, if not return
         today = datetime.today()
         if today.weekday() == 5 or today.weekday() == 4:
-            if self.args.verbose:
-                print(f'{today} Is Non working day')
+            self.logger.info('%s Is Non working day', today)
             return False
 
         # check holiday according to Israel gov calendar:
@@ -176,8 +172,7 @@ class Tenbis:
             h_ends = datetime.strptime(h['HolidayEnds'], date_format)
             h_name = h['Name']
             if h_start <= today <= h_ends:
-                if self.args.verbose:
-                    print(f'{today} is {h_name}')
+                self.logger.info('%s is %s', today, h_name)
                 return False
 
         payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": 0}
@@ -187,15 +182,13 @@ class Tenbis:
         last_order_is_today = False if len(report['Data']['orderList']) == 0 else (
                 report['Data']['orderList'][-1]['orderDateStr'] == datetime.today().strftime("%d.%m.%y"))
         if last_order_is_today:
-            if self.args.verbose:
-                print(f'last_order_check:{last_order_is_today}')
+            self.logger.info('last_order_check:%s', last_order_is_today)
             return False
 
         # check if usage for today > 0
         daily_usage = report['Data']['moneycards'][0]['usage']['daily']
         if daily_usage > 0:
-            if self.args.verbose:
-                print(f'Today usage is:{daily_usage}')
+            self.logger.info('Today usage is:%s', daily_usage)
             return False
 
         return True
@@ -250,12 +243,11 @@ class Tenbis:
         error_msg = resp_json['Errors']
         success_code = resp_json['Success']
         if not success_code:
-            print_hebrew((error_msg[0]['ErrorDesc']))
+            self.logger.error(error_msg[0]['ErrorDesc'][::-1])
             return
-        if self.args.verbose:
-            print("Request:" + endpoint)
-            print("Response: " + str(response.status_code))
-            print(resp_json)
+        self.logger.debug("Request: %s", endpoint)
+        self.logger.debug("Response: %s", str(response.status_code))
+        self.logger.debug(resp_json)
         main_user = [x for x in resp_json['Data'] if x['userId'] == self.user_id]
 
         # SetPaymentsInOrder
@@ -267,14 +259,14 @@ class Tenbis:
         self.post_next_api('SetPaymentsInOrder', payload)
 
         if self.args.dryrun:
-            print("Dry Run success, purchase will be skipped.")
+            logging.info("Dry Run success, purchase will be skipped.")
             return
 
         # SubmitOrder
         payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he", "isMobileDevice": True,
                    "dontWantCutlery": False, "orderRemarks": None}
         resp_json = self.post_next_api('SubmitOrder', payload)
-        print("Order submitted successfully")
+        logging.info("Order submitted successfully")
 
         session.cart_guid = resp_json['ShoppingCartGuid']
         # save the last session state to the pickle file for next auth.
@@ -299,7 +291,7 @@ class Tenbis:
         actual_min_month_with_coupons = scanned_month
         restaurants = {}
         while month_empty_count != 0 and scanned_month >= min_month_with_coupons:
-            print(f'scanning Month:{scanned_month}')
+            self.logger.info('scanning Month:%s', scanned_month)
             payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": month_bias}
             report = self.post_next_api('UserTransactionsReport', payload)
             all_orders = report['Data']['orderList']
@@ -317,7 +309,7 @@ class Tenbis:
             v['orders'].sort(key=lambda x: x['unixTime'])
 
         state_pickle.create(actual_min_month_with_coupons)
-        print(f'Created report until {actual_min_month_with_coupons} ')
+        self.logger.info('Created report until %s', actual_min_month_with_coupons)
         return restaurants
 
     def __process_barcode_orders(self, b, restaurants):
@@ -343,14 +335,13 @@ class Tenbis:
         headers = {"content-type": "application/json"}
         response = self.session.get(endpoint, headers=headers)
         found_unused_coupons = False
-        if self.args.verbose:
-            print(endpoint + "\n" + str(response.status_code) + "\n" + response.text)
+        self.logger.debug(endpoint + "\n" + str(response.status_code) + "\n" + response.text)
         r = json.loads(response.text)
         error_msg = r['Error']
         success_code = r['Success']
         if not success_code:
-            print_hebrew((error_msg['ErrorDesc']))
-            print_hebrew("Error, trying moving to the next barcode")
+            self.logger.error(error_msg['ErrorDesc'][::-1])
+            self.logger.error("Error, trying moving to the next barcode")
             return restaurants
         voucher = r['Data']['Vouchers'][0]
         if not voucher['Used']:

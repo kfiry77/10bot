@@ -1,5 +1,6 @@
 """ This module contains the Processor and CollectionProcessor base classes to be used later
  to used as a baseline of the chain of responsibility. """
+import logging
 from abc import ABC, abstractmethod
 
 
@@ -24,6 +25,8 @@ class Processor(ABC):
             self.next_processors = next_processor
         else:
             self.next_processors = [next_processor]
+
+        self.logger = logging.getLogger('AppLogger')
 
     @abstractmethod
     def process_impl(self, data):

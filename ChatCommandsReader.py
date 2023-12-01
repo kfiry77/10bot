@@ -58,20 +58,20 @@ class ChatCommandsReader(Processor):
             An instance of the ParsedCommands class with the parsed commands.
         """
         messages = self.whatsAppApi.get_chat_history()
-        print(f'fetch total of {len(messages)}')
+
         # Set the time to 5:00 AM
         now = datetime.now()
         min_date_time = datetime(now.year, now.month, now.day, 5, 0, 0)
         max_unix_time = int(min_date_time.timestamp())
-        print(f'max_unix_time={max_unix_time}')
         filter_messages = sorted([m for m in messages if m['type'] == 'outgoing' and
                                   m['typeMessage'] in ['textMessage', 'extendedTextMessage'] and
                                   not m['sendByApi'] and
                                   m['timestamp'] >= max_unix_time and
                                   m['textMessage'].startswith("/")
                                   ], key=lambda m: m['timestamp'])
-        print(f'relevant messages count={len(filter_messages)}')
-        print(json.dumps(filter_messages, indent=4))
+        self.logger.info('read %d messages, %d of them are commands from last day', len(messages), len(messages))
+        if len(filter_messages) != 0:
+            self.logger.debug(json.dumps(filter_messages, indent=4))
 
         parsed_command = ParsedCommands()
         for m in filter_messages:
