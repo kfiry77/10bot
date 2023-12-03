@@ -50,15 +50,14 @@ class ProcessLogic(Processor):
         Return the values of the coupons if a report should be sent, an empty dictionary otherwise.
         """
         send_report = False
-        logger = logging.getLogger('AppLogger')
         if data.disable_purchase:
-            logger.info('Purchase is disabled today.')
+            self.logger.info('Purchase is disabled today.')
         elif self.ten_bis.is_budget_available():
-            logger.info('Budget available, purchasing.')
+            self.logger.info('Budget available, purchasing.')
             self.ten_bis.buy_coupon(40)
             send_report = True
         else:
-            logger.info('No Budget, Purchase will be skipped ')
+            self.logger.info('No Budget, Purchase will be skipped ')
         coupons = self.ten_bis.get_unused_coupons()
         coupons_pickle = PickleSerializer('coupons')
         if coupons_pickle.exists():
@@ -68,6 +67,6 @@ class ProcessLogic(Processor):
             send_report = True
         coupons_pickle.create(coupons)
         if not send_report:
-            logger.info('No report changes, publish will be skipped')
+            self.logger.info('No report changes, publish will be skipped')
             return {}
         return coupons.values()

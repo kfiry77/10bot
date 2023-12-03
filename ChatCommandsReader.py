@@ -69,7 +69,7 @@ class ChatCommandsReader(Processor):
                                   m['timestamp'] >= max_unix_time and
                                   m['textMessage'].startswith("/")
                                   ], key=lambda m: m['timestamp'])
-        self.logger.info('read %d messages, %d of them are commands from last day', len(messages), len(messages))
+        self.logger.info('read %d messages, %d of them are commands from last day', len(messages), len(filter_messages))
         if len(filter_messages) != 0:
             self.logger.debug(json.dumps(filter_messages, indent=4))
 
