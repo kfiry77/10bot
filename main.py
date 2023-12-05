@@ -23,16 +23,18 @@ def setup_logger():
     """
     # Create a logger
     logger = logging.getLogger('AppLogger')
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
 
     # Create a StreamHandler to send logs to stdout
     stream_handler = logging.StreamHandler(sys.stdout)
     stream_handler.setLevel(logging.INFO)
-    stdout_formatter = logging.Formatter('%(levelname)s - %(message)s ')
+    stdout_formatter = logging.Formatter('%(levelname)s -%(name)s - %(message)s ')
     stream_handler.setFormatter(stdout_formatter)
     logger.addHandler(stream_handler)
 
+
     # Create a FileHandler to write logs to a file
+    """
     file_handler = logging.FileHandler('10bot_app.log',  'a', 'utf-8')
     file_handler.setLevel(logging.INFO)
     file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s '
@@ -40,13 +42,13 @@ def setup_logger():
     file_handler.setFormatter(file_formatter)
     logger.addHandler(file_handler)
 
-    # Create a FileHandler to write logs to a file
     debug_handler = logging.FileHandler('10bot_debug.log',  'a', 'utf-8')
     debug_handler.setLevel(logging.DEBUG)
     debug_file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s '
                                        '(%(filename)s:%(funcName)s:%(lineno)d)')
     debug_handler.setFormatter(debug_file_formatter)
     logger.addHandler(debug_handler)
+    """
 
     return logger
 

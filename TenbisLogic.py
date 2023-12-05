@@ -259,14 +259,14 @@ class Tenbis:
         self.post_next_api('SetPaymentsInOrder', payload)
 
         if self.args.dryrun:
-            logging.info("Dry Run success, purchase will be skipped.")
+            self.logger.info("Dry Run success, purchase will be skipped.")
             return
 
         # SubmitOrder
         payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he", "isMobileDevice": True,
                    "dontWantCutlery": False, "orderRemarks": None}
         resp_json = self.post_next_api('SubmitOrder', payload)
-        logging.info("Order submitted successfully")
+        self.logger.info("Order submitted successfully")
 
         session.cart_guid = resp_json['ShoppingCartGuid']
         # save the last session state to the pickle file for next auth.
