@@ -62,7 +62,10 @@ class Tenbis:
         self.logger = logging.getLogger('AppLogger')
         self.session_pickle = PickleSerializer("sessions")
         if not self.auth():
+            self.logger.info("10Bis Logging Failure")
             raise RuntimeError('Error Authenticating')
+        else:
+            self.logger.info("10Bis Logging success")
 
     def post_next_api(self, endpoint, payload):
         """ Makes a POST request to the specified endpoint with the given payload.
@@ -104,7 +107,7 @@ class Tenbis:
             try:
                 # should fail if token is expired.
                 response = self.post_next_api('GetUser', payload)
-                self.logger.info("User %s Logged In", response['Data']['email'])
+                self.logger.debug("User %s Logged In", response['Data']['email'])
                 return True
             except RuntimeError:
                 headers = {'X-App-Type': 'web', 'Language': 'he', 'Origin': 'https://www.10bis.co.il'}
@@ -182,13 +185,13 @@ class Tenbis:
         last_order_is_today = False if len(report['Data']['orderList']) == 0 else (
                 report['Data']['orderList'][-1]['orderDateStr'] == datetime.today().strftime("%d.%m.%y"))
         if last_order_is_today:
-            self.logger.info('last_order_check:%s', last_order_is_today)
+            self.logger.debug('last_order_check:%s', last_order_is_today)
             return False
 
         # check if usage for today > 0
         daily_usage = report['Data']['moneycards'][0]['usage']['daily']
         if daily_usage > 0:
-            self.logger.info('Today usage is:%s', daily_usage)
+            self.logger.debug('Today usage is:%s', daily_usage)
             return False
 
         return True
@@ -291,7 +294,7 @@ class Tenbis:
         actual_min_month_with_coupons = scanned_month
         restaurants = {}
         while month_empty_count != 0 and scanned_month >= min_month_with_coupons:
-            self.logger.info('scanning Month:%s', scanned_month)
+            self.logger.debug('scanning Month:%s', scanned_month)
             payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": month_bias}
             report = self.post_next_api('UserTransactionsReport', payload)
             all_orders = report['Data']['orderList']
@@ -304,12 +307,13 @@ class Tenbis:
                     actual_min_month_with_coupons = scanned_month
             month_bias -= 1
             scanned_month = scanned_month + relativedelta(months=-1)
-
         for _, v in restaurants.items():
             v['orders'].sort(key=lambda x: x['unixTime'])
 
         state_pickle.create(actual_min_month_with_coupons)
-        self.logger.info('Created report until %s', actual_min_month_with_coupons)
+        self.logger.info('Created report between %d/%d and %d/%d',
+                         scanned_month.year, scanned_month.month,
+                         actual_min_month_with_coupons.year, actual_min_month_with_coupons.month)
         return restaurants
 
     def __process_barcode_orders(self, b, restaurants):
