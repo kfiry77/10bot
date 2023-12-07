@@ -64,8 +64,7 @@ class Tenbis:
         if not self.auth():
             self.logger.info("10Bis Logging Failure")
             raise RuntimeError('Error Authenticating')
-        else:
-            self.logger.info("10Bis Logging success")
+        self.logger.info("10Bis Logging success")
 
     def post_next_api(self, endpoint, payload):
         """ Makes a POST request to the specified endpoint with the given payload.

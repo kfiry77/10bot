@@ -82,7 +82,7 @@ class WhatsappGreenApi:
         try:
             response = requests.get(url, timeout=self.request_timeout)
         except requests.exceptions.RequestException as e:
-            self.logger.warning(f'Error Authenticating  Green api, publisher will be skipped')
+            self.logger.warning('Error Authenticating  Green api, publisher will be skipped')
             self.logger.debug(e)
             return False
         return response.status_code == 200 and json.loads(response.text)['stateInstance'] == 'authorized'

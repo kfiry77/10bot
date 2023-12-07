@@ -2,7 +2,6 @@
 This module contains the ProcessLogic class which extends the Processor class.
 It provides methods for comparing coupon files, processing data, and managing purchases and reports.
 """
-import logging
 
 from PickleSerializer import PickleSerializer
 from TenbisLogic import Tenbis
