@@ -160,7 +160,7 @@ class Tenbis:
         # check if it is a working day, if not return
         today = datetime.today()
         if today.weekday() == 5 or today.weekday() == 4:
-            self.logger.info('%s Is Non working day', today)
+            self.logger.debug('%s Is a non-working day', today.strftime('%Y-%m-%d'))
             return False
 
         # check holiday according to Israel gov calendar:

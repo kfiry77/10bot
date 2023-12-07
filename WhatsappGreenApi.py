@@ -1,5 +1,5 @@
 """ This module contains the WhatsappGreenApi class for interacting with the Green API. """
-
+import logging
 import re
 import json
 import requests
@@ -22,9 +22,10 @@ class WhatsappGreenApi:
         self.idInstance = None
         self.host = 'api.green-api.com'
         self.args = args
+        self.logger = logging.getLogger('AppLogger')
         self.authenticated = self.auth()
         if not self.authenticated:
-            print('Error Authenticating to Green api, publisher will be skipped')
+            self.logger.warning('Error Authenticating to Green api, publisher will be skipped')
 
     def create_group(self, chat_ids):
         """ Create a group with the given chat_ids and return the group ID"""
@@ -81,7 +82,8 @@ class WhatsappGreenApi:
         try:
             response = requests.get(url, timeout=self.request_timeout)
         except requests.exceptions.RequestException as e:
-            print(f'Error {e}Authenticating to Green api, publisher will be skipped')
+            self.logger.warning(f'Error Authenticating  Green api, publisher will be skipped')
+            self.logger.debug(e)
             return False
         return response.status_code == 200 and json.loads(response.text)['stateInstance'] == 'authorized'
 
@@ -93,8 +95,8 @@ class WhatsappGreenApi:
         response = requests.post(url, timeout=self.request_timeout, headers=headers,
                                  data=json.dumps(payload, sort_keys=False))
         if response.status_code != 200:
-            print(response.status_code)
-            print(response.text)
+            self.logger.warning(response.status_code)
+            self.logger.warning(response.text)
             return []
         return json.loads(response.text.encode('utf8'))
 
@@ -105,9 +107,8 @@ class WhatsappGreenApi:
         with open(filename, 'rb') as upload_file:
             files = {'file': upload_file}
             response = requests.post(url, timeout=self.request_timeout, data=payload, files=files)
-        if self.args.verbose:
-            print(response.status_code)
-            print(response.text)
+        self.logger.debug(response.status_code)
+        self.logger.debug(response.text)
         return response.status_code == 200
 
     def send_message(self, chat_id, message):
@@ -117,6 +118,6 @@ class WhatsappGreenApi:
         headers = {'Content-Type': 'application/json'}
         response = requests.post(url, timeout=self.request_timeout,
                                  headers=headers, data=json.dumps(payload, sort_keys=False))
-        print(response.status_code)
-        print(response.text)
+        self.logger.debug(response.status_code)
+        self.logger.debug(response.text)
         return response.status_code == 200
