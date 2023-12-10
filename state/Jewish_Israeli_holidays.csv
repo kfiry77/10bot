@@ -1,0 +1,377 @@
+date|year|month|day|weekday|eng_name|eng_type|heb_name|heb_type|is_bank_holiday
+2023-01-03|2023|1|3|Tuesday|Asarah B'Tevet (Tenth of Tevet)|Observance, Hebrew|צום עשרה בטבת|חגים דתיים|0
+2023-01-27|2023|1|27|Friday|Holocaust Remembrance Day|International, business as usual|"יום הזכרון הבנ""ל לשואה"|ימים מוכרים בינלאומית|0
+2023-02-06|2023|2|6|Monday|Tu Bishvat|Observance, Hebrew|"ט""ו בשבט"|חגים דתיים|0
+2023-03-06|2023|3|6|Monday|Fast of Esther|Observance, Hebrew|תענית אסתר|חגים דתיים|0
+2023-03-07|2023|3|7|Tuesday|Purim|Local Holiday|פורים|חגים דתיים|0
+2023-03-08|2023|3|8|Wednesday|Shushan Purim (Jerusalem)|Local Holiday|שושן פורים|חגים דתיים|0
+2023-04-05|2023|4|5|Wednesday|Passover Eve|Observance, Hebrew|ערב פסח|חגים דתיים|0
+2023-04-06|2023|4|6|Thursday|Passover (Day 1)|National holiday, Hebrew|פסח|חגים דתיים|1
+2023-04-07|2023|4|7|Friday|Passover (Day 2)|Observance, Hebrew|חול המועד פסח (1)|חגים דתיים|0
+2023-04-08|2023|4|8|Saturday|Passover (Day 3)|Observance, Hebrew|חול המועד פסח (2)|חגים דתיים|0
+2023-04-09|2023|4|9|Sunday|Passover (Day 4)|Observance, Hebrew|חול המועד פסח (3)|חגים דתיים|0
+2023-04-10|2023|4|10|Monday|Passover (Day 5)|Observance, Hebrew|חול המועד פסח (4)|חגים דתיים|0
+2023-04-11|2023|4|11|Tuesday|Passover (Day 6)|Observance, Hebrew|ערב פסח (חג שני)|חגים דתיים|0
+2023-04-12|2023|4|12|Wednesday|Passover (Day 7)|National holiday, Hebrew|שביעי של פסח|חגים דתיים|1
+2023-04-18|2023|4|18|Tuesday|Yom HaShoah|Observance, Hebrew|יום הזכרון לשואה ולגבורה|חגים חילוניים|0
+2023-04-25|2023|4|25|Tuesday|Yom HaZikaron|Observance, Hebrew|"יום הזכרון לחללי צה""ל"|חגים חילוניים|0
+2023-04-26|2023|4|26|Wednesday|Yom HaAtzmaut|National holiday, Hebrew|יום העצמאות|חגים חילוניים|1
+2023-05-09|2023|5|9|Tuesday|Lag BaOmer|Observance, Hebrew|"ל""ג בעומר"|חגים דתיים|0
+2023-05-19|2023|5|19|Friday|Jerusalem Day|Observance, Hebrew|יום ירושלים|חגים חילוניים|0
+2023-05-25|2023|5|25|Thursday|Shavuot Eve|Observance, Hebrew|ערב שבועות|חגים דתיים|0
+2023-05-26|2023|5|26|Friday|Shavuot|National holiday, Hebrew|שבועות|חגים דתיים|1
+2023-07-06|2023|7|6|Thursday|17th of Tammuz|Observance, Hebrew|צום שבעה עשר בתמוז|חגים דתיים|0
+2023-07-26|2023|7|26|Wednesday|Tisha B'Av Eve|Observance, Hebrew|ערב תשעה באב|חגים דתיים|0
+2023-07-27|2023|7|27|Thursday|Tisha B'Av|Observance, Hebrew|תשעה באב|חגים דתיים|0
+2023-09-15|2023|9|15|Friday|Rosh Hashana Eve|Observance, Hebrew|ערב ראש השנה|חגים דתיים|0
+2023-09-16|2023|9|16|Saturday|Rosh Hashana|National holiday, Hebrew|ראש השנה א'|חגים דתיים|1
+2023-09-17|2023|9|17|Sunday|Rosh Hashana (Day 2)|National holiday, Hebrew|ראש השנה ב'|חגים דתיים|1
+2023-09-18|2023|9|18|Monday|Gedaliah Fast|Observance, Hebrew|צום גדליה|חגים דתיים|0
+2023-09-24|2023|9|24|Sunday|Yom Kippur Eve|Observance, Hebrew|ערב יום כיפור|חגים דתיים|0
+2023-09-25|2023|9|25|Monday|Yom Kippur|National holiday, Hebrew|יום כיפור|חגים דתיים|1
+2023-09-29|2023|9|29|Friday|Sukkot Eve|Observance, Hebrew|ערב סוכות|חגים דתיים|0
+2023-09-30|2023|9|30|Saturday|Sukkot (Day 1)|National holiday, Hebrew|סוכות|חגים דתיים|1
+2023-10-01|2023|10|1|Sunday|Sukkot (Day 2)|Observance, Hebrew|חול המועד סוכות (1)|חגים דתיים|0
+2023-10-02|2023|10|2|Monday|Sukkot (Day 3)|Observance, Hebrew|חול המועד סוכות (2)|חגים דתיים|0
+2023-10-03|2023|10|3|Tuesday|Sukkot (Day 4)|Observance, Hebrew|חול המועד סוכות (3)|חגים דתיים|0
+2023-10-04|2023|10|4|Wednesday|Sukkot (Day 5)|Observance, Hebrew|חול המועד סוכות (4)|חגים דתיים|0
+2023-10-05|2023|10|5|Thursday|Sukkot (Day 6)|Observance, Hebrew|חול המועד סוכות (5)|חגים דתיים|0
+2023-10-06|2023|10|6|Friday|Sukkot (Day 7) / Hoshanah Rabah|Observance, Hebrew|ערב שמחת תורה|חגים דתיים|0
+2023-10-07|2023|10|7|Saturday|Shemini Atzeret / Simchat Torah|National holiday, Hebrew|שמחת תורה|חגים דתיים|1
+2023-12-08|2023|12|8|Friday|Hanukkah (Day 1)|Observance, Hebrew|חנוכה (1)|חגים דתיים|0
+2023-12-09|2023|12|9|Saturday|Hanukkah (Day 2)|Observance, Hebrew|חנוכה (2)|חגים דתיים|0
+2023-12-10|2023|12|10|Sunday|Hanukkah (Day 3)|Observance, Hebrew|חנוכה (3)|חגים דתיים|0
+2023-12-11|2023|12|11|Monday|Hanukkah (Day 4)|Observance, Hebrew|חנוכה (4)|חגים דתיים|0
+2023-12-12|2023|12|12|Tuesday|Hanukkah (Day 5)|Observance, Hebrew|חנוכה (5)|חגים דתיים|0
+2023-12-13|2023|12|13|Wednesday|Hanukkah (Day 6) / Rosh Chodesh Tevet|Observance, Hebrew|חנוכה (6)|חגים דתיים|0
+2023-12-14|2023|12|14|Thursday|Hanukkah (Day 7)|Observance, Hebrew|חנוכה (7)|חגים דתיים|0
+2023-12-15|2023|12|15|Friday|Hanukkah (Day 8)|Observance, Hebrew|חנוכה (8)|חגים דתיים|0
+2023-12-22|2023|12|22|Friday|Asarah B'Tevet (Tenth of Tevet)|Observance, Hebrew|צום עשרה בטבת|חגים דתיים|0
+2024-01-25|2024|1|25|Thursday|Tu Bishvat|Observance, Hebrew|"ט""ו בשבט"|חגים דתיים|0
+2024-01-27|2024|1|27|Saturday|Holocaust Remembrance Day|International, business as usual|"יום הזכרון הבנ""ל לשואה"|ימים מוכרים בינלאומית|0
+2024-03-21|2024|3|21|Thursday|Fast of Esther|Observance, Hebrew|תענית אסתר|חגים דתיים|0
+2024-03-24|2024|3|24|Sunday|Purim|Local Holiday|פורים|חגים דתיים|0
+2024-03-25|2024|3|25|Monday|Shushan Purim (Jerusalem)|Local Holiday|שושן פורים|חגים דתיים|0
+2024-04-22|2024|4|22|Monday|Passover Eve|Observance, Hebrew|ערב פסח|חגים דתיים|0
+2024-04-23|2024|4|23|Tuesday|Passover (Day 1)|National holiday, Hebrew|פסח|חגים דתיים|1
+2024-04-24|2024|4|24|Wednesday|Passover (Day 2)|Observance, Hebrew|חול המועד פסח (1)|חגים דתיים|0
+2024-04-25|2024|4|25|Thursday|Passover (Day 3)|Observance, Hebrew|חול המועד פסח (2)|חגים דתיים|0
+2024-04-26|2024|4|26|Friday|Passover (Day 4)|Observance, Hebrew|חול המועד פסח (3)|חגים דתיים|0
+2024-04-27|2024|4|27|Saturday|Passover (Day 5)|Observance, Hebrew|חול המועד פסח (4)|חגים דתיים|0
+2024-04-28|2024|4|28|Sunday|Passover (Day 6)|Observance, Hebrew|ערב פסח (חג שני)|חגים דתיים|0
+2024-04-29|2024|4|29|Monday|Passover (Day 7)|National holiday, Hebrew|שביעי של פסח|חגים דתיים|1
+2024-05-06|2024|5|6|Monday|Yom HaShoah|Observance, Hebrew|יום הזכרון לשואה ולגבורה|חגים חילוניים|0
+2024-05-13|2024|5|13|Monday|Yom HaZikaron|Observance, Hebrew|"יום הזכרון לחללי צה""ל"|חגים חילוניים|0
+2024-05-14|2024|5|14|Tuesday|Yom HaAtzmaut|National holiday, Hebrew|יום העצמאות|חגים חילוניים|1
+2024-05-26|2024|5|26|Sunday|Lag BaOmer|Observance, Hebrew|"ל""ג בעומר"|חגים דתיים|0
+2024-06-05|2024|6|5|Wednesday|Jerusalem Day|Observance, Hebrew|יום ירושלים|חגים חילוניים|0
+2024-06-11|2024|6|11|Tuesday|Shavuot Eve|Observance, Hebrew|ערב שבועות|חגים דתיים|0
+2024-06-12|2024|6|12|Wednesday|Shavuot|National holiday, Hebrew|שבועות|חגים דתיים|1
+2024-07-23|2024|7|23|Tuesday|17th of Tammuz|Observance, Hebrew|צום שבעה עשר בתמוז|חגים דתיים|0
+2024-08-12|2024|8|12|Monday|Tisha B'Av Eve|Observance, Hebrew|ערב תשעה באב|חגים דתיים|0
+2024-08-13|2024|8|13|Tuesday|Tisha B'Av|Observance, Hebrew|תשעה באב|חגים דתיים|0
+2024-10-02|2024|10|2|Wednesday|Rosh Hashana Eve|Observance, Hebrew|ערב ראש השנה|חגים דתיים|0
+2024-10-03|2024|10|3|Thursday|Rosh Hashana|National holiday, Hebrew|ראש השנה א'|חגים דתיים|1
+2024-10-04|2024|10|4|Friday|Rosh Hashana (Day 2)|National holiday, Hebrew|ראש השנה ב'|חגים דתיים|1
+2024-10-06|2024|10|6|Sunday|Gedaliah Fast|Observance, Hebrew|צום גדליה|חגים דתיים|0
+2024-10-11|2024|10|11|Friday|Yom Kippur Eve|Observance, Hebrew|ערב יום כיפור|חגים דתיים|0
+2024-10-12|2024|10|12|Saturday|Yom Kippur|National holiday, Hebrew|יום כיפור|חגים דתיים|1
+2024-10-16|2024|10|16|Wednesday|Sukkot Eve|Observance, Hebrew|ערב סוכות|חגים דתיים|0
+2024-10-17|2024|10|17|Thursday|Sukkot (Day 1)|National holiday, Hebrew|סוכות|חגים דתיים|1
+2024-10-18|2024|10|18|Friday|Sukkot (Day 2)|Observance, Hebrew|חול המועד סוכות (1)|חגים דתיים|0
+2024-10-19|2024|10|19|Saturday|Sukkot (Day 3)|Observance, Hebrew|חול המועד סוכות (2)|חגים דתיים|0
+2024-10-20|2024|10|20|Sunday|Sukkot (Day 4)|Observance, Hebrew|חול המועד סוכות (3)|חגים דתיים|0
+2024-10-21|2024|10|21|Monday|Sukkot (Day 5)|Observance, Hebrew|חול המועד סוכות (4)|חגים דתיים|0
+2024-10-22|2024|10|22|Tuesday|Sukkot (Day 6)|Observance, Hebrew|חול המועד סוכות (5)|חגים דתיים|0
+2024-10-23|2024|10|23|Wednesday|Sukkot (Day 7) / Hoshanah Rabah|Observance, Hebrew|ערב שמחת תורה|חגים דתיים|0
+2024-10-24|2024|10|24|Thursday|Shemini Atzeret / Simchat Torah|National holiday, Hebrew|שמחת תורה|חגים דתיים|1
+2024-12-26|2024|12|26|Thursday|Hanukkah (Day 1)|Observance, Hebrew|חנוכה (1)|חגים דתיים|0
+2024-12-27|2024|12|27|Friday|Hanukkah (Day 2)|Observance, Hebrew|חנוכה (2)|חגים דתיים|0
+2024-12-28|2024|12|28|Saturday|Hanukkah (Day 3)|Observance, Hebrew|חנוכה (3)|חגים דתיים|0
+2024-12-29|2024|12|29|Sunday|Hanukkah (Day 4)|Observance, Hebrew|חנוכה (4)|חגים דתיים|0
+2024-12-30|2024|12|30|Monday|Hanukkah (Day 5)|Observance, Hebrew|חנוכה (5)|חגים דתיים|0
+2024-12-31|2024|12|31|Tuesday|Hanukkah (Day 6) / Rosh Chodesh Tevet|Observance, Hebrew|חנוכה (6)|חגים דתיים|0
+2025-01-01|2025|1|1|Wednesday|Hanukkah (Day 7)|Observance, Hebrew|חנוכה (7)|חגים דתיים|0
+2025-01-02|2025|1|2|Thursday|Hanukkah (Day 8)|Observance, Hebrew|חנוכה (8)|חגים דתיים|0
+2025-01-10|2025|1|10|Friday|Asarah B'Tevet (Tenth of Tevet)|Observance, Hebrew|צום עשרה בטבת|חגים דתיים|0
+2025-01-27|2025|1|27|Monday|Holocaust Remembrance Day|International, business as usual|"יום הזכרון הבנ""ל לשואה"|ימים מוכרים בינלאומית|0
+2025-02-13|2025|2|13|Thursday|Tu Bishvat|Observance, Hebrew|"ט""ו בשבט"|חגים דתיים|0
+2025-03-13|2025|3|13|Thursday|Fast of Esther|Observance, Hebrew|תענית אסתר|חגים דתיים|0
+2025-03-14|2025|3|14|Friday|Purim|Local Holiday|פורים|חגים דתיים|0
+2025-03-16|2025|3|16|Sunday|Shushan Purim (Jerusalem)|Local Holiday|שושן פורים|חגים דתיים|0
+2025-04-12|2025|4|12|Saturday|Passover Eve|Observance, Hebrew|ערב פסח|חגים דתיים|0
+2025-04-13|2025|4|13|Sunday|Passover (Day 1)|National holiday, Hebrew|פסח|חגים דתיים|1
+2025-04-14|2025|4|14|Monday|Passover (Day 2)|Observance, Hebrew|חול המועד פסח (1)|חגים דתיים|0
+2025-04-15|2025|4|15|Tuesday|Passover (Day 3)|Observance, Hebrew|חול המועד פסח (2)|חגים דתיים|0
+2025-04-16|2025|4|16|Wednesday|Passover (Day 4)|Observance, Hebrew|חול המועד פסח (3)|חגים דתיים|0
+2025-04-17|2025|4|17|Thursday|Passover (Day 5)|Observance, Hebrew|חול המועד פסח (4)|חגים דתיים|0
+2025-04-18|2025|4|18|Friday|Passover (Day 6)|Observance, Hebrew|ערב פסח (חג שני)|חגים דתיים|0
+2025-04-19|2025|4|19|Saturday|Passover (Day 7)|National holiday, Hebrew|שביעי של פסח|חגים דתיים|1
+2025-04-23|2025|4|23|Wednesday|Yom HaShoah|Observance, Hebrew|יום הזכרון לשואה ולגבורה|חגים חילוניים|0
+2025-04-30|2025|4|30|Wednesday|Yom HaZikaron|Observance, Hebrew|"יום הזכרון לחללי צה""ל"|חגים חילוניים|0
+2025-05-01|2025|5|1|Thursday|Yom HaAtzmaut|National holiday, Hebrew|יום העצמאות|חגים חילוניים|1
+2025-05-16|2025|5|16|Friday|Lag BaOmer|Observance, Hebrew|"ל""ג בעומר"|חגים דתיים|0
+2025-05-26|2025|5|26|Monday|Jerusalem Day|Observance, Hebrew|יום ירושלים|חגים חילוניים|0
+2025-06-01|2025|6|1|Sunday|Shavuot Eve|Observance, Hebrew|ערב שבועות|חגים דתיים|0
+2025-06-02|2025|6|2|Monday|Shavuot|National holiday, Hebrew|שבועות|חגים דתיים|1
+2025-07-13|2025|7|13|Sunday|17th of Tammuz|Observance, Hebrew|צום שבעה עשר בתמוז|חגים דתיים|0
+2025-08-02|2025|8|2|Saturday|Tisha B'Av Eve|Observance, Hebrew|ערב תשעה באב|חגים דתיים|0
+2025-08-03|2025|8|3|Sunday|Tisha B'Av|Observance, Hebrew|תשעה באב|חגים דתיים|0
+2025-09-22|2025|9|22|Monday|Rosh Hashana Eve|Observance, Hebrew|ערב ראש השנה|חגים דתיים|0
+2025-09-23|2025|9|23|Tuesday|Rosh Hashana|National holiday, Hebrew|ראש השנה א'|חגים דתיים|1
+2025-09-24|2025|9|24|Wednesday|Rosh Hashana (Day 2)|National holiday, Hebrew|ראש השנה ב'|חגים דתיים|1
+2025-09-25|2025|9|25|Thursday|Gedaliah Fast|Observance, Hebrew|צום גדליה|חגים דתיים|0
+2025-10-01|2025|10|1|Wednesday|Yom Kippur Eve|Observance, Hebrew|ערב יום כיפור|חגים דתיים|0
+2025-10-02|2025|10|2|Thursday|Yom Kippur|National holiday, Hebrew|יום כיפור|חגים דתיים|1
+2025-10-06|2025|10|6|Monday|Sukkot Eve|Observance, Hebrew|ערב סוכות|חגים דתיים|0
+2025-10-07|2025|10|7|Tuesday|Sukkot (Day 1)|National holiday, Hebrew|סוכות|חגים דתיים|1
+2025-10-08|2025|10|8|Wednesday|Sukkot (Day 2)|Observance, Hebrew|חול המועד סוכות (1)|חגים דתיים|0
+2025-10-09|2025|10|9|Thursday|Sukkot (Day 3)|Observance, Hebrew|חול המועד סוכות (2)|חגים דתיים|0
+2025-10-10|2025|10|10|Friday|Sukkot (Day 4)|Observance, Hebrew|חול המועד סוכות (3)|חגים דתיים|0
+2025-10-11|2025|10|11|Saturday|Sukkot (Day 5)|Observance, Hebrew|חול המועד סוכות (4)|חגים דתיים|0
+2025-10-12|2025|10|12|Sunday|Sukkot (Day 6)|Observance, Hebrew|חול המועד סוכות (5)|חגים דתיים|0
+2025-10-13|2025|10|13|Monday|Sukkot (Day 7) / Hoshanah Rabah|Observance, Hebrew|ערב שמחת תורה|חגים דתיים|0
+2025-10-14|2025|10|14|Tuesday|Shemini Atzeret / Simchat Torah|National holiday, Hebrew|שמחת תורה|חגים דתיים|1
+2025-12-15|2025|12|15|Monday|Hanukkah (Day 1)|Observance, Hebrew|חנוכה (1)|חגים דתיים|0
+2025-12-16|2025|12|16|Tuesday|Hanukkah (Day 2)|Observance, Hebrew|חנוכה (2)|חגים דתיים|0
+2025-12-17|2025|12|17|Wednesday|Hanukkah (Day 3)|Observance, Hebrew|חנוכה (3)|חגים דתיים|0
+2025-12-18|2025|12|18|Thursday|Hanukkah (Day 4)|Observance, Hebrew|חנוכה (4)|חגים דתיים|0
+2025-12-19|2025|12|19|Friday|Hanukkah (Day 5)|Observance, Hebrew|חנוכה (5)|חגים דתיים|0
+2025-12-20|2025|12|20|Saturday|Hanukkah (Day 6) / Rosh Chodesh Tevet|Observance, Hebrew|חנוכה (6)|חגים דתיים|0
+2025-12-21|2025|12|21|Sunday|Hanukkah (Day 7)|Observance, Hebrew|חנוכה (7)|חגים דתיים|0
+2025-12-22|2025|12|22|Monday|Hanukkah (Day 8)|Observance, Hebrew|חנוכה (8)|חגים דתיים|0
+2025-12-30|2025|12|30|Tuesday|Asarah B'Tevet (Tenth of Tevet)|Observance, Hebrew|צום עשרה בטבת|חגים דתיים|0
+2026-01-27|2026|1|27|Tuesday|Holocaust Remembrance Day|International, business as usual|"יום הזכרון הבנ""ל לשואה"|ימים מוכרים בינלאומית|0
+2026-02-02|2026|2|2|Monday|Tu Bishvat|Observance, Hebrew|"ט""ו בשבט"|חגים דתיים|0
+2026-03-02|2026|3|2|Monday|Fast of Esther|Observance, Hebrew|תענית אסתר|חגים דתיים|0
+2026-03-03|2026|3|3|Tuesday|Purim|Local Holiday|פורים|חגים דתיים|0
+2026-03-04|2026|3|4|Wednesday|Shushan Purim (Jerusalem)|Local Holiday|שושן פורים|חגים דתיים|0
+2026-04-01|2026|4|1|Wednesday|Passover Eve|Observance, Hebrew|ערב פסח|חגים דתיים|0
+2026-04-02|2026|4|2|Thursday|Passover (Day 1)|National holiday, Hebrew|פסח|חגים דתיים|1
+2026-04-03|2026|4|3|Friday|Passover (Day 2)|Observance, Hebrew|חול המועד פסח (1)|חגים דתיים|0
+2026-04-04|2026|4|4|Saturday|Passover (Day 3)|Observance, Hebrew|חול המועד פסח (2)|חגים דתיים|0
+2026-04-05|2026|4|5|Sunday|Passover (Day 4)|Observance, Hebrew|חול המועד פסח (3)|חגים דתיים|0
+2026-04-06|2026|4|6|Monday|Passover (Day 5)|Observance, Hebrew|חול המועד פסח (4)|חגים דתיים|0
+2026-04-07|2026|4|7|Tuesday|Passover (Day 6)|Observance, Hebrew|ערב פסח (חג שני)|חגים דתיים|0
+2026-04-08|2026|4|8|Wednesday|Passover (Day 7)|National holiday, Hebrew|שביעי של פסח|חגים דתיים|1
+2026-04-14|2026|4|14|Tuesday|Yom HaShoah|Observance, Hebrew|יום הזכרון לשואה ולגבורה|חגים חילוניים|0
+2026-04-21|2026|4|21|Tuesday|Yom HaZikaron|Observance, Hebrew|"יום הזכרון לחללי צה""ל"|חגים חילוניים|0
+2026-04-22|2026|4|22|Wednesday|Yom HaAtzmaut|National holiday, Hebrew|יום העצמאות|חגים חילוניים|1
+2026-05-05|2026|5|5|Tuesday|Lag BaOmer|Observance, Hebrew|"ל""ג בעומר"|חגים דתיים|0
+2026-05-15|2026|5|15|Friday|Jerusalem Day|Observance, Hebrew|יום ירושלים|חגים חילוניים|0
+2026-05-21|2026|5|21|Thursday|Shavuot Eve|Observance, Hebrew|ערב שבועות|חגים דתיים|0
+2026-05-22|2026|5|22|Friday|Shavuot|National holiday, Hebrew|שבועות|חגים דתיים|1
+2026-07-02|2026|7|2|Thursday|17th of Tammuz|Observance, Hebrew|צום שבעה עשר בתמוז|חגים דתיים|0
+2026-07-22|2026|7|22|Wednesday|Tisha B'Av Eve|Observance, Hebrew|ערב תשעה באב|חגים דתיים|0
+2026-07-23|2026|7|23|Thursday|Tisha B'Av|Observance, Hebrew|תשעה באב|חגים דתיים|0
+2026-09-11|2026|9|11|Friday|Rosh Hashana Eve|Observance, Hebrew|ערב ראש השנה|חגים דתיים|0
+2026-09-12|2026|9|12|Saturday|Rosh Hashana|National holiday, Hebrew|ראש השנה א'|חגים דתיים|1
+2026-09-13|2026|9|13|Sunday|Rosh Hashana (Day 2)|National holiday, Hebrew|ראש השנה ב'|חגים דתיים|1
+2026-09-14|2026|9|14|Monday|Gedaliah Fast|Observance, Hebrew|צום גדליה|חגים דתיים|0
+2026-09-20|2026|9|20|Sunday|Yom Kippur Eve|Observance, Hebrew|ערב יום כיפור|חגים דתיים|0
+2026-09-21|2026|9|21|Monday|Yom Kippur|National holiday, Hebrew|יום כיפור|חגים דתיים|1
+2026-09-25|2026|9|25|Friday|Sukkot Eve|Observance, Hebrew|ערב סוכות|חגים דתיים|0
+2026-09-26|2026|9|26|Saturday|Sukkot (Day 1)|National holiday, Hebrew|סוכות|חגים דתיים|1
+2026-09-27|2026|9|27|Sunday|Sukkot (Day 2)|Observance, Hebrew|חול המועד סוכות (1)|חגים דתיים|0
+2026-09-28|2026|9|28|Monday|Sukkot (Day 3)|Observance, Hebrew|חול המועד סוכות (2)|חגים דתיים|0
+2026-09-29|2026|9|29|Tuesday|Sukkot (Day 4)|Observance, Hebrew|חול המועד סוכות (3)|חגים דתיים|0
+2026-09-30|2026|9|30|Wednesday|Sukkot (Day 5)|Observance, Hebrew|חול המועד סוכות (4)|חגים דתיים|0
+2026-10-01|2026|10|1|Thursday|Sukkot (Day 6)|Observance, Hebrew|חול המועד סוכות (5)|חגים דתיים|0
+2026-10-02|2026|10|2|Friday|Sukkot (Day 7) / Hoshanah Rabah|Observance, Hebrew|ערב שמחת תורה|חגים דתיים|0
+2026-10-03|2026|10|3|Saturday|Shemini Atzeret / Simchat Torah|National holiday, Hebrew|שמחת תורה|חגים דתיים|1
+2026-12-05|2026|12|5|Saturday|Hanukkah (Day 1)|Observance, Hebrew|חנוכה (1)|חגים דתיים|0
+2026-12-06|2026|12|6|Sunday|Hanukkah (Day 2)|Observance, Hebrew|חנוכה (2)|חגים דתיים|0
+2026-12-07|2026|12|7|Monday|Hanukkah (Day 3)|Observance, Hebrew|חנוכה (3)|חגים דתיים|0
+2026-12-08|2026|12|8|Tuesday|Hanukkah (Day 4)|Observance, Hebrew|חנוכה (4)|חגים דתיים|0
+2026-12-09|2026|12|9|Wednesday|Hanukkah (Day 5)|Observance, Hebrew|חנוכה (5)|חגים דתיים|0
+2026-12-10|2026|12|10|Thursday|Hanukkah (Day 6) / Rosh Chodesh Tevet|Observance, Hebrew|חנוכה (6)|חגים דתיים|0
+2026-12-11|2026|12|11|Friday|Hanukkah (Day 7)|Observance, Hebrew|חנוכה (7)|חגים דתיים|0
+2026-12-12|2026|12|12|Saturday|Hanukkah (Day 8)|Observance, Hebrew|חנוכה (8)|חגים דתיים|0
+2026-12-20|2026|12|20|Sunday|Asarah B'Tevet (Tenth of Tevet)|Observance, Hebrew|צום עשרה בטבת|חגים דתיים|0
+2027-01-23|2027|1|23|Saturday|Tu Bishvat|Observance, Hebrew|"ט""ו בשבט"|חגים דתיים|0
+2027-01-27|2027|1|27|Wednesday|Holocaust Remembrance Day|International, business as usual|"יום הזכרון הבנ""ל לשואה"|ימים מוכרים בינלאומית|0
+2027-03-22|2027|3|22|Monday|Fast of Esther|Observance, Hebrew|תענית אסתר|חגים דתיים|0
+2027-03-23|2027|3|23|Tuesday|Purim|Local Holiday|פורים|חגים דתיים|0
+2027-03-24|2027|3|24|Wednesday|Shushan Purim (Jerusalem)|Local Holiday|שושן פורים|חגים דתיים|0
+2027-04-21|2027|4|21|Wednesday|Passover Eve|Observance, Hebrew|ערב פסח|חגים דתיים|0
+2027-04-22|2027|4|22|Thursday|Passover (Day 1)|National holiday, Hebrew|פסח|חגים דתיים|1
+2027-04-23|2027|4|23|Friday|Passover (Day 2)|Observance, Hebrew|חול המועד פסח (1)|חגים דתיים|0
+2027-04-24|2027|4|24|Saturday|Passover (Day 3)|Observance, Hebrew|חול המועד פסח (2)|חגים דתיים|0
+2027-04-25|2027|4|25|Sunday|Passover (Day 4)|Observance, Hebrew|חול המועד פסח (3)|חגים דתיים|0
+2027-04-26|2027|4|26|Monday|Passover (Day 5)|Observance, Hebrew|חול המועד פסח (4)|חגים דתיים|0
+2027-04-27|2027|4|27|Tuesday|Passover (Day 6)|Observance, Hebrew|ערב פסח (חג שני)|חגים דתיים|0
+2027-04-28|2027|4|28|Wednesday|Passover (Day 7)|National holiday, Hebrew|שביעי של פסח|חגים דתיים|1
+2027-05-04|2027|5|4|Tuesday|Yom HaShoah|Observance, Hebrew|יום הזכרון לשואה ולגבורה|חגים חילוניים|0
+2027-05-11|2027|5|11|Tuesday|Yom HaZikaron|Observance, Hebrew|"יום הזכרון לחללי צה""ל"|חגים חילוניים|0
+2027-05-12|2027|5|12|Wednesday|Yom HaAtzmaut|National holiday, Hebrew|יום העצמאות|חגים חילוניים|1
+2027-05-25|2027|5|25|Tuesday|Lag BaOmer|Observance, Hebrew|"ל""ג בעומר"|חגים דתיים|0
+2027-06-04|2027|6|4|Friday|Jerusalem Day|Observance, Hebrew|יום ירושלים|חגים חילוניים|0
+2027-06-10|2027|6|10|Thursday|Shavuot Eve|Observance, Hebrew|ערב שבועות|חגים דתיים|0
+2027-06-11|2027|6|11|Friday|Shavuot|National holiday, Hebrew|שבועות|חגים דתיים|1
+2027-07-22|2027|7|22|Thursday|17th of Tammuz|Observance, Hebrew|צום שבעה עשר בתמוז|חגים דתיים|0
+2027-08-11|2027|8|11|Wednesday|Tisha B'Av Eve|Observance, Hebrew|ערב תשעה באב|חגים דתיים|0
+2027-08-12|2027|8|12|Thursday|Tisha B'Av|Observance, Hebrew|תשעה באב|חגים דתיים|0
+2027-10-01|2027|10|1|Friday|Rosh Hashana Eve|Observance, Hebrew|ערב ראש השנה|חגים דתיים|0
+2027-10-02|2027|10|2|Saturday|Rosh Hashana|National holiday, Hebrew|ראש השנה א'|חגים דתיים|1
+2027-10-03|2027|10|3|Sunday|Rosh Hashana (Day 2)|National holiday, Hebrew|ראש השנה ב'|חגים דתיים|1
+2027-10-04|2027|10|4|Monday|Gedaliah Fast|Observance, Hebrew|צום גדליה|חגים דתיים|0
+2027-10-10|2027|10|10|Sunday|Yom Kippur Eve|Observance, Hebrew|ערב יום כיפור|חגים דתיים|0
+2027-10-11|2027|10|11|Monday|Yom Kippur|National holiday, Hebrew|יום כיפור|חגים דתיים|1
+2027-10-15|2027|10|15|Friday|Sukkot Eve|Observance, Hebrew|ערב סוכות|חגים דתיים|0
+2027-10-16|2027|10|16|Saturday|Sukkot (Day 1)|National holiday, Hebrew|סוכות|חגים דתיים|1
+2027-10-17|2027|10|17|Sunday|Sukkot (Day 2)|Observance, Hebrew|חול המועד סוכות (1)|חגים דתיים|0
+2027-10-18|2027|10|18|Monday|Sukkot (Day 3)|Observance, Hebrew|חול המועד סוכות (2)|חגים דתיים|0
+2027-10-19|2027|10|19|Tuesday|Sukkot (Day 4)|Observance, Hebrew|חול המועד סוכות (3)|חגים דתיים|0
+2027-10-20|2027|10|20|Wednesday|Sukkot (Day 5)|Observance, Hebrew|חול המועד סוכות (4)|חגים דתיים|0
+2027-10-21|2027|10|21|Thursday|Sukkot (Day 6)|Observance, Hebrew|חול המועד סוכות (5)|חגים דתיים|0
+2027-10-22|2027|10|22|Friday|Sukkot (Day 7) / Hoshanah Rabah|Observance, Hebrew|ערב שמחת תורה|חגים דתיים|0
+2027-10-23|2027|10|23|Saturday|Shemini Atzeret / Simchat Torah|National holiday, Hebrew|שמחת תורה|חגים דתיים|1
+2027-12-25|2027|12|25|Saturday|Hanukkah (Day 1)|Observance, Hebrew|חנוכה (1)|חגים דתיים|0
+2027-12-26|2027|12|26|Sunday|Hanukkah (Day 2)|Observance, Hebrew|חנוכה (2)|חגים דתיים|0
+2027-12-27|2027|12|27|Monday|Hanukkah (Day 3)|Observance, Hebrew|חנוכה (3)|חגים דתיים|0
+2027-12-28|2027|12|28|Tuesday|Hanukkah (Day 4)|Observance, Hebrew|חנוכה (4)|חגים דתיים|0
+2027-12-29|2027|12|29|Wednesday|Hanukkah (Day 5)|Observance, Hebrew|חנוכה (5)|חגים דתיים|0
+2027-12-30|2027|12|30|Thursday|Hanukkah (Day 6) / Rosh Chodesh Tevet|Observance, Hebrew|חנוכה (6)|חגים דתיים|0
+2027-12-31|2027|12|31|Friday|Hanukkah (Day 7)|Observance, Hebrew|חנוכה (7)|חגים דתיים|0
+2028-01-01|2028|1|1|Saturday|Hanukkah (Day 8)|Observance, Hebrew|חנוכה (8)|חגים דתיים|0
+2028-01-09|2028|1|9|Sunday|Asarah B'Tevet (Tenth of Tevet)|Observance, Hebrew|צום עשרה בטבת|חגים דתיים|0
+2028-01-27|2028|1|27|Thursday|Holocaust Remembrance Day|International, business as usual|"יום הזכרון הבנ""ל לשואה"|ימים מוכרים בינלאומית|0
+2028-02-12|2028|2|12|Saturday|Tu Bishvat|Observance, Hebrew|"ט""ו בשבט"|חגים דתיים|0
+2028-03-09|2028|3|9|Thursday|Fast of Esther|Observance, Hebrew|תענית אסתר|חגים דתיים|0
+2028-03-12|2028|3|12|Sunday|Purim|Local Holiday|פורים|חגים דתיים|0
+2028-03-13|2028|3|13|Monday|Shushan Purim (Jerusalem)|Local Holiday|שושן פורים|חגים דתיים|0
+2028-04-10|2028|4|10|Monday|Passover Eve|Observance, Hebrew|ערב פסח|חגים דתיים|0
+2028-04-11|2028|4|11|Tuesday|Passover (Day 1)|National holiday, Hebrew|פסח|חגים דתיים|1
+2028-04-12|2028|4|12|Wednesday|Passover (Day 2)|Observance, Hebrew|חול המועד פסח (1)|חגים דתיים|0
+2028-04-13|2028|4|13|Thursday|Passover (Day 3)|Observance, Hebrew|חול המועד פסח (2)|חגים דתיים|0
+2028-04-14|2028|4|14|Friday|Passover (Day 4)|Observance, Hebrew|חול המועד פסח (3)|חגים דתיים|0
+2028-04-15|2028|4|15|Saturday|Passover (Day 5)|Observance, Hebrew|חול המועד פסח (4)|חגים דתיים|0
+2028-04-16|2028|4|16|Sunday|Passover (Day 6)|Observance, Hebrew|ערב פסח (חג שני)|חגים דתיים|0
+2028-04-17|2028|4|17|Monday|Passover (Day 7)|National holiday, Hebrew|שביעי של פסח|חגים דתיים|1
+2028-04-24|2028|4|24|Monday|Yom HaShoah|Observance, Hebrew|יום הזכרון לשואה ולגבורה|חגים חילוניים|0
+2028-05-01|2028|5|1|Monday|Yom HaZikaron|Observance, Hebrew|"יום הזכרון לחללי צה""ל"|חגים חילוניים|0
+2028-05-02|2028|5|2|Tuesday|Yom HaAtzmaut|National holiday, Hebrew|יום העצמאות|חגים חילוניים|1
+2028-05-14|2028|5|14|Sunday|Lag BaOmer|Observance, Hebrew|"ל""ג בעומר"|חגים דתיים|0
+2028-05-24|2028|5|24|Wednesday|Jerusalem Day|Observance, Hebrew|יום ירושלים|חגים חילוניים|0
+2028-05-30|2028|5|30|Tuesday|Shavuot Eve|Observance, Hebrew|ערב שבועות|חגים דתיים|0
+2028-05-31|2028|5|31|Wednesday|Shavuot|National holiday, Hebrew|שבועות|חגים דתיים|1
+2028-07-11|2028|7|11|Tuesday|17th of Tammuz|Observance, Hebrew|צום שבעה עשר בתמוז|חגים דתיים|0
+2028-07-31|2028|7|31|Monday|Tisha B'Av Eve|Observance, Hebrew|ערב תשעה באב|חגים דתיים|0
+2028-08-01|2028|8|1|Tuesday|Tisha B'Av|Observance, Hebrew|תשעה באב|חגים דתיים|0
+2028-09-20|2028|9|20|Wednesday|Rosh Hashana Eve|Observance, Hebrew|ערב ראש השנה|חגים דתיים|0
+2028-09-21|2028|9|21|Thursday|Rosh Hashana|National holiday, Hebrew|ראש השנה א'|חגים דתיים|1
+2028-09-22|2028|9|22|Friday|Rosh Hashana (Day 2)|National holiday, Hebrew|ראש השנה ב'|חגים דתיים|1
+2028-09-24|2028|9|24|Sunday|Gedaliah Fast|Observance, Hebrew|צום גדליה|חגים דתיים|0
+2028-09-29|2028|9|29|Friday|Yom Kippur Eve|Observance, Hebrew|ערב יום כיפור|חגים דתיים|0
+2028-09-30|2028|9|30|Saturday|Yom Kippur|National holiday, Hebrew|יום כיפור|חגים דתיים|1
+2028-10-04|2028|10|4|Wednesday|Sukkot Eve|Observance, Hebrew|ערב סוכות|חגים דתיים|0
+2028-10-05|2028|10|5|Thursday|Sukkot (Day 1)|National holiday, Hebrew|סוכות|חגים דתיים|1
+2028-10-06|2028|10|6|Friday|Sukkot (Day 2)|Observance, Hebrew|חול המועד סוכות (1)|חגים דתיים|0
+2028-10-07|2028|10|7|Saturday|Sukkot (Day 3)|Observance, Hebrew|חול המועד סוכות (2)|חגים דתיים|0
+2028-10-08|2028|10|8|Sunday|Sukkot (Day 4)|Observance, Hebrew|חול המועד סוכות (3)|חגים דתיים|0
+2028-10-09|2028|10|9|Monday|Sukkot (Day 5)|Observance, Hebrew|חול המועד סוכות (4)|חגים דתיים|0
+2028-10-10|2028|10|10|Tuesday|Sukkot (Day 6)|Observance, Hebrew|חול המועד סוכות (5)|חגים דתיים|0
+2028-10-11|2028|10|11|Wednesday|Sukkot (Day 7) / Hoshanah Rabah|Observance, Hebrew|ערב שמחת תורה|חגים דתיים|0
+2028-10-12|2028|10|12|Thursday|Shemini Atzeret / Simchat Torah|National holiday, Hebrew|שמחת תורה|חגים דתיים|1
+2028-12-13|2028|12|13|Wednesday|Hanukkah (Day 1)|Observance, Hebrew|חנוכה (1)|חגים דתיים|0
+2028-12-14|2028|12|14|Thursday|Hanukkah (Day 2)|Observance, Hebrew|חנוכה (2)|חגים דתיים|0
+2028-12-15|2028|12|15|Friday|Hanukkah (Day 3)|Observance, Hebrew|חנוכה (3)|חגים דתיים|0
+2028-12-16|2028|12|16|Saturday|Hanukkah (Day 4)|Observance, Hebrew|חנוכה (4)|חגים דתיים|0
+2028-12-17|2028|12|17|Sunday|Hanukkah (Day 5)|Observance, Hebrew|חנוכה (5)|חגים דתיים|0
+2028-12-18|2028|12|18|Monday|Hanukkah (Day 6) / Rosh Chodesh Tevet|Observance, Hebrew|חנוכה (6)|חגים דתיים|0
+2028-12-19|2028|12|19|Tuesday|Hanukkah (Day 7)|Observance, Hebrew|חנוכה (7)|חגים דתיים|0
+2028-12-20|2028|12|20|Wednesday|Hanukkah (Day 8)|Observance, Hebrew|חנוכה (8)|חגים דתיים|0
+2028-12-28|2028|12|28|Thursday|Asarah B'Tevet (Tenth of Tevet)|Observance, Hebrew|צום עשרה בטבת|חגים דתיים|0
+2029-01-27|2029|1|27|Saturday|Holocaust Remembrance Day|International, business as usual|"יום הזכרון הבנ""ל לשואה"|ימים מוכרים בינלאומית|0
+2029-01-31|2029|1|31|Wednesday|Tu Bishvat|Observance, Hebrew|"ט""ו בשבט"|חגים דתיים|0
+2029-02-28|2029|2|28|Wednesday|Fast of Esther|Observance, Hebrew|תענית אסתר|חגים דתיים|0
+2029-03-01|2029|3|1|Thursday|Purim|Local Holiday|פורים|חגים דתיים|0
+2029-03-02|2029|3|2|Friday|Shushan Purim (Jerusalem)|Local Holiday|שושן פורים|חגים דתיים|0
+2029-03-30|2029|3|30|Friday|Passover Eve|Observance, Hebrew|ערב פסח|חגים דתיים|0
+2029-03-31|2029|3|31|Saturday|Passover (Day 1)|National holiday, Hebrew|פסח|חגים דתיים|1
+2029-04-01|2029|4|1|Sunday|Passover (Day 2)|Observance, Hebrew|חול המועד פסח (1)|חגים דתיים|0
+2029-04-02|2029|4|2|Monday|Passover (Day 3)|Observance, Hebrew|חול המועד פסח (2)|חגים דתיים|0
+2029-04-03|2029|4|3|Tuesday|Passover (Day 4)|Observance, Hebrew|חול המועד פסח (3)|חגים דתיים|0
+2029-04-04|2029|4|4|Wednesday|Passover (Day 5)|Observance, Hebrew|חול המועד פסח (4)|חגים דתיים|0
+2029-04-05|2029|4|5|Thursday|Passover (Day 6)|Observance, Hebrew|ערב פסח (חג שני)|חגים דתיים|0
+2029-04-06|2029|4|6|Friday|Passover (Day 7)|National holiday, Hebrew|שביעי של פסח|חגים דתיים|1
+2029-04-11|2029|4|11|Wednesday|Yom HaShoah|Observance, Hebrew|יום הזכרון לשואה ולגבורה|חגים חילוניים|0
+2029-04-18|2029|4|18|Wednesday|Yom HaZikaron|Observance, Hebrew|"יום הזכרון לחללי צה""ל"|חגים חילוניים|0
+2029-04-19|2029|4|19|Thursday|Yom HaAtzmaut|National holiday, Hebrew|יום העצמאות|חגים חילוניים|1
+2029-05-03|2029|5|3|Thursday|Lag BaOmer|Observance, Hebrew|"ל""ג בעומר"|חגים דתיים|0
+2029-05-13|2029|5|13|Sunday|Jerusalem Day|Observance, Hebrew|יום ירושלים|חגים חילוניים|0
+2029-05-19|2029|5|19|Saturday|Shavuot Eve|Observance, Hebrew|ערב שבועות|חגים דתיים|0
+2029-05-20|2029|5|20|Sunday|Shavuot|National holiday, Hebrew|שבועות|חגים דתיים|1
+2029-07-01|2029|7|1|Sunday|17th of Tammuz|Observance, Hebrew|צום שבעה עשר בתמוז|חגים דתיים|0
+2029-07-21|2029|7|21|Saturday|Tisha B'Av Eve|Observance, Hebrew|ערב תשעה באב|חגים דתיים|0
+2029-07-22|2029|7|22|Sunday|Tisha B'Av|Observance, Hebrew|תשעה באב|חגים דתיים|0
+2029-09-09|2029|9|9|Sunday|Rosh Hashana Eve|Observance, Hebrew|ערב ראש השנה|חגים דתיים|0
+2029-09-10|2029|9|10|Monday|Rosh Hashana|National holiday, Hebrew|ראש השנה א'|חגים דתיים|1
+2029-09-11|2029|9|11|Tuesday|Rosh Hashana (Day 2)|National holiday, Hebrew|ראש השנה ב'|חגים דתיים|1
+2029-09-12|2029|9|12|Wednesday|Gedaliah Fast|Observance, Hebrew|צום גדליה|חגים דתיים|0
+2029-09-18|2029|9|18|Tuesday|Yom Kippur Eve|Observance, Hebrew|ערב יום כיפור|חגים דתיים|0
+2029-09-19|2029|9|19|Wednesday|Yom Kippur|National holiday, Hebrew|יום כיפור|חגים דתיים|1
+2029-09-23|2029|9|23|Sunday|Sukkot Eve|Observance, Hebrew|ערב סוכות|חגים דתיים|0
+2029-09-24|2029|9|24|Monday|Sukkot (Day 1)|National holiday, Hebrew|סוכות|חגים דתיים|1
+2029-09-25|2029|9|25|Tuesday|Sukkot (Day 2)|Observance, Hebrew|חול המועד סוכות (1)|חגים דתיים|0
+2029-09-26|2029|9|26|Wednesday|Sukkot (Day 3)|Observance, Hebrew|חול המועד סוכות (2)|חגים דתיים|0
+2029-09-27|2029|9|27|Thursday|Sukkot (Day 4)|Observance, Hebrew|חול המועד סוכות (3)|חגים דתיים|0
+2029-09-28|2029|9|28|Friday|Sukkot (Day 5)|Observance, Hebrew|חול המועד סוכות (4)|חגים דתיים|0
+2029-09-29|2029|9|29|Saturday|Sukkot (Day 6)|Observance, Hebrew|חול המועד סוכות (5)|חגים דתיים|0
+2029-09-30|2029|9|30|Sunday|Sukkot (Day 7) / Hoshanah Rabah|Observance, Hebrew|ערב שמחת תורה|חגים דתיים|0
+2029-10-01|2029|10|1|Monday|Shemini Atzeret / Simchat Torah|National holiday, Hebrew|שמחת תורה|חגים דתיים|1
+2029-12-02|2029|12|2|Sunday|Hanukkah (Day 1)|Observance, Hebrew|חנוכה (1)|חגים דתיים|0
+2029-12-03|2029|12|3|Monday|Hanukkah (Day 2)|Observance, Hebrew|חנוכה (2)|חגים דתיים|0
+2029-12-04|2029|12|4|Tuesday|Hanukkah (Day 3)|Observance, Hebrew|חנוכה (3)|חגים דתיים|0
+2029-12-05|2029|12|5|Wednesday|Hanukkah (Day 4)|Observance, Hebrew|חנוכה (4)|חגים דתיים|0
+2029-12-06|2029|12|6|Thursday|Hanukkah (Day 5)|Observance, Hebrew|חנוכה (5)|חגים דתיים|0
+2029-12-07|2029|12|7|Friday|Hanukkah (Day 6) / Rosh Chodesh Tevet|Observance, Hebrew|חנוכה (6)|חגים דתיים|0
+2029-12-08|2029|12|8|Saturday|Hanukkah (Day 7)|Observance, Hebrew|חנוכה (7)|חגים דתיים|0
+2029-12-09|2029|12|9|Sunday|Hanukkah (Day 8)|Observance, Hebrew|חנוכה (8)|חגים דתיים|0
+2029-12-16|2029|12|16|Sunday|Asarah B'Tevet (Tenth of Tevet)|Observance, Hebrew|צום עשרה בטבת|חגים דתיים|0
+2030-01-19|2030|1|19|Saturday|Tu Bishvat|Observance, Hebrew|"ט""ו בשבט"|חגים דתיים|0
+2030-01-27|2030|1|27|Sunday|Holocaust Remembrance Day|International, business as usual|"יום הזכרון הבנ""ל לשואה"|ימים מוכרים בינלאומית|0
+2030-03-18|2030|3|18|Monday|Fast of Esther|Observance, Hebrew|תענית אסתר|חגים דתיים|0
+2030-03-19|2030|3|19|Tuesday|Purim|Local Holiday|פורים|חגים דתיים|0
+2030-03-20|2030|3|20|Wednesday|Shushan Purim (Jerusalem)|Local Holiday|שושן פורים|חגים דתיים|0
+2030-04-17|2030|4|17|Wednesday|Passover Eve|Observance, Hebrew|ערב פסח|חגים דתיים|0
+2030-04-18|2030|4|18|Thursday|Passover (Day 1)|National holiday, Hebrew|פסח|חגים דתיים|1
+2030-04-19|2030|4|19|Friday|Passover (Day 2)|Observance, Hebrew|חול המועד פסח (1)|חגים דתיים|0
+2030-04-20|2030|4|20|Saturday|Passover (Day 3)|Observance, Hebrew|חול המועד פסח (2)|חגים דתיים|0
+2030-04-21|2030|4|21|Sunday|Passover (Day 4)|Observance, Hebrew|חול המועד פסח (3)|חגים דתיים|0
+2030-04-22|2030|4|22|Monday|Passover (Day 5)|Observance, Hebrew|חול המועד פסח (4)|חגים דתיים|0
+2030-04-23|2030|4|23|Tuesday|Passover (Day 6)|Observance, Hebrew|ערב פסח (חג שני)|חגים דתיים|0
+2030-04-24|2030|4|24|Wednesday|Passover (Day 7)|National holiday, Hebrew|שביעי של פסח|חגים דתיים|1
+2030-04-30|2030|4|30|Tuesday|Yom HaShoah|Observance, Hebrew|יום הזכרון לשואה ולגבורה|חגים חילוניים|0
+2030-05-07|2030|5|7|Tuesday|Yom HaZikaron|Observance, Hebrew|"יום הזכרון לחללי צה""ל"|חגים חילוניים|0
+2030-05-08|2030|5|8|Wednesday|Yom HaAtzmaut|National holiday, Hebrew|יום העצמאות|חגים חילוניים|1
+2030-05-21|2030|5|21|Tuesday|Lag BaOmer|Observance, Hebrew|"ל""ג בעומר"|חגים דתיים|0
+2030-05-31|2030|5|31|Friday|Jerusalem Day|Observance, Hebrew|יום ירושלים|חגים חילוניים|0
+2030-06-06|2030|6|6|Thursday|Shavuot Eve|Observance, Hebrew|ערב שבועות|חגים דתיים|0
+2030-06-07|2030|6|7|Friday|Shavuot|National holiday, Hebrew|שבועות|חגים דתיים|1
+2030-07-18|2030|7|18|Thursday|17th of Tammuz|Observance, Hebrew|צום שבעה עשר בתמוז|חגים דתיים|0
+2030-08-07|2030|8|7|Wednesday|Tisha B'Av Eve|Observance, Hebrew|ערב תשעה באב|חגים דתיים|0
+2030-08-08|2030|8|8|Thursday|Tisha B'Av|Observance, Hebrew|תשעה באב|חגים דתיים|0
+2030-09-27|2030|9|27|Friday|Rosh Hashana Eve|Observance, Hebrew|ערב ראש השנה|חגים דתיים|0
+2030-09-28|2030|9|28|Saturday|Rosh Hashana|National holiday, Hebrew|ראש השנה א'|חגים דתיים|1
+2030-09-29|2030|9|29|Sunday|Rosh Hashana (Day 2)|National holiday, Hebrew|ראש השנה ב'|חגים דתיים|1
+2030-09-30|2030|9|30|Monday|Gedaliah Fast|Observance, Hebrew|צום גדליה|חגים דתיים|0
+2030-10-06|2030|10|6|Sunday|Yom Kippur Eve|Observance, Hebrew|ערב יום כיפור|חגים דתיים|0
+2030-10-07|2030|10|7|Monday|Yom Kippur|National holiday, Hebrew|יום כיפור|חגים דתיים|1
+2030-10-11|2030|10|11|Friday|Sukkot Eve|Observance, Hebrew|ערב סוכות|חגים דתיים|0
+2030-10-12|2030|10|12|Saturday|Sukkot (Day 1)|National holiday, Hebrew|סוכות|חגים דתיים|1
+2030-10-13|2030|10|13|Sunday|Sukkot (Day 2)|Observance, Hebrew|חול המועד סוכות (1)|חגים דתיים|0
+2030-10-14|2030|10|14|Monday|Sukkot (Day 3)|Observance, Hebrew|חול המועד סוכות (2)|חגים דתיים|0
+2030-10-15|2030|10|15|Tuesday|Sukkot (Day 4)|Observance, Hebrew|חול המועד סוכות (3)|חגים דתיים|0
+2030-10-16|2030|10|16|Wednesday|Sukkot (Day 5)|Observance, Hebrew|חול המועד סוכות (4)|חגים דתיים|0
+2030-10-17|2030|10|17|Thursday|Sukkot (Day 6)|Observance, Hebrew|חול המועד סוכות (5)|חגים דתיים|0
+2030-10-18|2030|10|18|Friday|Sukkot (Day 7) / Hoshanah Rabah|Observance, Hebrew|ערב שמחת תורה|חגים דתיים|0
+2030-10-19|2030|10|19|Saturday|Shemini Atzeret / Simchat Torah|National holiday, Hebrew|שמחת תורה|חגים דתיים|1
+2030-12-21|2030|12|21|Saturday|Hanukkah (Day 1)|Observance, Hebrew|חנוכה (1)|חגים דתיים|0
+2030-12-22|2030|12|22|Sunday|Hanukkah (Day 2)|Observance, Hebrew|חנוכה (2)|חגים דתיים|0
+2030-12-23|2030|12|23|Monday|Hanukkah (Day 3)|Observance, Hebrew|חנוכה (3)|חגים דתיים|0
+2030-12-24|2030|12|24|Tuesday|Hanukkah (Day 4)|Observance, Hebrew|חנוכה (4)|חגים דתיים|0
+2030-12-25|2030|12|25|Wednesday|Hanukkah (Day 5)|Observance, Hebrew|חנוכה (5)|חגים דתיים|0
+2030-12-26|2030|12|26|Thursday|Hanukkah (Day 6) / Rosh Chodesh Tevet|Observance, Hebrew|חנוכה (6)|חגים דתיים|0
+2030-12-27|2030|12|27|Friday|Hanukkah (Day 7)|Observance, Hebrew|חנוכה (7)|חגים דתיים|0
+2030-12-28|2030|12|28|Saturday|Hanukkah (Day 8)|Observance, Hebrew|חנוכה (8)|חגים דתיים|0

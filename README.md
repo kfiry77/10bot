@@ -105,7 +105,7 @@ The code is bases from these repositories by [Dvir Perets](https://github.com/Dv
 
 ## TODO:  
 - [x] Bug Fix: user-token header is not needed due to 10bis change of API, RefreshToken API should be used instead.  
-- [ ] Fix the holidays, to block only non-working day. 
+- [x] Fix the holidays, to block only non-working day. 
 - [ ] Add scrips the deployment to cloud providers:
   - [ ] Azure 
   - [ ] GCP

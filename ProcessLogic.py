@@ -2,7 +2,7 @@
 This module contains the ProcessLogic class which extends the Processor class.
 It provides methods for comparing coupon files, processing data, and managing purchases and reports.
 """
-
+from HolidaysDatabase import HolidaysDatabase
 from PickleSerializer import PickleSerializer
 from TenbisLogic import Tenbis
 from Processor import Processor
@@ -19,6 +19,7 @@ class ProcessLogic(Processor):
         Initialize the ProcessLogic class with the given arguments and next processors.
         """
         super().__init__(next_processors)
+        self.holidays_db = HolidaysDatabase()
         self.ten_bis = Tenbis(args)
 
     @staticmethod
@@ -51,6 +52,8 @@ class ProcessLogic(Processor):
         send_report = False
         if data.disable_purchase:
             self.logger.info('Purchase is disabled today.')
+        elif not self.holidays_db.is_working_day():
+            self.logger.info('today is %s, skipping purchase', self.holidays_db.get_holiday_data()['eng_name'])
         elif self.ten_bis.is_budget_available():
             self.logger.info('Budget available, purchasing.')
             self.ten_bis.buy_coupon(40)

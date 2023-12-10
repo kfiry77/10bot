@@ -156,26 +156,6 @@ class Tenbis:
         bool
             True if budget is available, False otherwise.
         """
-        # check if it is a working day, if not return
-        today = datetime.today()
-        if today.weekday() == 5 or today.weekday() == 4:
-            self.logger.debug('%s Is a non-working day', today.strftime('%Y-%m-%d'))
-            return False
-
-        # check holiday according to Israel gov calendar:
-        today = datetime.today()
-        date_format = '%Y-%m-%dT%H:%M:%S'
-        url = 'https://data.gov.il/api/3/action/datastore_search?resource_id=67492cda-b36e-45f4-9ed1-0471af297e8b'
-        r = requests.get(url, timeout=60)
-        holidays = json.loads(r.text)
-        # maybe there is no need for iteration since the result is sorted.
-        for h in holidays['result']['records']:
-            h_start = datetime.strptime(h['HolidayStart'], date_format)
-            h_ends = datetime.strptime(h['HolidayEnds'], date_format)
-            h_name = h['Name']
-            if h_start <= today <= h_ends:
-                self.logger.info('%s is %s', today, h_name)
-                return False
 
         payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": 0}
         report = self.post_next_api('UserTransactionsReport', payload)
@@ -201,7 +181,7 @@ class Tenbis:
 
         Parameters
         ----------
-        coupon : str
+        coupon : int
             The coupon to buy.
         """
         session = self.session
@@ -230,7 +210,7 @@ class Tenbis:
 
         # SetDishListInShoppingCart
         payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he",
-                   "dishList": [{"dishId": COUPONS_IDS[int(coupon)], "shoppingCartDishId": 1, "quantity": 1,
+                   "dishList": [{"dishId": COUPONS_IDS[coupon], "shoppingCartDishId": 1, "quantity": 1,
                                  "assignedUserId": self.user_id, "choices": [], "dishNotes": None,
                                  "categoryId": 278344}]}
         self.post_next_api('SetDishListInShoppingCart', payload)
