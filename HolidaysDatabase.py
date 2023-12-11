@@ -29,7 +29,7 @@ class HolidaysDatabase:
         """
         Builds the holiday database by reading data from an Excel file, filtering, and saving to a CSV file.
         """
-        import pandas as pd
+        import pandas as pd  # pylint: disable=import-outside-toplevel, import-error
         # file found on : http://top-analyst.com/he/?p=317
         excel_file = 'Jewish_Israeli_holidays.xlsx'  # Replace with your Excel file path
         data = pd.read_excel(excel_file)
