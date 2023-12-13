@@ -38,11 +38,12 @@ def setup_logger(args):
     logger.addHandler(stream_handler)
 
     # Create a StreamHandler to send logs to buffer
-    log_stream = StringIO()
-    string_io_handler = logging.StreamHandler(log_stream)
-    string_io_handler.setLevel(logging.INFO)
-    string_io_handler.setFormatter(friendly_formatter)
-    logger.addHandler(string_io_handler)
+    if not args.disablegreenapi:
+        log_stream = StringIO()
+        string_io_handler = logging.StreamHandler(log_stream)
+        string_io_handler.setLevel(logging.INFO)
+        string_io_handler.setFormatter(friendly_formatter)
+        logger.addHandler(string_io_handler)
 
     # Create a FileHandler to write logs to a file
     file_handler = logging.FileHandler('10bot_app.log', 'a', 'utf-8')
@@ -86,7 +87,8 @@ def main():
 
     logger.info('*** 10Bot ended ***')
     # send report to whatsup.
-    whatsapp_api.send_message(whatsapp_api.chatId, logger.handlers[1].stream.getvalue())
+    if not args.disablegreenapi:
+        whatsapp_api.send_message(whatsapp_api.chatId, logger.handlers[1].stream.getvalue())
 
 
 if __name__ == '__main__':

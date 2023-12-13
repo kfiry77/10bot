@@ -62,9 +62,9 @@ class Tenbis:
         self.logger = logging.getLogger('AppLogger')
         self.session_pickle = PickleSerializer("sessions")
         if not self.auth():
-            self.logger.info("10Bis Logging Failure")
+            self.logger.info("10Bis logged in Failure")
             raise RuntimeError('Error Authenticating')
-        self.logger.info("10Bis Logging success")
+        self.logger.info("10Bis logged in Success")
 
     def post_next_api(self, endpoint, payload):
         """ Makes a POST request to the specified endpoint with the given payload.
@@ -119,7 +119,7 @@ class Tenbis:
                     return False
                 self.session_pickle.create(self.session)
                 response = self.post_next_api('GetUser', payload)
-                self.logger.info('User %s Logged In', response['Data']['email'])
+                self.logger.debug('User %s Logged In', response['Data']['email'])
                 return True
 
         # Phase one -> Email
