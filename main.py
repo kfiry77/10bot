@@ -25,7 +25,7 @@ def setup_logger(args):
     """
     # Create a logger
     logger = logging.getLogger('AppLogger')
-    logger.setLevel(logging.DEBUG if args.verbose else logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
     verbose_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s '
                                           '(%(filename)s:%(funcName)s:%(lineno)d)')
