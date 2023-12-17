@@ -290,9 +290,9 @@ class Tenbis:
             v['orders'].sort(key=lambda x: x['unixTime'])
 
         state_pickle.create(actual_min_month_with_coupons)
-        self.logger.info('Created report between %d/%d and %d/%d',
-                         scanned_month.year, scanned_month.month,
-                         actual_min_month_with_coupons.year, actual_min_month_with_coupons.month)
+        self.logger.debug('Created report between %d/%d and %d/%d',
+                          scanned_month.year, scanned_month.month + 1,
+                          actual_min_month_with_coupons.year, actual_min_month_with_coupons.month + 1)
         return restaurants
 
     def __process_barcode_orders(self, b, restaurants):
