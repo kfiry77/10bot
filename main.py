@@ -5,6 +5,7 @@ import logging
 import sys
 import urllib3
 import requests
+import http.client
 from io import StringIO
 
 from ChatCommandsReader import ChatCommandsReader
@@ -42,6 +43,7 @@ def setup_logger(args):
     stream_handler.setFormatter(verbose_formatter if args.verbose else friendly_formatter)
 
     if args.verbose:
+        http.client.HTTPConnection.debuglevel = 1
         urllib3_logger.addHandler(stream_handler)
         requests_logger.addHandler(stream_handler)
         urllib3_logger.setLevel(logging.DEBUG)
