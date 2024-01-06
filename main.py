@@ -3,6 +3,8 @@ import argparse
 import datetime
 import logging
 import sys
+import urllib3
+import requests
 from io import StringIO
 
 from ChatCommandsReader import ChatCommandsReader
@@ -27,6 +29,9 @@ def setup_logger(args):
     logger = logging.getLogger('AppLogger')
     logger.setLevel(logging.DEBUG)
 
+    urllib3_logger = logging.getLogger('urllib3')
+    requests_logger = logging.getLogger('requests')
+
     verbose_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s '
                                           '(%(filename)s:%(funcName)s:%(lineno)d)')
     friendly_formatter = logging.Formatter('%(message)s')
@@ -35,6 +40,13 @@ def setup_logger(args):
     stream_handler = logging.StreamHandler(sys.stdout)
     stream_handler.setLevel(logging.DEBUG if args.verbose else logging.INFO)
     stream_handler.setFormatter(verbose_formatter if args.verbose else friendly_formatter)
+
+    if args.verbose:
+        urllib3_logger.addHandler(stream_handler)
+        requests_logger.addHandler(stream_handler)
+        urllib3_logger.setLevel(logging.DEBUG)
+        requests_logger.setLevel(logging.DEBUG)
+
     logger.addHandler(stream_handler)
 
     # Create a StreamHandler to send logs to buffer
@@ -54,6 +66,9 @@ def setup_logger(args):
     debug_handler = logging.FileHandler('10bot_debug.log', 'a', 'utf-8')
     debug_handler.setLevel(logging.DEBUG)
     debug_handler.setFormatter(verbose_formatter)
+    urllib3_logger.addHandler(debug_handler)
+    requests_logger.addHandler(debug_handler)
+
     logger.addHandler(debug_handler)
 
     return logger
@@ -75,15 +90,18 @@ def main():
     logger.info('*** 10Bot started at %s ***', datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))
 
     whatsapp_api = WhatsappGreenApi(args)
-    process_chain = ChatCommandsReader(whatsapp_api,
-                                       ProcessLogic(args,
-                                                    CouponFormatter(
-                                                        [
-                                                            WriterHtml(),
-                                                            WriterPdf(
-                                                                WhatsAppPublisher(args, whatsapp_api))
-                                                        ])))
-    process_chain.process()
+    try:
+        process_chain = ChatCommandsReader(whatsapp_api,
+                                           ProcessLogic(args,
+                                                        CouponFormatter(
+                                                            [
+                                                                WriterHtml(),
+                                                                WriterPdf(
+                                                                    WhatsAppPublisher(args, whatsapp_api))
+                                                            ])))
+        process_chain.process()
+    except RuntimeError:
+        logger.info('Process resulted error')
 
     logger.info('*** 10Bot ended ***')
     # send report to whatsup.
