@@ -4,7 +4,6 @@ A bot to buy 10Bis coupons.
 The project is a Python script that automates the purchase of Shufersal Coupons in a 10bis account if there is sufficient credit and only on working days. The script generates a report containing the list of coupons and their barcodes and saves it in both PDF and HTML formats. The PDF file is then published to a designated WhatsApp group. 
 To ensure consistent operation, the script can be scheduled to execute daily, using CRON or cloud Bot, such as Azure Function.
 
-
 ![Bot Logic](./plantuml_files/10bisLogic.svg)
 
 ## Installation and usage
@@ -14,12 +13,19 @@ Go through the ["Before you Start"](https://green-api.com/en/docs/before-start/)
 Create instance, and authorized it.  
 write down  ```idInstance```,  ```apiTokenInstance``` values, to be later use when installing.
 
-## repo download
-download the repository and install requirements.
+## repository download
+download the repository
 
 ```sh
 git clone https://github.com/kfiry77/10bot
+```
+
+## install virtual environment and install requirements
+
+```sh
 cd 10bot
+python -m venv .
+source ./venv/bin/activate 
 pip3 install -r requirements.txt
 ```
 ## Addtional machine installations 
@@ -41,7 +47,7 @@ PATH=%PATH%;C:\Program Files\GTK3-Runtime Win64\bin
 
 Execute script ```main``` 
 
-note:purchase won't be submitted if -d is specified. 
+__note__: purchase won't be submitted if -d is specified. 
 ```sh
 python3 main.py -d 
 ```
@@ -86,8 +92,7 @@ a  PDF with all the coupons will be shared in this group.
 
 Add the script to the system crontab, by typing ```crontab -e ``` and adding the following line to it.   
 ```
-crontab -e
-0 23 * * *  usr/bin/python3 /path/to/your/script/main.py [-v] [-d]  >> /path/to/your/log/10bot.log 2>&1 &
+0 23 * * *  (/bin/bash -c "cd /path/to/your/script && source .venv/bin/activate && python3 main.py  >> /path/to/your/log/10bot.log 2>&1 &") 
 ```
 
 ## Whatsapp Group Commands:
@@ -96,7 +101,6 @@ to the group. ```/enable``` command will enable it again.
 note that, only the command from last day is relevant, and of there is a conflict between command, the last one will 
 be considered only. 
  
-
 ## references:
 
 The code is bases from these repositories by [Dvir Perets](https://github.com/Dvirus89)
