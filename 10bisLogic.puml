@@ -1,5 +1,6 @@
 @startuml
 start
+
 : Read commands from WhatsApp;
 if (/disable command exists) then (yes)
 else
@@ -8,6 +9,7 @@ else
     else (no)
     endif
 endif
+
 
 : Generate report with coupons\n barcodes;
 : Save report as PDF and HTML ;
