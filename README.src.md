@@ -4,12 +4,7 @@ A bot to buy 10Bis coupons.
 The project is a Python script that automates the purchase of Shufersal Coupons in a 10bis account if there is sufficient credit and only on working days. The script generates a report containing the list of coupons and their barcodes and saves it in both PDF and HTML formats. The PDF file is then published to a designated WhatsApp group. 
 To ensure consistent operation, the script can be scheduled to execute daily, using CRON or cloud Bot, such as Azure Function.
 
-![Diagram 1](./mdcompile_files/README_diagram_1.svg)
-<details>
- <summary>Diagram 1 plantuml</summary>
-
 ```plantuml
-@startuml
 start
 
 : Read commands from WhatsApp;
@@ -25,9 +20,7 @@ endif
 : Save report as PDF and HTML ;
 : Publish PDF to WhatsApp group;
 stop
-@enduml
 ```
-</details>
 
 ## Installation and usage
 ### register to WhatApp API Provider
