@@ -1,19 +1,29 @@
-name: generate plantuml
-on: push
+name: Process PlantUML
+
+on: [push, pull_request]
+
 jobs:
-  generate_plantuml:
+  plantuml:
     runs-on: ubuntu-latest
-    name: plantuml
     steps:
-    - name: checkout
-      uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
-    - name: plantuml
-      id: plantuml
-      uses: grassedge/generate-plantuml-action@v1.5
-      with:
-        path: plantuml_files
-        message: "Render PlantUML files"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: compile markdown source
+        uses: kfiry/mdcompile@v1.0.0
+        with:
+          output_dir: "mdcompile_files"
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add .
+          if git diff --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Add updated diagrams"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
