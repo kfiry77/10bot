@@ -3,8 +3,6 @@ import argparse
 import datetime
 import logging
 import sys
-import urllib3
-import requests
 import http.client
 from io import StringIO
 
