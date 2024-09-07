@@ -6,7 +6,7 @@ To ensure consistent operation, the script can be scheduled to execute daily, us
 
 ![Diagram 1](./mdcompile_files/README_diagram_1.svg)
 <details>
- <summary>Diagram 1 plantuml</summary>
+ <summary>View Source</summary>
 
 ```plantuml
 @startuml
