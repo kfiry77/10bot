@@ -47,8 +47,8 @@ git clone https://github.com/kfiry77/10bot
 
 ```sh
 cd 10bot
-python -m venv .
-source ./venv/bin/activate 
+python -m venv .venv
+source .venv/bin/activate 
 pip3 install -r requirements.txt
 ```
 ## Addtional machine installations 
