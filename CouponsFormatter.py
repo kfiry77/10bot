@@ -10,7 +10,7 @@ The module uses the requests library to fetch the image, PIL to process the imag
 import base64
 import io
 import requests
-from PIL import Image
+import code128
 
 from Processor import CollectionProcessor
 
@@ -83,14 +83,14 @@ class CouponFormatter(CollectionProcessor):
         super().__init__(next_processor)
 
     @staticmethod
-    def download_crop_encode(url):
+    def generate_barcode(barcode):
         """
         Downloads the image from the provided URL, crops it, and encodes it into base64 format.
 
         Parameters
         ----------
-        url : str
-            The URL of the image.
+        barcode : str
+            a String representing the barcode number
 
         Returns
         -------
@@ -98,15 +98,13 @@ class CouponFormatter(CollectionProcessor):
             The base64 encoded image.
         """
         try:
-            response = requests.get(url, timeout=60)
-            response.raise_for_status()
 
-            # Read the image into memory
-            image = Image.open(io.BytesIO(response.content))
+            # generate image to memory
+            image = code128.image(barcode)
 
-            # Crop the image (0.25 from top and bottom)
+            # Crop the image
             width, height = image.size
-            top_crop = int(0.20 * height)
+            top_crop = int(0.05 * height)
             bottom_crop = height - top_crop
             cropped_image = image.crop((0, top_crop, width, bottom_crop))
 
@@ -119,7 +117,7 @@ class CouponFormatter(CollectionProcessor):
             return base64.b64encode(image_bytes.read()).decode('utf-8')
 
         except requests.exceptions.RequestException as e:
-            print(f"Error downloading image: {e}")
+            print(f"Error Generating image: {e}")
             return ''
 
     def process_impl(self, data):
@@ -140,8 +138,7 @@ class CouponFormatter(CollectionProcessor):
         restaurant_name = data['restaurantName']
         output_table = ""
         for coupon in orders:
-            image_data = self.download_crop_encode(coupon['barcode_url'])
-
+            image_data = self.generate_barcode(coupon['barcode'].replace("-",""))
             output_table += HTML_ROW_TEMPLATE.format(order_date=coupon['Date'],
                                                      barcode_number=coupon['barcode'].replace("-", "-<br>"),
                                                      image_data=image_data,
