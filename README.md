@@ -16,7 +16,7 @@ start
 if (/disable command exists) then (yes)
 else
     if (Workingday & credit > 0) then (yes)
-      :Purchase Shufersal\n Coupon;
+      :Move Budget \n to Credit;
     else (no)
     endif
 endif
