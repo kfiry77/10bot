@@ -1,7 +1,7 @@
 """ 10 Bis logic processor module """
 import json
 import logging
-from datetime import datetime, date
+from datetime import date
 from dateutil.relativedelta import relativedelta
 import requests
 import urllib3
@@ -330,7 +330,16 @@ class Tenbis:
         return restaurants, found_unused_coupons
 
     def load_remaining_amount_to_credit(self):
+        """
+        Loads the remaining amount of daily budget to credit.
 
+        This method checks if the 10Bis credit conversion is enabled. If enabled, it moves the available amount
+        to the credit.
+
+        Returns
+        -------
+        None
+        """
         payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": 0}
         report = self.post_next_api('UserTransactionsReport', payload)
 
@@ -350,10 +359,8 @@ class Tenbis:
         payload = {"amount": str(available_amount), "moneycardIdToCharge": moneycardId}
         headers = {"content-type": "application/json"}
         resp_json = self.session.patch(endpoint, json=payload, headers=headers)
-        if resp_json.status_code == 200:
-            self.logger.info(f"{available_amount} moved to credit successfully")
+        if resp_json.status_code != 200:
+            self.logger.info("Moving amount to credit failed with errors: %s", resp_json['Errors'])
+            self.logger.debug("Error dump: %s", resp_json)
         else:
-            self.logger.info(f"Moving amount to credit failed with errors: {resp_json['Errors']}")
-            self.logger.debug(f"Error dump:{resp_json}")
-
-
+            self.logger.info("%s moved to credit successfully", {available_amount})
