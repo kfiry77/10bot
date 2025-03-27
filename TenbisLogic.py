@@ -88,7 +88,6 @@ class Tenbis:
         self.logger.debug(resp_json)
         if not success_code:
             raise RuntimeError('NextApi call failure:' + (error_msg[0]['ErrorDesc'][::-1]))
-
         return resp_json
 
     def auth(self):
@@ -147,33 +146,19 @@ class Tenbis:
         self.session_pickle.create(self.session)
         return True
 
-    def is_budget_available(self):
+    def budget_available(self):
         """
         Checks if budget is available.
 
         Returns
         -------
-        bool
-            True if budget is available, False otherwise.
+        int
+            Amount of daily unused budget
         """
-
         payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": 0}
         report = self.post_next_api('UserTransactionsReport', payload)
-
-        # option1 - check the last order, and check
-        last_order_is_today = False if len(report['Data']['orderList']) == 0 else (
-                report['Data']['orderList'][-1]['orderDateStr'] == datetime.today().strftime("%d.%m.%y"))
-        if last_order_is_today:
-            self.logger.debug('last_order_check:%s', last_order_is_today)
-            return False
-
-        # check if usage for today > 0
-        daily_usage = report['Data']['moneycards'][0]['usage']['daily']
-        if daily_usage > 0:
-            self.logger.debug('Today usage is:%s', daily_usage)
-            return False
-
-        return True
+        available_amount = report['Data']['moneycards'][0]['tenbisCreditConversion']['availableAmount']
+        return available_amount
 
     def buy_coupon(self, coupon):
         """
@@ -342,3 +327,32 @@ class Tenbis:
                                                   'barcode_url': voucher['BarCodeImgUrl'],
                                                   'amount': voucher['Amount']})
         return restaurants, found_unused_coupons
+
+    def load_remaining_amount_to_credit(self):
+
+        payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": 0}
+        report = self.post_next_api('UserTransactionsReport', payload)
+
+        # check the available amount
+        if  not report['Data']['moneycards'][0]['tenbisCreditConversion']['isEnabled']:
+            self.logger.info("10Bis credit is disabled")
+            return
+
+        available_amount = report['Data']['moneycards'][0]['tenbisCreditConversion']['availableAmount']
+        moneycardId = report['Data']['moneycards'][0]['moneycardId']
+
+        if self.args.dryrun:
+            self.logger.info("Dry Run success, purchase will be skipped.")
+            return
+
+        endpoint = 'https://api.10bis.co.il/api/v1/Payments/LoadTenbisCredit'
+        payload = {"amount": str(available_amount), "moneycardIdToCharge": moneycardId}
+        headers = {"content-type": "application/json"}
+        resp_json = self.session.patch(endpoint, json=payload, headers=headers)
+        if resp_json.status_code == 200:
+            self.logger.info(f"{available_amount} moved to credit successfully")
+        else:
+            self.logger.info(f"Moving amount to credit failed with errors: {resp_json['Errors']}")
+            self.logger.debug(f"Error dump:{resp_json}")
+
+
