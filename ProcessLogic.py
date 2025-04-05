@@ -49,27 +49,27 @@ class ProcessLogic(Processor):
         Process the given data. Manage purchases and reports based on the data and the current budget.
         Return the values of the coupons if a report should be sent, an empty dictionary otherwise.
         """
-        send_report = False
         if data.disable_purchase:
             self.logger.info('Purchase is disabled today.')
         elif not self.holidays_db.is_working_day():
             self.logger.info('today is %s, skipping purchase', self.holidays_db.get_holiday_data()['eng_name'])
-        elif self.ten_bis.budget_available() > 0:
-            self.logger.info('Budget available, moving it to credit')
-            self.ten_bis.load_remaining_amount_to_credit()
-#            self.ten_bis.buy_coupon(40)
-            send_report = False
         else:
-            self.logger.info('No Budget, Purchase will be skipped ')
+            budget = self.ten_bis.budget_available()
+            if budget > 0:
+                self.logger.debug('%d Budget available, Transferring it to credit', budget)
+                self.ten_bis.load_remaining_amount_to_credit()
+   #            self.ten_bis.buy_coupon(40)
+            else:
+                self.logger.info('No Budget available, skipping purchase')
         coupons = self.ten_bis.get_unused_coupons()
         coupons_pickle = PickleSerializer('coupons')
         if coupons_pickle.exists():
             prev_coupons = coupons_pickle.load()
-            send_report = send_report or not self.compare_coupons_files(prev_coupons, coupons)
+            send_report = not self.compare_coupons_files(prev_coupons, coupons)
         else:
             send_report = True
         coupons_pickle.create(coupons)
         if not send_report:
-            self.logger.info('No report changes, publish will be skipped')
+ #           self.logger.info('No report changes, publish will be skipped')
             return {}
         return coupons.values()
