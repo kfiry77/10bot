@@ -304,7 +304,7 @@ class Tenbis:
         headers = {"content-type": "application/json"}
         response = self.session.get(endpoint, headers=headers)
         found_unused_coupons = False
-        self.logger.debug(endpoint + "\n" + str(response.status_code) + "\n" + response.text)
+        self.logger.debug("%s\n%s\n%s", endpoint, response.status_code, response.text)
         r = json.loads(response.text)
         error_msg = r['Error']
         success_code = r['Success']
