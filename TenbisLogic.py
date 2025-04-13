@@ -363,4 +363,4 @@ class Tenbis:
             self.logger.info("Moving amount to credit failed with errors: %s", resp_json['Errors'])
             self.logger.debug("Error dump: %s", resp_json)
         else:
-            self.logger.info("%s NIS moved to credit successfully", {available_amount})
+            self.logger.info("%d NIS moved to credit successfully", available_amount)
