@@ -4,9 +4,10 @@ import re
 import json
 import requests
 from PickleSerializer import PickleSerializer
+from IWhatsappApi import IWhatsappApi
 
 
-class WhatsappGreenApi:
+class WhatsappGreenApi(IWhatsappApi):
     """
     The WhatsappGreenApi class provides methods for interacting with the Green API.
     It includes methods for authentication, creating groups, getting chat history, and sending messages.

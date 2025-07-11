@@ -91,14 +91,8 @@ def main():
 
     whatsapp_api = WhatsappGreenApi(args)
     try:
-        process_chain = ChatCommandsReader(whatsapp_api,
-                                           ProcessLogic(args,
-                                                        CouponFormatter(
-                                                            [
-                                                                WriterHtml(),
-                                                                WriterPdf(
-                                                                    WhatsAppPublisher(args, whatsapp_api))
-                                                            ])))
+        process_chain = ChatCommandsReader(whatsapp_api, ProcessLogic(args))
+
         process_chain.process()
     except RuntimeError:
         logger.info('Process resulted error')

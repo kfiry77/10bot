@@ -7,8 +7,7 @@ import json
 from datetime import datetime
 from dataclasses import dataclass
 from Processor import Processor
-from WhatsappGreenApi import WhatsappGreenApi
-
+from IWhatsappApi import IWhatsappApi
 
 @dataclass
 class ParsedCommands:
@@ -39,7 +38,7 @@ class ChatCommandsReader(Processor):
         Processes the data to parse the commands.
     """
 
-    def __init__(self, whatsapp_api: WhatsappGreenApi, next_processors=None):
+    def __init__(self, whatsapp_api: IWhatsappApi, next_processors=None):
         super().__init__(next_processors)
         self.whatsAppApi = whatsapp_api
 
