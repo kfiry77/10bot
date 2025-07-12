@@ -2,7 +2,6 @@
 This module contains the ProcessCouponsReport class which extends the Processor class.
 It provides methods for comparing coupon files, processing data, and reports.
 """
-from HolidaysDatabase import HolidaysDatabase
 from PickleSerializer import PickleSerializer
 from TenbisLogic import Tenbis
 from Processor import Processor
