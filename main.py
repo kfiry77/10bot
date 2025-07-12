@@ -11,6 +11,7 @@ from CouponsFormatter import CouponFormatter
 from ProcessLogic import ProcessLogic
 from ReportWriter import WriterPdf, WriterHtml
 from WhatsAppPublisher import WhatsAppPublisher
+from ProcessCouponsReport import ProcessCouponsReport
 from WhatsappGreenApi import WhatsappGreenApi
 
 
@@ -84,6 +85,8 @@ def main():
     parser.add_argument('-d', '--dryrun', help='Dry run to test all HTTP calls to NextAPI', action='store_true')
     parser.add_argument('-g', '--disablegreenapi', help='disables sending message to whatApp with GreenApi',
                         action='store_true')
+    parser.add_argument('-r', '--couponsreport', help='create Shufersal coupon report only',
+                        action='store_true')
     args = parser.parse_args()
 
     logger = setup_logger(args)
@@ -91,8 +94,14 @@ def main():
 
     whatsapp_api = WhatsappGreenApi(args)
     try:
-        process_chain = ChatCommandsReader(whatsapp_api, ProcessLogic(args))
-
+        if args.couponsreport:
+            process_chain = ProcessCouponsReport(CouponFormatter(
+                                                    [
+                                                        WriterHtml(),
+                                                        WriterPdf(WhatsAppPublisher(args, whatsapp_api))
+                                                    ]))
+        else:
+            process_chain = ChatCommandsReader(whatsapp_api, ProcessLogic(args))
         process_chain.process()
     except RuntimeError:
         logger.info('Process resulted error')
