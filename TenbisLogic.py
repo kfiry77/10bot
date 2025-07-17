@@ -6,6 +6,7 @@ from dateutil.relativedelta import relativedelta
 import requests
 import urllib3
 from PickleSerializer import PickleSerializer
+import cloudscraper
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 TENBIS_FQDN = "https://www.10bis.co.il"
@@ -61,6 +62,9 @@ class Tenbis:
         self.email = None
         self.logger = logging.getLogger('AppLogger')
         self.session_pickle = PickleSerializer("sessions")
+        self.scraper = cloudscraper.create_scraper()  # This creates a requests-like session
+        self.scrapper_res = self.scraper.get('https://www.10bis.co.il/next/')
+
         if not self.auth():
             self.logger.info("10Bis logged in Failure")
             raise RuntimeError('Error Authenticating')
@@ -74,8 +78,9 @@ class Tenbis:
         :return:
         """
         endpoint = TENBIS_FQDN + "/NextApi/" + endpoint
-        headers = {"content-type": "application/json"}
-        response = self.session.post(endpoint, data=json.dumps(payload), headers=headers)
+        headers = { "content-type": "application/json" }
+        response = self.scraper.post(endpoint, data=json.dumps(payload), headers=headers)
+
         if response.status_code >= 400:
             raise RuntimeError(f'NextApi http failure:{response.status_code} message:{response.text}')
 
@@ -102,6 +107,7 @@ class Tenbis:
         """
         if self.session_pickle.exists():
             self.session = self.session_pickle.load()
+            self.scraper.cookies.update(self.session["cookies"])
             payload = {"culture": "he-IL", "uiCulture": "he"}
             try:
                 # should fail if token is expired.
@@ -110,7 +116,7 @@ class Tenbis:
                 return True
             except RuntimeError:
                 headers = {'X-App-Type': 'web', 'Language': 'he', 'Origin': 'https://www.10bis.co.il'}
-                response = self.session.post('https://api.10bis.co.il/api/v1/Authentication/RefreshToken',
+                response = self.scraper.post('https://api.10bis.co.il/api/v1/Authentication/RefreshToken',
                                              headers=headers)
                 if response.status_code != 200:
                     self.logger.info(
@@ -125,7 +131,7 @@ class Tenbis:
         # Phase one -> Email
         self.email = input("Enter Email: ")
         payload = {"culture": "he-IL", "uiCulture": "he", "email": self.email}
-        self.session = requests.session()
+        self.session = { "cookies" : self.scraper.cookies.get_dict() }
         resp_json = self.post_next_api('GetUserAuthenticationDataAndSendAuthenticationCodeToUser', payload)
 
         # Phase two -> OTP
@@ -140,9 +146,9 @@ class Tenbis:
                    "authenticationCode": otp}
 
         resp_json = self.post_next_api('GetUserV2', payload)
-
-        self.session.cart_guid = resp_json['ShoppingCartGuid']
-        self.session.user_id = resp_json['Data']['userId']
+        self.session['cookies'] = self.scraper.cookies.get_dict()
+        self.session["cart_guid"] = resp_json['ShoppingCartGuid']
+        self.session["user_id"] = resp_json['Data']['userId']
 
         self.session_pickle.create(self.session)
         return True
@@ -204,7 +210,7 @@ class Tenbis:
         # GetPayments
         endpoint = TENBIS_FQDN + f"/NextApi/GetPayments?shoppingCartGuid={self.cart_guid}&culture=he-IL&uiCulture=he"
         headers = {"content-type": "application/json"}
-        response = session.get(endpoint, headers=headers, verify=False)
+        response = self.scraper.get(endpoint, headers=headers, verify=False)
         resp_json = json.loads(response.text)
 
         # TO_DO (original) - make sure to use only 10BIS cards
