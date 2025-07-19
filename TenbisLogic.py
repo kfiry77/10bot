@@ -140,7 +140,7 @@ class Tenbis:
                 self.logger.debug('User %s Logged In', response['Data']['email'])
 
                 self.session["user_id"] = response['Data']['userId']
-                self.session["cart_guid"] = response['Data']['ShoppingCartGuid']
+                self.session["cart_guid"] = response['ShoppingCartGuid']
 
                 self.session_pickle.create(self.session)
 
