@@ -63,7 +63,7 @@ class Tenbis:
         self.logger = logging.getLogger('AppLogger')
         self.session_pickle = PickleSerializer("sessions")
         self.scraper = cloudscraper.create_scraper()  # This creates a requests-like session
-        self.scrapper_res = self.scraper.get('https://www.10bis.co.il/next/')
+        self.scraper.get('https://www.10bis.co.il')
 
         if not self.auth():
             self.logger.info("10Bis logged in Failure")
@@ -107,25 +107,43 @@ class Tenbis:
         """
         if self.session_pickle.exists():
             self.session = self.session_pickle.load()
-            self.scraper.cookies.update(self.session["cookies"])
+            self.scraper.cookies.set('Authorization', self.session['Authorization'], domain=".10bis.co.il", secure=True, rest={"HttpOnly": True})
+            self.scraper.cookies.set('RefreshToken', self.session['RefreshToken'], domain=".10bis.co.il", secure=True, rest={"HttpOnly": True})
+
             payload = {"culture": "he-IL", "uiCulture": "he"}
             try:
-                # should fail if token is expired.
+                # should fail if the token is expired.
                 response = self.post_next_api('GetUser', payload)
                 self.logger.debug("User %s Logged In", response['Data']['email'])
                 return True
             except RuntimeError:
-                headers = {'X-App-Type': 'web', 'Language': 'he', 'Origin': 'https://www.10bis.co.il'}
-                response = self.scraper.post('https://api.10bis.co.il/api/v1/Authentication/RefreshToken',
-                                             headers=headers)
+                headers = {
+                    "Accept": "application/json, text/plain, */*",
+                    "Accept-Encoding": "gzip, deflate, br, zstd",
+                    "Accept-Language": "en-US,en;q=0.9,he-IL;q=0.8,he;q=0.7",
+                    "X-App-Type": "web",
+                    "Language": "en",
+                    "User-Agent": self.scraper.user_agent.headers['User-Agent']
+                }
+
+                response = self.scraper.post('https://api.10bis.co.il/api/v1/Authentication/RefreshToken', headers=headers)
                 if response.status_code != 200:
                     self.logger.info(
                         'Error on RefreshToken call status:%s message:%s',
                         response.status_code, response.text)
                     return False
-                self.session_pickle.create(self.session)
+
+                self.session['Authorization'] = response.cookies.get_dict()['Authorization']
+                self.session['RefreshToken'] = response.cookies.get_dict()['RefreshToken']
+
                 response = self.post_next_api('GetUser', payload)
                 self.logger.debug('User %s Logged In', response['Data']['email'])
+
+                self.session["user_id"] = response['Data']['userId']
+                self.session["cart_guid"] = response['Data']['ShoppingCartGuid']
+
+                self.session_pickle.create(self.session)
+
                 return True
 
         # Phase one -> Email
@@ -146,7 +164,8 @@ class Tenbis:
                    "authenticationCode": otp}
 
         resp_json = self.post_next_api('GetUserV2', payload)
-        self.session['cookies'] = self.scraper.cookies.get_dict()
+
+        self.session = self.scraper.cookies.get_dict().copy()
         self.session["cart_guid"] = resp_json['ShoppingCartGuid']
         self.session["user_id"] = resp_json['Data']['userId']
 
