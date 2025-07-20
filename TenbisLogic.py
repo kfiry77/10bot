@@ -34,8 +34,6 @@ class Tenbis:
         The shopping cart GUID.
     user_id : str
         The user ID.
-    email : str
-        The user's email.
     session_pickle : PickleSerializer
         The PickleSerializer used for storing the session.
 
@@ -58,7 +56,6 @@ class Tenbis:
         self.session = None
         self.cart_guid = None
         self.user_id = None
-        self.email = None
         self.logger = logging.getLogger('AppLogger')
         self.session_pickle = PickleSerializer("sessions")
         self.scraper = cloudscraper.create_scraper()  # This creates a requests-like session
@@ -150,8 +147,8 @@ class Tenbis:
                 return True
 
         # Phase one -> Email
-        self.email = input("Enter Email: ")
-        payload = {"culture": "he-IL", "uiCulture": "he", "email": self.email}
+        email = input("Enter Email: ")
+        payload = {"culture": "he-IL", "uiCulture": "he", "email": email}
         self.session = { "cookies" : self.scraper.cookies.get_dict() }
         resp_json = self.post_next_api('GetUserAuthenticationDataAndSendAuthenticationCodeToUser', payload)
 
@@ -162,7 +159,7 @@ class Tenbis:
         payload = {"shoppingCartGuid": shop_cart_guid,
                    "culture": "he-IL",
                    "uiCulture": "he",
-                   "email": self.email,
+                   "email": email,
                    "authenticationToken": auth_token,
                    "authenticationCode": otp}
 
