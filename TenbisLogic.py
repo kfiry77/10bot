@@ -3,10 +3,9 @@ import json
 import logging
 from datetime import date
 from dateutil.relativedelta import relativedelta
-import requests
 import urllib3
-from PickleSerializer import PickleSerializer
 import cloudscraper
+from PickleSerializer import PickleSerializer
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 TENBIS_FQDN = "https://www.10bis.co.il"
@@ -107,8 +106,10 @@ class Tenbis:
         """
         if self.session_pickle.exists():
             self.session = self.session_pickle.load()
-            self.scraper.cookies.set('Authorization', self.session['Authorization'], domain=".10bis.co.il", secure=True, rest={"HttpOnly": True})
-            self.scraper.cookies.set('RefreshToken', self.session['RefreshToken'], domain=".10bis.co.il", secure=True, rest={"HttpOnly": True})
+            self.scraper.cookies.set('Authorization', self.session['Authorization'],
+                                     domain=".10bis.co.il", secure=True, rest={"HttpOnly": True})
+            self.scraper.cookies.set('RefreshToken', self.session['RefreshToken'],
+                                     domain=".10bis.co.il", secure=True, rest={"HttpOnly": True})
 
             payload = {"culture": "he-IL", "uiCulture": "he"}
             try:
@@ -117,6 +118,7 @@ class Tenbis:
                 self.logger.debug("User %s Logged In", response['Data']['email'])
                 return True
             except RuntimeError:
+                self.logger.info("Refreshing Token")
                 headers = {
                     "Accept": "application/json, text/plain, */*",
                     "Accept-Encoding": "gzip, deflate, br, zstd",
@@ -126,7 +128,8 @@ class Tenbis:
                     "User-Agent": self.scraper.user_agent.headers['User-Agent']
                 }
 
-                response = self.scraper.post('https://api.10bis.co.il/api/v1/Authentication/RefreshToken', headers=headers)
+                response = self.scraper.post('https://api.10bis.co.il/api/v1/Authentication/RefreshToken',
+                                             headers=headers)
                 if response.status_code != 200:
                     self.logger.info(
                         'Error on RefreshToken call status:%s message:%s',
