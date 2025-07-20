@@ -383,7 +383,7 @@ class Tenbis:
         endpoint = 'https://api.10bis.co.il/api/v1/Payments/LoadTenbisCredit'
         payload = {"amount": str(available_amount), "moneycardIdToCharge": moneycardId}
         headers = {"content-type": "application/json"}
-        resp_json = self.session.patch(endpoint, json=payload, headers=headers)
+        resp_json = self.scraper.patch(endpoint, json=payload, headers=headers)
         if resp_json.status_code != 200:
             self.logger.info("Moving amount to credit failed with errors: %s", resp_json['Errors'])
             self.logger.debug("Error dump: %s", resp_json)
