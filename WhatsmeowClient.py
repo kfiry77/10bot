@@ -87,7 +87,3 @@ class WhatsmeowClient(IWhatsappApi):
             'timestamp': datetime.fromisoformat(m.get('Time')).timestamp(),
             'type': 'outgoing' if m.get('IsFromMe') else 'incoming'
         }
-
-client = WhatsmeowClient(None)
-client.send_message("Hi 10Bot!")
-print(client.get_chat_history())
