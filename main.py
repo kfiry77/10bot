@@ -12,8 +12,8 @@ from ProcessLogic import ProcessLogic
 from ReportWriter import WriterPdf, WriterHtml
 from WhatsAppPublisher import WhatsAppPublisher
 from ProcessCouponsReport import ProcessCouponsReport
-from WhatsappGreenApi import WhatsappGreenApi
-
+#from WhatsappGreenApi import WhatsappGreenApi
+from WhatsmeowClient import WhatsmeowClient
 
 def setup_logger(args):
     """
@@ -92,7 +92,7 @@ def main():
     logger = setup_logger(args)
     logger.info('*** 10Bot started at %s ***', datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))
 
-    whatsapp_api = WhatsappGreenApi(args)
+    whatsapp_api = WhatsmeowClient(args)
     try:
         if args.couponsreport:
             process_chain = ProcessCouponsReport(CouponFormatter(
@@ -109,7 +109,7 @@ def main():
     logger.info('*** 10Bot ended ***')
     # send report to whatsup.
     if not args.disablegreenapi:
-        whatsapp_api.send_message(whatsapp_api.chatId, logger.handlers[1].stream.getvalue())
+        whatsapp_api.send_message(logger.handlers[1].stream.getvalue())
 
 
 if __name__ == '__main__':

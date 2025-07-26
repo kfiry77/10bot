@@ -87,10 +87,10 @@ class WhatsappGreenApi(IWhatsappApi):
         self.logger.debug(response.text)
         return response.status_code == 200
 
-    def send_message(self, chat_id, message):
+    def send_message(self, message):
         """ Send message to the chatId"""
         url = f'https://{self.host}/waInstance{self.idInstance}/sendMessage/{self.apiTokenInstance}'
-        payload = {'chatId': chat_id, 'message': message}
+        payload = {'chatId': self.chat_id, 'message': message}
         headers = {'Content-Type': 'application/json'}
         response = requests.post(url, timeout=self.request_timeout,
                                  headers=headers, data=json.dumps(payload, sort_keys=False))

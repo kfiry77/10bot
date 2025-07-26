@@ -58,5 +58,5 @@ class IWhatsappApi(ABC):
         """Send a file to the chatId"""
 
     @abstractmethod
-    def send_message(self, chat_id, message):
+    def send_message(self, message):
         """Send a message to the chatId"""
