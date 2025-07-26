@@ -1,29 +1,21 @@
 """ This module contains the WhatsappGreenApi class for interacting with the Green API. """
-import logging
-import re
 import json
 import requests
 from PickleSerializer import PickleSerializer
 from IWhatsappApi import IWhatsappApi
-
 
 class WhatsappGreenApi(IWhatsappApi):
     """
     The WhatsappGreenApi class provides methods for interacting with the Green API.
     It includes methods for authentication, creating groups, getting chat history, and sending messages.
     """
-    # Regular expressions for validating group and chat IDs
-    group_pattern = re.compile(r'^\d{18}@g\.us$')
-    chatid_pattern = re.compile(r'^\d{12}@c\.us$')
     request_timeout = 60
 
     def __init__(self, args):
-        self.chatId = None
+        super().__init__(args)
         self.apiTokenInstance = None
         self.idInstance = None
         self.host = 'api.green-api.com'
-        self.args = args
-        self.logger = logging.getLogger('AppLogger')
         self.authenticated = self.auth()
         if not self.authenticated:
             self.logger.warning('Error Authenticating to Green api, publisher will be skipped')
@@ -51,31 +43,14 @@ class WhatsappGreenApi(IWhatsappApi):
             auth_data = auth_pickle.load()
             self.apiTokenInstance = auth_data['apiTokenInstance']
             self.idInstance = auth_data['idInstance']
-            self.chatId = auth_data['chatId']
         else:
             print("*** Green API Auth ***")
             self.idInstance = input("Enter Instance Id: ")
             self.apiTokenInstance = input("Enter Api Token Instance: ")
-            self.chatId = input("Enter ChatId/GroupId (Empty to create Group): ")
-
-            if self.chatId == '':
-                chat_ids = []
-                while True:
-                    msisdn = input("Enter ChatId(Empty When Done): ")
-                    if self.chatid_pattern.match(msisdn):
-                        chat_ids.append(msisdn)
-                    elif msisdn == '':
-                        break
-                    else:
-                        print(f'{msisdn} is an Invalid chat_id')
-                self.chatId = self.create_group(chat_ids)
-            elif not self.group_pattern.match(self.chatId) and not self.chatid_pattern.match(self):
-                raise RuntimeError(f'{self.chatId} is invalid, use dddd@c.us or dddd@g.us')
-
+            # chat_id is now handled by the base class
             auth_pickle.create({
                 'idInstance': self.idInstance,
-                'apiTokenInstance': self.apiTokenInstance,
-                'chatId': self.chatId
+                'apiTokenInstance': self.apiTokenInstance
             })
 
         url = f'https://{self.host}/waInstance{self.idInstance}/getStateInstance/{self.apiTokenInstance}'
@@ -91,7 +66,7 @@ class WhatsappGreenApi(IWhatsappApi):
     def get_chat_history(self, count=100):
         """ Get chat history from the chatId"""
         url = f'https://{self.host}/waInstance{self.idInstance}/getChatHistory/{self.apiTokenInstance}'
-        payload = {'chatId': self.chatId, 'count': count}
+        payload = {'chatId': self.chat_id, 'count': count}
         headers = {'Content-Type': 'application/json'}
         response = requests.post(url, timeout=self.request_timeout, headers=headers,
                                  data=json.dumps(payload, sort_keys=False))
