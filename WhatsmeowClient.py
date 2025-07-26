@@ -1,4 +1,5 @@
 """ This module contains the WhatsappNeonize class for interacting with WhatsApp using the Whatsmeow library. """
+from datetime import datetime
 import requests
 from IWhatsappApi import IWhatsappApi
 from PickleSerializer import PickleSerializer
@@ -8,6 +9,8 @@ class WhatsmeowClient(IWhatsappApi):
     The WhatsmeowClient class provides methods for interacting with WhatsApp using the Whatsmeow library, and bridge.
     It includes methods for creating groups, and sending messages and files.
     """
+    request_timeout = 60
+
     def __init__(self, args):
         """
         Initializes the WhatsApp client.
@@ -24,15 +27,13 @@ class WhatsmeowClient(IWhatsappApi):
             config_pickle.create({'server_url': server_url})
         return server_url
 
-    def create_group(self, name, jids):
+    def create_group(self, jids):
         """
         Creates a group with the given name and members.
-
-        :param name: The name of the group.
         :param jids: A list of member JIDs to add to the group.
         :return: The JID of the newly created group.
         """
-        return jid
+        return jids
 
     def send_message(self, message):
         url = f"{self.server_url}/api/send"
@@ -43,17 +44,18 @@ class WhatsmeowClient(IWhatsappApi):
             "Content-Type": "application/json"
         }
 
-        response = requests.post(url, json=payload, headers=headers)
+        response = requests.post(url, json=payload,
+            timeout = self.request_timeout, headers=headers)
         self.logger.debug(response)
 
     def send_file_by_upload(self, filename, caption=""):
         """
         Uploads and sends a file to the configured default chatId.
-
         :param filename: The path to the file to send.
         :param caption: The caption for the file.
         :return: True if successful, False otherwise.
         """
+        self.logger.debug(filename + caption)
         return False
 
     def auth(self):
@@ -67,7 +69,7 @@ class WhatsmeowClient(IWhatsappApi):
         """
         url = f"{self.server_url}/api/messages"
         params = {"chat_jid": self.chat_id, "limit": str(count)}
-        response = requests.get(url, params=params)
+        response = requests.get(url, params=params, timeout = self.request_timeout)
         self.logger.debug(response)
         response.raise_for_status()
         raw_messages = response.json()
@@ -77,7 +79,6 @@ class WhatsmeowClient(IWhatsappApi):
         """
         Transform Whatsmeow message format to the expected format.
         """
-        from datetime import datetime
         # Convert unix timestamp to ISO8601 string with timezone +03:00
         return {
             'textMessage': m.get('Content'),
