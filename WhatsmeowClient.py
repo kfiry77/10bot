@@ -33,7 +33,7 @@ class WhatsmeowClient(IWhatsappApi):
         :param chat_ids: A list of member JIDs to add to the group.
         :return: The JID of the newly created group.
         """
-        return jids
+        return chat_ids
 
     def send_message(self, message):
         url = f"{self.server_url}/api/send"
