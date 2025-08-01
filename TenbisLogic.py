@@ -115,7 +115,7 @@ class Tenbis:
                 self.logger.debug("User %s Logged In", response['Data']['email'])
                 return True
             except RuntimeError:
-                self.logger.info("Refreshing Token")
+                self.logger.debug("Refreshing Token")
                 headers = {
                     "Accept": "application/json, text/plain, */*",
                     "Accept-Encoding": "gzip, deflate, br, zstd",
