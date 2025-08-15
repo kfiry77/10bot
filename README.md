@@ -1,7 +1,7 @@
 # 10bot
 
 A bot to buy 10Bis coupons.
-The project is a Python script that automates moving of unused budget on 10bis account to credit, it executes only on working days. only on working days. 
+The project is a Python script that automates moving of unused budget on 10bis account to credit, it executes only on working days. 
 For legacy reason, this script also generates a report containing the list of coupons and their barcodes and saves it in both PDF and HTML formats. The PDF file is then published to a designated WhatsApp group. 
 To ensure consistent operation, the script can be scheduled to execute daily, using CRON or cloud Bot, such as Azure Function.
 
@@ -35,7 +35,7 @@ stop
 Register for a developer account in [GREEN API](https://green-api.com/).
 Go through the ["Before you Start"](https://green-api.com/en/docs/before-start/) instructions.
 Create instance, and authorized it.  
-write down  ```idInstance```,  ```apiTokenInstance``` values, to be later use when installing.
+Write down  ```idInstance```,  ```apiTokenInstance``` values, to be later use when installing.
 
 ## repository download
 download the repository
@@ -52,7 +52,7 @@ python -m venv .venv
 source .venv/bin/activate 
 pip3 install -r requirements.txt
 ```
-## Addtional machine installations 
+## Additional machine installations 
 
 Install prerequisites for weasyprint (for PDF report generation), as describe  [here](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html)
 ### macOS
@@ -111,8 +111,8 @@ scanning Month:2023-11-01
 scanning Month:2023-10-01
 Created report until 2023-10-01
 ```
-Validate, that it finishes correctly. Once finishes, a New group named "10Bot" will be added on WhatAppApplication 
-a  PDF with all the coupons will be shared in this group.
+Validate that it finishes correctly. Once finishes, a New group named "10Bot" will be added on WhatAppApplication 
+a PDF with all the coupons will be shared in this group.
 
 Add the script to the system crontab, by typing ```crontab -e ``` and adding the following line to it.   
 ```
@@ -122,7 +122,7 @@ Add the script to the system crontab, by typing ```crontab -e ``` and adding the
 ## Whatsapp Group Commands:
 The application now wakes up every day at 23:00, To disable specific day purchase (due to vacation), send ```/disable``` commands 
 to the group. ```/enable``` command will enable it again.
-note that, only the command from last day is relevant, and of there is a conflict between command, the last one will 
+Note that, only the command from last day is relevant, and of there is a conflict between command, the last one will 
 be considered only. 
  
 ## references:
