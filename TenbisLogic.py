@@ -18,7 +18,6 @@ COUPONS_IDS = {
     100: 2046845
 }
 
-
 class Tenbis:
     """
     A class used to interact with the 10bis website.
@@ -327,7 +326,7 @@ class Tenbis:
         endpoint = (TENBIS_FQDN +
                     f"/NextApi/GetOrderBarcode?culture=he-IL&uiCulture=he&orderId={order_id}&resId={res_id}")
         headers = {"content-type": "application/json"}
-        response = self.session.get(endpoint, headers=headers)
+        response = self.scraper.get(endpoint, headers=headers)
         found_unused_coupons = False
         self.logger.debug("%s\n%s\n%s", endpoint, response.status_code, response.text)
         r = json.loads(response.text)
