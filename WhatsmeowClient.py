@@ -17,6 +17,7 @@ class WhatsmeowClient(IWhatsappApi):
         """
         super().__init__(args)
         self.server_url = self._load_or_init_server_url()
+        self.initialized = True
 
     def _load_or_init_server_url(self):
         config_pickle = PickleSerializer('WhatsmeowClientConfig')

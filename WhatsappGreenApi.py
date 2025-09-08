@@ -16,8 +16,8 @@ class WhatsappGreenApi(IWhatsappApi):
         self.apiTokenInstance = None
         self.idInstance = None
         self.host = 'api.green-api.com'
-        self.authenticated = self.auth()
-        if not self.authenticated:
+        self.initialized = self.auth()
+        if not self.initialized:
             self.logger.warning('Error Authenticating to Green api, publisher will be skipped')
 
     def create_group(self, chat_ids):

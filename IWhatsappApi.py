@@ -24,6 +24,7 @@ class IWhatsappApi(ABC):
         self.group_pattern = re.compile(r'^\d{18}@g\.us$')
         self.chatid_pattern = re.compile(r'^\d{12}@c\.us$')
         self.chat_id = self._load_or_init_chat_id()
+        self.initialized = False
 
     def _is_valid_chat_id(self, chat_id):
         return bool(self.chatid_pattern.match(chat_id) or self.group_pattern.match(chat_id))
