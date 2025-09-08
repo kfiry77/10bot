@@ -51,7 +51,7 @@ def setup_logger(args):
     logger.addHandler(stream_handler)
 
     # Create a StreamHandler to send logs to buffer
-    if not args.disablegreenapi:
+    if not args.disableWhatsapp:
         log_stream = StringIO()
         string_io_handler = logging.StreamHandler(log_stream)
         string_io_handler.setLevel(logging.INFO)
@@ -83,10 +83,11 @@ def main():
     parser = argparse.ArgumentParser(prog='10Bot')
     parser.add_argument('-v', '--verbose', help='enable detailed logging', action='store_true')
     parser.add_argument('-d', '--dryrun', help='Dry run to test all HTTP calls to NextAPI', action='store_true')
-    parser.add_argument('-g', '--disablegreenapi', help='disables sending message to whatApp with GreenApi',
+    parser.add_argument('-g', '--disableWhatsapp', help='disables sending message to whatApp',
                         action='store_true')
     parser.add_argument('-r', '--couponsreport', help='create Shufersal coupon report only',
                         action='store_true')
+    parser.add_argument('-b', '--buy', choices=['coupon','credit'], default='coupon',  help='defines if to buy coupon or to move to credit')
     args = parser.parse_args()
 
     logger = setup_logger(args)
@@ -108,7 +109,7 @@ def main():
 
     logger.info('*** 10Bot ended ***')
     # send report to whatsup.
-    if not args.disablegreenapi:
+    if not args.disableWhatsapp:
         whatsapp_api.send_message(logger.handlers[1].stream.getvalue())
 
 
