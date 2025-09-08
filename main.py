@@ -87,7 +87,8 @@ def main():
                         action='store_true')
     parser.add_argument('-r', '--couponsreport', help='create Shufersal coupon report only',
                         action='store_true')
-    parser.add_argument('-b', '--buy', choices=['coupon','credit'], default='coupon',  help='defines if to buy coupon or to move to credit')
+    parser.add_argument('-b', '--buy', choices=['coupon','credit'], default='coupon',
+                        help='defines if to buy coupon or to move to credit')
     args = parser.parse_args()
 
     logger = setup_logger(args)
