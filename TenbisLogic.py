@@ -182,8 +182,9 @@ class Tenbis:
         """
         payload = {"culture": "he-IL", "uiCulture": "he", "dateBias": 0}
         report = self.post_next_api('UserTransactionsReport', payload)
-        available_amount = report['Data']['moneycards'][0]['tenbisCreditConversion']['availableAmount']
-        return available_amount
+        credit_conversion_amount = report['Data']['moneycards'][0]['tenbisCreditConversion']['availableAmount']
+        daily_balance = report['Data']['moneycards'][0]['balance']['daily']
+        return credit_conversion_amount, daily_balance
 
     def buy_coupon(self, coupon):
         """
@@ -228,7 +229,7 @@ class Tenbis:
         # GetPayments
         endpoint = TENBIS_FQDN + f"/NextApi/GetPayments?shoppingCartGuid={self.cart_guid}&culture=he-IL&uiCulture=he"
         headers = {"content-type": "application/json"}
-        response = self.scraper.get(endpoint, headers=headers, verify=False)
+        response = self.scraper.get(endpoint, headers=headers)
         resp_json = json.loads(response.text)
 
         # TO_DO (original) - make sure to use only 10BIS cards

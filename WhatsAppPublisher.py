@@ -23,7 +23,7 @@ class WhatsAppPublisher(CollectionProcessor):
         If the WhatsappGreenApi is not authenticated or if it is disabled, a message is printed and the method returns.
         If the file is successfully published, the result of the send_file_by_upload method is returned.
         """
-        if not self.whatsAppApi.authenticated:
+        if not self.whatsAppApi.initialized:
             print('Whatsapp is not authenticated, publish will be skipped')
             return False
 
