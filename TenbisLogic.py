@@ -53,8 +53,6 @@ class Tenbis:
     def __init__(self, args):
         self.args = args
         self.session = None
-        self.cart_guid = None
-        self.user_id = None
         self.logger = logging.getLogger('AppLogger')
         self.session_pickle = PickleSerializer("sessions")
         self.scraper = cloudscraper.create_scraper()  # This creates a requests-like session
@@ -198,36 +196,36 @@ class Tenbis:
         session = self.session
         payload = {"culture": "he-IL", "uiCulture": "he"}
         resp_json = self.post_next_api('GetUser', payload)
-        self.cart_guid = resp_json['ShoppingCartGuid']
-        self.user_id = resp_json['Data']['userId']
+        cart_guid = resp_json['ShoppingCartGuid']
+        user_id = resp_json['Data']['userId']
 
         payload = {"culture": "he-IL", "uiCulture": "he"}
         resp_json = self.post_next_api('GetUserAddresses', payload)
         address = resp_json['Data'][0]
 
-        payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he"}
+        payload = {"shoppingCartGuid": cart_guid, "culture": "he-IL", "uiCulture": "he"}
         payload.update(address.copy())
         self.post_next_api('SetAddressInOrder', payload)
 
         # SetDeliveryMethodInOrder
-        payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he",
+        payload = {"shoppingCartGuid": cart_guid, "culture": "he-IL", "uiCulture": "he",
                    "deliveryMethod": "delivery"}
         self.post_next_api('SetDeliveryMethodInOrder', payload)
 
         # SetRestaurantInOrder
-        payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he", "isMobileDevice": True,
+        payload = {"shoppingCartGuid": cart_guid, "culture": "he-IL", "uiCulture": "he", "isMobileDevice": True,
                    "restaurantId": "26698"}
         self.post_next_api('SetRestaurantInOrder', payload)
 
         # SetDishListInShoppingCart
-        payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he",
+        payload = {"shoppingCartGuid": cart_guid, "culture": "he-IL", "uiCulture": "he",
                    "dishList": [{"dishId": COUPONS_IDS[coupon], "shoppingCartDishId": 1, "quantity": 1,
-                                 "assignedUserId": self.user_id, "choices": [], "dishNotes": None,
+                                 "assignedUserId": user_id, "choices": [], "dishNotes": None,
                                  "categoryId": 278344}]}
         self.post_next_api('SetDishListInShoppingCart', payload)
 
         # GetPayments
-        endpoint = TENBIS_FQDN + f"/NextApi/GetPayments?shoppingCartGuid={self.cart_guid}&culture=he-IL&uiCulture=he"
+        endpoint = TENBIS_FQDN + f"/NextApi/GetPayments?shoppingCartGuid={cart_guid}&culture=he-IL&uiCulture=he"
         headers = {"content-type": "application/json"}
         response = self.scraper.get(endpoint, headers=headers)
         resp_json = json.loads(response.text)
@@ -241,12 +239,12 @@ class Tenbis:
         self.logger.debug("Request: %s", endpoint)
         self.logger.debug("Response: %s", str(response.status_code))
         self.logger.debug(resp_json)
-        main_user = [x for x in resp_json['Data'] if x['userId'] == self.user_id]
+        main_user = [x for x in resp_json['Data'] if x['userId'] == user_id]
 
         # SetPaymentsInOrder
-        payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he", "payments": [
+        payload = {"shoppingCartGuid": cart_guid, "culture": "he-IL", "uiCulture": "he", "payments": [
             {"paymentMethod": "Moneycard", "creditCardType": "none", "cardId": main_user[0]['cardId'], "cardToken": "",
-             "userId": self.user_id, "userName": main_user[0]['userName'],
+             "userId": user_id, "userName": main_user[0]['userName'],
              "cardLastDigits": main_user[0]['cardLastDigits'], "sum": coupon, "assigned": True, "remarks": None,
              "expirationDate": None, "isDisabled": False, "editMode": False}]}
         self.post_next_api('SetPaymentsInOrder', payload)
@@ -256,14 +254,11 @@ class Tenbis:
             return
 
         # SubmitOrder
-        payload = {"shoppingCartGuid": self.cart_guid, "culture": "he-IL", "uiCulture": "he", "isMobileDevice": True,
+        payload = {"shoppingCartGuid": cart_guid, "culture": "he-IL", "uiCulture": "he", "isMobileDevice": True,
                    "dontWantCutlery": False, "orderRemarks": None}
         resp_json = self.post_next_api('SubmitOrder', payload)
         self.logger.info("Order submitted successfully")
 
-        session.cart_guid = resp_json['ShoppingCartGuid']
-        # save the last session state to the pickle file for next auth.
-        self.session_pickle.create(session)
 
     def get_unused_coupons(self):
         """
