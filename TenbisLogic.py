@@ -319,34 +319,31 @@ class Tenbis:
         """
         order_id = b['orderId']
         res_id = b['restaurantId']
-        endpoint = (TENBIS_FQDN +
-                    f"/NextApi/GetOrderBarcode?culture=he-IL&uiCulture=he&orderId={order_id}&resId={res_id}")
+        endpoint = (f"https://api.10bis.co.il/api/v2/Orders/{order_id}")
         headers = {"content-type": "application/json"}
         response = self.scraper.get(endpoint, headers=headers)
         found_unused_coupons = False
         self.logger.debug("%s\n%s\n%s", endpoint, response.status_code, response.text)
         r = json.loads(response.text)
-        error_msg = r['Error']
-        success_code = r['Success']
-        if not success_code:
-            self.logger.error(error_msg['ErrorDesc'][::-1])
+        if response.status_code != 200:
+            self.logger.error(response.text)
             self.logger.error("Error, trying moving to the next barcode")
             return restaurants
-        voucher = r['Data']['Vouchers'][0]
-        if not voucher['Used']:
+        voucher = r['barcode']
+        if not voucher['used']:
             found_unused_coupons = True
-            barcode_num = voucher['BarCodeNumber']
+            barcode_num = voucher['barCodeNumber']
             if res_id not in restaurants:
                 restaurants[res_id] = {'restaurantName': b['restaurantName'],
-                                       'vendorName': voucher['Vendor'],
+                                       'vendorName': voucher['vendor'],
                                        'orders': []}
             restaurants[res_id]['orders'].append({'Date': b['orderDateStr'],
                                                   'unixTime': b['orderDate'],
                                                   'barcode': '-'.join(
                                                       barcode_num[i:i + 4] for i in
                                                       range(0, len(barcode_num), 4)),
-                                                  'barcode_url': voucher['BarCodeImgUrl'],
-                                                  'amount': voucher['Amount']})
+                                                  'barcode_url': voucher['barCodeImgUrl'],
+                                                  'amount': voucher['amount']})
         return restaurants, found_unused_coupons
 
     def load_remaining_amount_to_credit(self):
