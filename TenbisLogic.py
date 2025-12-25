@@ -193,7 +193,6 @@ class Tenbis:
         coupon : int
             The coupon to buy.
         """
-        session = self.session
         payload = {"culture": "he-IL", "uiCulture": "he"}
         resp_json = self.post_next_api('GetUser', payload)
         cart_guid = resp_json['ShoppingCartGuid']
@@ -301,6 +300,28 @@ class Tenbis:
                           actual_min_month_with_coupons.year, actual_min_month_with_coupons.month + 1)
         return restaurants
 
+    @staticmethod
+    def compare_coupons_files(c1, c2):
+        """
+        Compare two coupon files. Return False if they are not identical, True otherwise.
+        """
+        if len(c1) != len(c2) or c1.keys() != c2.keys():
+            return False
+
+        for k in c1.keys():
+            l1 = c1[k]['orders']
+            l2 = c2[k]['orders']
+
+            if len(l2) != len(l1):
+                return False
+
+            coupons_list1 = sorted([item['barcode'] for item in l1])
+            coupons_list2 = sorted([item['barcode'] for item in l2])
+            if coupons_list1 != coupons_list2:
+                return False
+
+        return True
+
     def __process_barcode_orders(self, b, restaurants):
         """
         Process each barcode order.
@@ -319,7 +340,7 @@ class Tenbis:
         """
         order_id = b['orderId']
         res_id = b['restaurantId']
-        endpoint = (f"https://api.10bis.co.il/api/v2/Orders/{order_id}")
+        endpoint = f"https://api.10bis.co.il/api/v2/Orders/{order_id}"
         headers = {"content-type": "application/json"}
         response = self.scraper.get(endpoint, headers=headers)
         found_unused_coupons = False

@@ -57,20 +57,17 @@ class WhatsmeowClient(IWhatsappApi):
         :return: True if successful, False otherwise.
         """
 
-        """Send a file with an optional message to a WhatsApp contact."""
         url = f"{self.server_url}/api/send"
 
-        # Prepare the multipart form data
-        files = {
-            'file': open(filename, 'rb')
-        }
-
+        # Prepare the multipart form data and ensure the file is closed
         data = {
             'recipient': self.chat_id,
             'message': caption
         }
 
-        response = requests.post(url, data=data, files=files)
+        with open(filename, 'rb') as f:
+            files = {'file': f}
+            response = requests.post(url, data=data, files=files, timeout=self.request_timeout)
         self.logger.debug(response)
         return True
 
