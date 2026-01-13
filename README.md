@@ -32,10 +32,7 @@ stop
 
 ## Installation and usage
 ### register to WhatApp API Provider
-Register for a developer account in [GREEN API](https://green-api.com/).
-Go through the ["Before you Start"](https://green-api.com/en/docs/before-start/) instructions.
-Create instance, and authorized it.  
-Write down  ```idInstance```,  ```apiTokenInstance``` values, to be later use when installing.
+Run a self-hosted bridge that the bundled `WhatsmeowClient` can talk to (no Green API needed). A reference implementation is available at [kfiry77/whatsapp-mcp](https://github.com/kfiry77/whatsapp-mcp), which exposes simple REST endpoints for sending messages/files and reading chat history. Deploy it locally or on a trusted host, then note its base URL (e.g., `http://localhost:8080`) for first-run configuration.
 
 ## repository download
 download the repository
@@ -85,21 +82,12 @@ when prompt ```Enter OTP:```
  Enter OTP: 12345
 ```
 
-Enter the Green API data, you have noted initially. 
+Enter the Whatsmeow bridge server URL and target chat/group ID when prompted (first run only). Leave chat ID empty to skip sending.
 
 ```sh
-*** Green API ***
-Enter IntanceId : 1234567899 
-Enter Api Token Instance : apiTokenInstance........
-Enter ChatId/GroupId (Empty to create Group):
-```
-
-Hit enter to create a new chatgroup, enter the chatId(s) one by one (xxxxx@c.us), press enter when done.  
-```sh
-Enter ChatId/GroupId (Empty to create Group):
-Enter ChatId(Empty When Done): 972501234567@c.us
-Enter ChatId(Empty When Done): 972501234568@c.us
-Enter ChatId(Empty When Done):
+*** WhatsApp Bridge ***
+Enter Whatsmeow bridge server URL (e.g., http://localhost:8080): http://localhost:8080
+Enter ChatId/GroupId (Empty to create Group): 972501234567@c.us
 ```
 
 Wait for the script execution
